@@ -18,13 +18,14 @@ class User(db.Model, SerializerMixin):
 
     _password_hash = db.Column(db.String(60), nullable=False)
 
-    # db relationships and serialize rules
+    reviews = db.relationship("Review", backref="user")
+    serialize_rules = ("-review.user")
 
     @validates("email")
-    def validate_email(self, key, value):
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", value):
+    def validate_email(self, key, address):
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", address):
             raise ValueError("Invalid email address")
-        return value
+        return address
 
     @hybrid_property
     def password_hash(self):
@@ -41,3 +42,5 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f"\n<User id={self.id} username={self.username} email={self.email}\
               admin={self.admin} created at={self.created_at} updated at={self.updated_at}>"
+    
+
