@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # Ignore configuration file
-server/config.py
+config.py
