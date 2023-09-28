@@ -12,7 +12,7 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String(250), unique=True, nullable=False)
-    admin = db.Column(db.Boolean, default=False)
+    is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
@@ -43,4 +43,32 @@ class User(db.Model, SerializerMixin):
         return f"\n<User id={self.id} username={self.username} email={self.email}\
               admin={self.admin} created at={self.created_at} updated at={self.updated_at}>"
     
+class ReviewMetadata(db.Model, SerializerMixin):
+    __tablename__ = "review_metadata"
 
+    id = db.Column(db.Integer, primary_key=True)
+    is_public = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
+
+    serialize_rules = ("-user.review_metadata")
+    serialize_rules = ("-coffee.review_metadata")
+
+    def __repr__(self):
+        return f"\n<Review metadata id={self.id} public={self.is_public}\
+              created at={self.created_at} updated at={self.updated_at}\
+                user id={self.user_id} coffee id={self.coffee_id}>"
+
+class Review(db.Model, SerializerMixin):
+    pass
+ 
+class Coffee(db.Model, SerializerMixin):
+    pass
+
+class CoffeeProfile(db.Model, SerializerMixin): 
+    pass
+
+# class CoffeeList(db.Model, SerializerMixin):
+#     pass
