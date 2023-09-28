@@ -1,3 +1,4 @@
+import re
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
@@ -10,8 +11,7 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
-    email = db.Column(db.String, unique=True)
-    # not sure if i want to require users emails
+    email = db.Column(db.String(250), unique=True, nullable=False)
     admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -19,7 +19,12 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String(60), nullable=False)
 
     # db relationships and serialize rules
-    # validations and constrains
+
+    @validates("email")
+    def validate_email(self, key, value):
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", value):
+            raise ValueError("Invalid email address")
+        return value
 
     @hybrid_property
     def password_hash(self):
