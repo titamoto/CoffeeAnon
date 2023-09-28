@@ -2,6 +2,7 @@ import re
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+from sqlalchemy import CheckConstraint
 
 from config import db, bcrypt
 
@@ -55,6 +56,7 @@ class ReviewMetadata(db.Model, SerializerMixin):
 
     serialize_rules = ("-user.review_metadata")
     serialize_rules = ("-coffee.review_metadata")
+    serialize_rules = ("-review.review_metadata")
 
     def __repr__(self):
         return f"\n<Review metadata id={self.id} public={self.is_public}\
@@ -62,10 +64,28 @@ class ReviewMetadata(db.Model, SerializerMixin):
                 user id={self.user_id} coffee id={self.coffee_id}>"
 
 class Review(db.Model, SerializerMixin):
-    pass
+    __tablename__ = "review"
+
+    __table_args__ = (
+        CheckConstraint('rate >= 0 AND rate <= 10', name='check_rate_range'),
+        CheckConstraint('acidity >= 0 AND acidity <= 10', name='check_acidity_range'),
+        CheckConstraint('body >= 0 AND body <= 10', name='check_body_range'),
+        CheckConstraint('aroma >= 0 AND aroma <= 10', name='check_aroma_range')
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    rate = db.Column(db.Integer)
+    price = db.Column(db.Integer)
+    acidity = db.Column(db.Integer)
+    body = db.Column(db.Integer)
+    aroma = db.Column(db.Integer)
+    flavor = db.Column(db.Integer) #flavors as tag bubbles: cocoa, berries, etc.
+    tag = db.Column(db.String) #tag bubbles with non-flavor features: for espresso, for french press, etc.
+
+    review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
  
 class Coffee(db.Model, SerializerMixin):
-    pass
+    pass 
 
 class CoffeeProfile(db.Model, SerializerMixin): 
     pass
