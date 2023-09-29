@@ -22,6 +22,12 @@ class User(db.Model, SerializerMixin):
     reviews_metadata = db.relationship("ReviewMetadata", backref="user")
     serialize_rules = ("-review_metadata.user")
 
+    @validates('username')
+    def validate_username(self, key, username):
+        if not username: 
+            raise ValueError('Username is required')
+        return username
+
     @validates("email")
     def validate_email(self, key, address):
         if not re.match(r"[^@]+@[^@]+\.[^@]+", address):
@@ -80,8 +86,9 @@ class Review(db.Model, SerializerMixin):
     acidity = db.Column(db.Integer)
     body = db.Column(db.Integer)
     aroma = db.Column(db.Integer)
-    flavor = db.Column(db.Integer) #flavors as tag bubbles: cocoa, berries, etc.
-    tag = db.Column(db.String) #tag bubbles with non-flavor features: for espresso, for french press, etc.
+    review_text = db.Column(db.String(5000))
+    flavor = db.Column(db.String(50)) #flavors as tag bubbles: cocoa, berries, etc.
+    tag = db.Column(db.String(50)) #tag bubbles with non-flavor features: for espresso, for french press, etc.
     #!!! created_at and edited_at or find a way to connect to the metadata 
 
     review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
@@ -101,10 +108,10 @@ class Coffee(db.Model, SerializerMixin):
     )  
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, unique=True, nullable=False)
-    producer = db.Column(db.String, nullable=False)
-    product_type = db.Column(db.String)
-    weight = db.Column(db.Integer)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    producer = db.Column(db.String(100), nullable=False)
+    product_type = db.Column(db.String(50))
+    weight = db.Column(db.Integer(10000))
     is_decaf = db.Column(db.Boolean, default=False)
     image = db.Column(db.String)
     roast = db.Column(db.Integer)
@@ -116,7 +123,13 @@ class Coffee(db.Model, SerializerMixin):
 
     serialize_rules = ("-coffee_profile.coffee")
     serialize_rules = ("-review_metadata.coffee")
-
+    
+    @validates('name')
+    def validate_title(self, key, name):
+        if name == None:
+            raise ValueError('Coffee name is required')
+        return name
+    
     @validates("image")
     def validate_image(self, key, image_path):
         if ".jpg" not in image_path:
@@ -134,14 +147,14 @@ class CoffeeProfile(db.Model, SerializerMixin):
     __tablename__ = "coffee_profile"    
 
     id = db.Column(db.Integer, primary_key=True)
-    country = db.Column(db.String)
-    region = db.Column(db.String)
-    farm = db.Column(db.String)
-    continent = db.Column(db.String)
-    altitude = db.Column(db.String)
-    process = db.Column(db.String)
+    country = db.Column(db.String(100))
+    region = db.Column(db.String(100))
+    farm = db.Column(db.String(100))
+    continent = db.Column(db.String(50))
+    altitude = db.Column(db.String(50))
+    process = db.Column(db.String(50))
     is_specialty = db.Column(db.Boolean, default=False)
-    variety = db.Column(db.String)
+    variety = db.Column(db.String(100))
     #!!! created_at and edited_at or find a way to connect to the metadata 
 
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
