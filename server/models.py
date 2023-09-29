@@ -74,10 +74,10 @@ class Review(db.Model, SerializerMixin):
     __tablename__ = "review"
 
     __table_args__ = (
-        CheckConstraint('rate >= 0 AND rate <= 10', name='check_rate_range'),
-        CheckConstraint('acidity >= 0 AND acidity <= 10', name='check_acidity_range'),
-        CheckConstraint('body >= 0 AND body <= 10', name='check_body_range'),
-        CheckConstraint('aroma >= 0 AND aroma <= 10', name='check_aroma_range')
+        CheckConstraint('rate >= 0 AND rate <= 100', name='check_rate_range'),
+        CheckConstraint('acidity >= 0 AND acidity <= 100', name='check_acidity_range'),
+        CheckConstraint('body >= 0 AND body <= 100', name='check_body_range'),
+        CheckConstraint('aroma >= 0 AND aroma <= 100', name='check_aroma_range')
     )
 
     id = db.Column(db.Integer, primary_key=True)
@@ -104,16 +104,16 @@ class Coffee(db.Model, SerializerMixin):
     __tablename__ = "coffee"  
 
     __table_args__ = (
-        CheckConstraint('roast >= 0 AND roast <= 10', name='check_roast_range'),
+        CheckConstraint('roast >= 0 AND roast <= 100', name='check_roast_range'),
     )  
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     producer = db.Column(db.String(100), nullable=False)
     product_type = db.Column(db.String(50))
-    weight = db.Column(db.Integer(10000))
+    weight = db.Column(db.Integer(10000), default=340)
     is_decaf = db.Column(db.Boolean, default=False)
-    image = db.Column(db.String)
+    image = db.Column(db.String(1000), default='coffee_seeds/coffee_placeholder.jpg')
     roast = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())

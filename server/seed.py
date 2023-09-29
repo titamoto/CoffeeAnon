@@ -2,6 +2,7 @@ import os
 from faker import Faker
 from models import User, Review, ReviewMetadata, Coffee, CoffeeProfile
 from config import db, app, bcrypt
+from server.coffee_seeds.coffee_seeds import seed_coffees
 
 fake = Faker()
 
@@ -13,7 +14,7 @@ with app.app_context():
     Coffee.query.delete()
     CoffeeProfile.query.delete()
 
-    print("Creating users...")
+    print("Seeding users...")
     users = []
     # usernames = []
 
@@ -33,15 +34,16 @@ with app.app_context():
     #creating admin account:
     admin = User(
         username='admin',
-        email=os.environ.get('ADMIN_EMAIL')
+        email=os.environ.get('ADMIN_EMAIL'),
         is_admin=True
     )
     admin.password_hash = os.environ.get('ADMIN_PASSWORD')
     db.session.add(admin)
     db.session.add_all(users)
 
-    #seed coffee
-    #seed coffee profile
+    print("Seeding coffees...")
+    seed_coffees()
+
     #seed review metadata
     #seed review
 
