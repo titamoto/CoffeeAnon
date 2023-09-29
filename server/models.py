@@ -19,8 +19,8 @@ class User(db.Model, SerializerMixin):
 
     _password_hash = db.Column(db.String(60), nullable=False)
 
-    reviews = db.relationship("Review", backref="user")
-    serialize_rules = ("-review.user")
+    reviews_metadata = db.relationship("ReviewMetadata", backref="user")
+    serialize_rules = ("-review_metadata.user")
 
     @validates("email")
     def validate_email(self, key, address):
@@ -42,7 +42,7 @@ class User(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f"\n<User id={self.id} username={self.username} email={self.email}\
-              admin={self.admin} created at={self.created_at} updated at={self.updated_at}>"
+              admin={self.is_admin} created at={self.created_at} updated at={self.updated_at}>"
     
 class ReviewMetadata(db.Model, SerializerMixin):
     __tablename__ = "review_metadata"
@@ -53,6 +53,8 @@ class ReviewMetadata(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
+
+    review = db.relationship("Review", backref="review_metadata")
 
     serialize_rules = ("-user.review_metadata")
     serialize_rules = ("-coffee.review_metadata")
@@ -83,9 +85,38 @@ class Review(db.Model, SerializerMixin):
     tag = db.Column(db.String) #tag bubbles with non-flavor features: for espresso, for french press, etc.
 
     review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
+    serialize_rules = ("-review_metadata.review")
+
+    def __repr__(self):
+        return f"\n<Review id={self.id} rate={self.rate}\
+              price={self.price} acidity={self.acidity}\
+                body={self.body} aroma={self.aroma}\
+                    flavor={self.flavor} tag={self.tag} review_metadata_id={self.review_metadata_id}>"
  
 class Coffee(db.Model, SerializerMixin):
-    pass 
+    __tablename__ = "coffee"    
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+    producer = db.Column(db.String, nullable=False)
+    product_type = db.Column(db.String)
+    weight = db.Column(db.Int)
+    is_decaf = db.Column(db.Boolean, default=False)
+    image = db.Column(db.String)
+    roast = db.Column(db.String)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    coffee_profile = db.relationship("CoffeeProfile", backref="coffee")
+
+    serialize_rules = ("-coffee_profile.coffee")
+    serialize_rules = ("-review_metadata.coffee")
+
+    @validates("image")
+    def validate_image(self, key, image_path):
+        if ".jpg" not in image_path:
+            raise ValueError("Image file type must be a jpg")
+        return image_path
 
 class CoffeeProfile(db.Model, SerializerMixin): 
     pass
