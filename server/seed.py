@@ -29,7 +29,8 @@ with app.app_context():
             username=fake.unique.simple_profile()['username'],
             email=fake.email()
         )
-        user.password_hash = fake.password()
+        # user.password_hash = fake.password()
+        user.password_hash = user.username
         users.append(user)
 
     #creating admin account:

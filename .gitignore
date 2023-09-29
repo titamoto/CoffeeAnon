@@ -161,3 +161,9 @@ cython_debug/
 
 # Ignore configuration file
 config.py
+
+# Ignore db
+*.db
+*/*.db
+migrations
+instance
