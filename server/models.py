@@ -55,7 +55,6 @@ class ReviewMetadata(db.Model, SerializerMixin):
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
 
     review = db.relationship("Review", backref="review_metadata")
-
     serialize_rules = ("-user.review_metadata")
     serialize_rules = ("-coffee.review_metadata")
     serialize_rules = ("-review.review_metadata")
@@ -83,6 +82,7 @@ class Review(db.Model, SerializerMixin):
     aroma = db.Column(db.Integer)
     flavor = db.Column(db.Integer) #flavors as tag bubbles: cocoa, berries, etc.
     tag = db.Column(db.String) #tag bubbles with non-flavor features: for espresso, for french press, etc.
+    #!!! created_at and edited_at or find a way to connect to the metadata 
 
     review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
     serialize_rules = ("-review_metadata.review")
@@ -94,20 +94,25 @@ class Review(db.Model, SerializerMixin):
                     flavor={self.flavor} tag={self.tag} review_metadata_id={self.review_metadata_id}>"
  
 class Coffee(db.Model, SerializerMixin):
-    __tablename__ = "coffee"    
+    __tablename__ = "coffee"  
+
+    __table_args__ = (
+        CheckConstraint('roast >= 0 AND roast <= 10', name='check_roast_range'),
+    )  
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     producer = db.Column(db.String, nullable=False)
     product_type = db.Column(db.String)
-    weight = db.Column(db.Int)
+    weight = db.Column(db.Integer)
     is_decaf = db.Column(db.Boolean, default=False)
     image = db.Column(db.String)
-    roast = db.Column(db.String)
+    roast = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    coffee_profile = db.relationship("CoffeeProfile", backref="coffee")
+    coffee_profile = db.relationship("CoffeeProfile", backref="coffee") #corresponding coffee profile
+    reviews_metadata = db.relationship("ReviewMetadata", backref="coffee") #all reviews for this coffee
 
     serialize_rules = ("-coffee_profile.coffee")
     serialize_rules = ("-review_metadata.coffee")
@@ -118,8 +123,36 @@ class Coffee(db.Model, SerializerMixin):
             raise ValueError("Image file type must be a jpg")
         return image_path
 
+    def __repr__(self):
+        return f"\n<Coffee id={self.id} name={self.name}\
+              producer={self.producer} product type={self.product_type}\
+                weight={self.weight} image={self.image}\
+                    roast={self.roast} decaf={self.is_decaf}\
+                          created at={self.created_at} updated at={self.updated_at}>"
+
 class CoffeeProfile(db.Model, SerializerMixin): 
-    pass
+    __tablename__ = "coffee_profile"    
+
+    id = db.Column(db.Integer, primary_key=True)
+    country = db.Column(db.String)
+    region = db.Column(db.String)
+    farm = db.Column(db.String)
+    continent = db.Column(db.String)
+    altitude = db.Column(db.String)
+    process = db.Column(db.String)
+    is_specialty = db.Column(db.Boolean, default=False)
+    variety = db.Column(db.String)
+    #!!! created_at and edited_at or find a way to connect to the metadata 
+
+    coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
+    serialize_rules = ("-coffee.coffee_profile")  
+
+    def __repr__(self):
+        return f"\n<CoffeeProfile id={self.id} country={self.country}\
+              region={self.region} region={self.region}\
+                farm={self.farm} continent={self.continent}\
+                    altitude={self.altitude} process={self.process}\
+                          specialty={self.is_specialty} variety={self.variety} coffee_id={self.coffee_id}>"
 
 # class CoffeeList(db.Model, SerializerMixin):
 #     pass
