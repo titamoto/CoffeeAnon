@@ -1,4 +1,5 @@
 from models import Coffee, CoffeeProfile
+from config import db
 
 def seed_coffees():
     test_coffees = []
@@ -102,5 +103,6 @@ def seed_coffees():
         test_coffee_4_profile,
         test_coffee_5_profile
         ])
-    # return test_coffees + test_coffee_profiles
+    
+    db.session.add_all(test_coffees + test_coffee_profiles)
      

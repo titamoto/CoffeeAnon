@@ -82,7 +82,7 @@ class Review(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     rate = db.Column(db.Integer)
-    price = db.Column(db.Integer)
+    price = db.Column(db.Integer(1000000))
     acidity = db.Column(db.Integer)
     body = db.Column(db.Integer)
     aroma = db.Column(db.Integer)
