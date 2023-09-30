@@ -89,6 +89,8 @@ class CoffeeIndex(Resource):
         new_coffee_profile.coffee_id = new_coffee.id
         db.session.add(new_coffee_profile)
         db.session.commit()
+        new_coffee_data = Coffee.query.filter(id == new_coffee.id).first().to_dict()
+        return new_coffee_data, 201
 
 @app.route('/')
 def index():
