@@ -1,11 +1,13 @@
 import os
+from dotenv import load_dotenv
 from faker import Faker
 from random import randint, choice
 from models import User, Review, ReviewMetadata, Coffee, CoffeeProfile
 from config import db, app
-from server.coffee_seeds.coffee_seeds import seed_coffees
+from coffee_seeds.coffee_seeds import seed_coffees
 
 fake = Faker()
+load_dotenv()
 
 with app.app_context():
     print("Deleting all records...")
@@ -26,7 +28,7 @@ with app.app_context():
         # usernames.append(username)
 
         user = User(
-            username=fake.unique.simple_profile()['username'],
+            username=fake.first_name().lower(),
             email=fake.email()
         )
         # user.password_hash = fake.password()
@@ -48,14 +50,6 @@ with app.app_context():
     seed_coffees()
 
     print("Seeding reviews...")
-    reviews_metadata = []
-    for i in range(50):
-        review_metadata = ReviewMetadata(
-            user_id=randint(1, 20),
-            coffee_id=choice(1, 5)
-        )
-        reviews_metadata.append(review_metadata)
-    db.session.add_all(reviews_metadata)
 
     flavors = ['honey', 'cinnamon', 'rose', 'cherry', 'apple', 'grapefruit', 'wine', 'fresh', 'malt', 'cardboard', 'mold', 'fermented']
     tags = ['espresso', 'aeropress', 'moka pot', 'chemex', 'filter', 'instant', 'rare', 'basic', 'disgusting', 'bold', 'exquisite', 'everyday']
@@ -70,10 +64,18 @@ with app.app_context():
             flavor=choice(flavors),
             tag=choice(tags)
         )
-        review.review_metadata_id=i+1
         reviews.append(review)
-
     db.session.add_all(reviews)
+
+    reviews_metadata = []
+    for i in range(50):
+        review_metadata = ReviewMetadata(
+            user_id=randint(1, 20),
+            coffee_id=randint(1, 5)
+        )
+        review_metadata.review_id = i + 1
+        reviews_metadata.append(review_metadata)
+    db.session.add_all(reviews_metadata)
     db.session.commit()
     print("Seeding complete.")
 

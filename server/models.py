@@ -1,3 +1,4 @@
+# from validate_email import validate_email
 import re
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
@@ -28,9 +29,17 @@ class User(db.Model, SerializerMixin):
             raise ValueError('Username is required')
         return username
 
+    # @validates("email")
+    # def validate_email(self, key, address):
+    #     is_valid = validate_email(address)
+    #     if not is_valid:
+    #         raise ValueError("Invalid email address")
+    #     return address
+
+    #loosing email validation
     @validates("email")
     def validate_email(self, key, address):
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", address):
+        if not re.match(r".+@.+\..+", address):
             raise ValueError("Invalid email address")
         return address
 
@@ -83,7 +92,7 @@ class Review(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     rate = db.Column(db.Integer)
-    price = db.Column(db.Integer(1000000))
+    price = db.Column(db.Integer)
     acidity = db.Column(db.Integer)
     body = db.Column(db.Integer)
     aroma = db.Column(db.Integer)
@@ -93,7 +102,7 @@ class Review(db.Model, SerializerMixin):
     #!!! created_at and edited_at or find a way to connect to the metadata 
 
     # review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
-    review_metadata = db.relationship("ReviewMetadata", backref="review")
+    # review_metadata = db.relationship("ReviewMetadata", backref="review")
     serialize_rules = ("-review_metadata.review")
 
     def __repr__(self):
@@ -113,7 +122,7 @@ class Coffee(db.Model, SerializerMixin):
     name = db.Column(db.String(100), nullable=False)
     producer = db.Column(db.String(100), nullable=False)
     product_type = db.Column(db.String(50))
-    weight = db.Column(db.Integer(10000), default=340)
+    weight = db.Column(db.Integer, default=340)
     is_decaf = db.Column(db.Boolean, default=False)
     image = db.Column(db.String(1000), default='coffee_seeds/coffee_placeholder.jpg')
     roast = db.Column(db.Integer)
