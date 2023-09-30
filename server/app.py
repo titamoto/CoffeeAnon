@@ -45,6 +45,14 @@ class Login(Resource):
             session['user_id'] = user.id
             return user.to_dict(), 200
         return {}, 401
+    
+class Logout(Resource):
+    def delete(self):
+        if session.get('user_id'):
+            session['user_id'] = None
+            return {}, 204
+        session['user_id'] = None
+        return {}, 401
 
 @app.route('/')
 def index():
