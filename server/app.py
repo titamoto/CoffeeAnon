@@ -32,6 +32,19 @@ class Signup(Resource):
             return {}, 422
         session['user_id'] = user_record.id
         return user_record.to_dict(), 201
+    
+class Login(Resource):
+    def post(self):
+        login_data = request.get_json()
+        username = login_data['username']
+        password = login_data['password']
+        user = User.query.filter(User.username == username).first()
+        if not user:
+            return {}, 401
+        if user.authenticate(password):
+            session['user_id'] = user.id
+            return user.to_dict(), 200
+        return {}, 401
 
 @app.route('/')
 def index():
