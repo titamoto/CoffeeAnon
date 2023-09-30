@@ -1,4 +1,4 @@
-from flask import request, session
+from flask import request, session, jsonify
 from flask_restful import Resource
 
 from config import app, db, api
@@ -35,9 +35,9 @@ class Signup(Resource):
     
 class Login(Resource):
     def post(self):
-        login_data = request.get_json()
-        username = login_data['username']
-        password = login_data['password']
+        data = request.get_json()
+        username = data['username']
+        password = data['password']
         user = User.query.filter(User.username == username).first()
         if not user:
             return {}, 401
@@ -53,6 +53,42 @@ class Logout(Resource):
             return {}, 204
         session['user_id'] = None
         return {}, 401
+    
+class CoffeeIndex(Resource):
+    def get(self):
+       coffees = [coffee.to_dict() for coffee in Coffee.query.all()]
+       return jsonify(coffees), 200
+    
+    def post(self):
+        data = request.get_json()
+        if 'name' not in data:
+            return {}, 422
+        if 'producer' not in data:
+            return {}, 422
+        new_coffee = Coffee(
+            name = data['name'],
+            producer = data['producer'],
+            product_type = data['product_type'],
+            weight = data['weight'],
+            is_decaf = data['is_decaf'],
+            image = data['image'],
+            roast = data['roast']
+        )
+        db.session.add(new_coffee) 
+
+        new_coffee_profile = CoffeeProfile(
+            country = data['country'],
+            region = data['region'],
+            farm = data['farm'],
+            continent = data['continent'],
+            altitude = data['altitude'],
+            process = data['process'],
+            is_specialty = data['is_specialty'],
+            variety = data['variety']
+        )
+        new_coffee_profile.coffee_id = new_coffee.id
+        db.session.add(new_coffee_profile)
+        db.session.commit()
 
 @app.route('/')
 def index():
