@@ -54,7 +54,7 @@ class Logout(Resource):
         session['user_id'] = None
         return {}, 401
     
-class CoffeeIndex(Resource):
+class Coffees(Resource):
     def get(self):
        coffees = [coffee.to_dict() for coffee in Coffee.query.all()]
        return jsonify(coffees), 200
@@ -144,9 +144,33 @@ class CoffeeByIDReviews(Resource):
         new_review_data = Review.query.filter_by(id=new_review.id).first().to_dict()
         return new_review_data, 201
 
-class UserByIDReviews(Resource):
-    pass
+class Users(Resource):
+    def get(self):
+       users = [user.to_dict() for user in User.query.all()]
+       return jsonify(users), 200
 
+class UserByID(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            return {}, 404
+        return user.to_dict(), 200
+
+class UserByIDReviews(Resource):
+    def get(self, user_id):
+       reviews_meta = [review_meta.to_dict() for review_meta in ReviewMetadata.query.filter_by(user_id = user_id).all()]
+       return jsonify(reviews_meta), 200
+
+# class CoffeeByIDReviewByID(Resource):
+#     pass
+
+# class UserByIDCoffees(Resource):
+#     def get(self):
+#         user_id = session.get('user_id')
+#         if not user_id:
+#             return {}, 404
+
+        
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
@@ -156,14 +180,16 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
-api.add_resource(CoffeeIndex, '/coffee', endpoint='all-coffees')
-api.add_resource(CoffeeByID, '/coffee/<int:id>', endpoint='one-coffee')
+api.add_resource(Coffees, '/coffee', endpoint='coffees')
+api.add_resource(CoffeeByID, '/coffee/<int:id>', endpoint='coffee')
 # api.add_resource(ReviewIndex, '/review', endpoint='all-reviews')
 # api.add_resource(ReviewByID, '/review/<int:id>', endpoint='one-review')
-api.add_resource(UserIndex, '/user', endpoint='all-users')
-api.add_resource(UserByID, '/user/<int:id>', endpoint='one-user')
+api.add_resource(Users, '/user', endpoint='users')
+api.add_resource(UserByID, '/user/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user/<int:id>/review', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffee/<int:id>/review', endpoint='coffee-reviews')
+# api.add_resource(CoffeeByIDReviewByID, '/coffee/<int:id>/review/<int:id>', endpoint='coffee-review')
+# api.add_resource(UserByIDCoffees, '/coffee/<int:id>/review/<int:id>', endpoint='user-coffees')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
