@@ -59,7 +59,8 @@ class ReviewMetadata(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
-
+    review_id = db.Column(db.Integer, db.ForeignKey("review.id"))
+    
     review = db.relationship("Review", backref="review_metadata")
     serialize_rules = ("-user.review_metadata")
     serialize_rules = ("-coffee.review_metadata")
@@ -91,7 +92,8 @@ class Review(db.Model, SerializerMixin):
     tag = db.Column(db.String(50)) #tag bubbles with non-flavor features: for espresso, for french press, etc.
     #!!! created_at and edited_at or find a way to connect to the metadata 
 
-    review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
+    # review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
+    review_metadata = db.relationship("ReviewMetadata", backref="review")
     serialize_rules = ("-review_metadata.review")
 
     def __repr__(self):

@@ -60,6 +60,9 @@ class CoffeeIndex(Resource):
        return jsonify(coffees), 200
     
     def post(self):
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
         data = request.get_json()
         if 'name' not in data:
             return {}, 422
@@ -89,8 +92,60 @@ class CoffeeIndex(Resource):
         new_coffee_profile.coffee_id = new_coffee.id
         db.session.add(new_coffee_profile)
         db.session.commit()
-        new_coffee_data = Coffee.query.filter(id == new_coffee.id).first().to_dict()
+        new_coffee_data = Coffee.query.filter_by(id=new_coffee.id).first().to_dict()
         return new_coffee_data, 201
+    
+class CoffeeByID(Resource):
+    def get(self, id):
+        coffee = Coffee.query.filter_by(id=id).first()
+        if not coffee:
+            return {}, 404
+        return coffee.to_dict(), 200
+    
+    #PATCH and DELETE for admin and user created the coffee
+    #check serialization rules to show coffee details inside coffee object 
+
+class CoffeeByIDReviews(Resource):
+    def get(self, coffee_id):
+       session[coffee_id] = coffee_id
+       reviews_meta = [review_meta.to_dict() for review_meta in ReviewMetadata.query.filter_by(coffee_id = coffee_id).all()]
+       return jsonify(reviews_meta), 200
+    
+    def post(self, coffee_id):
+        session[coffee_id] = coffee_id
+        if not session.get(coffee_id):
+            return {}, 418
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
+        data = request.get_json()
+        if 'rate' not in data:
+            return {}, 422
+        new_review = Review(
+            rate = data['rate'],
+            price = data['price'],
+            acidity = data['acidity'],
+            body = data['body'],
+            aroma = data['aroma'],
+            review_text = data['review_text'],
+            flavor = data['flavor'],
+            tag = data['tag']
+        )
+        db.session.add(new_review)
+
+        new_review_metadata = ReviewMetadata(
+            is_public = data['is_public']
+        )
+        new_review_metadata.review_id = new_review.id
+        new_review_metadata.coffee_id = session.get('coffee_id')
+        new_review_metadata.user_id = session.get('user_id')
+        db.session.add(new_review_metadata)
+        db.session.commit()
+        new_review_data = Review.query.filter_by(id=new_review.id).first().to_dict()
+        return new_review_data, 201
+
+class UserByIDReviews(Resource):
+    pass
 
 @app.route('/')
 def index():
@@ -103,12 +158,12 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CoffeeIndex, '/coffee', endpoint='all-coffees')
 api.add_resource(CoffeeByID, '/coffee/<int:id>', endpoint='one-coffee')
-api.add_resource(ReviewIndex, '/review/<int:id>', endpoint='all-reviews')
-api.add_resource(ReviewByID, '/review/<int:id>', endpoint='one-review')
-api.add_resource(UserIndex, '/user/<int:id>', endpoint='all-users')
+# api.add_resource(ReviewIndex, '/review', endpoint='all-reviews')
+# api.add_resource(ReviewByID, '/review/<int:id>', endpoint='one-review')
+api.add_resource(UserIndex, '/user', endpoint='all-users')
 api.add_resource(UserByID, '/user/<int:id>', endpoint='one-user')
-api.add_resource(OneUserReviews, '/user/<int:id>/review', endpoint='one-user-reviews')
-api.add_resource(OneCoffeerReviews, '/coffee/<int:id>/review', endpoint='one-coffee-reviews')
+api.add_resource(UserByIDReviews, '/user/<int:id>/review', endpoint='user-reviews')
+api.add_resource(CoffeeByIDReviews, '/coffee/<int:id>/review', endpoint='coffee-reviews')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
