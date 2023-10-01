@@ -5,7 +5,7 @@ function CoffeePage() {
 
   return (
     <>
-    <h2>All Coffee:</h2>
+    <h4>All Coffee:</h4>
        <CoffeeCard/> 
     </>
   )

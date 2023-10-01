@@ -1,13 +1,14 @@
-import './App.css';
-import CoffeePage from './components/CoffeePage';
-import Header from './components/Header';
+import React  from 'react'
+// import './App.css';
+import Navbar from './Navbar';
+import CoffeePage from './CoffeePage';
 
 function App() {
   return (
-    <>
-    <Header />
-    <CoffeePage />
-    </>
+    <div className="App">
+      <Navbar/>
+      <CoffeePage/>
+    </div>
   );
 }
 
