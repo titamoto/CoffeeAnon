@@ -1,4 +1,4 @@
-from flask import request, session, jsonify, make_response
+from flask import request, session
 from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
@@ -57,7 +57,7 @@ class Logout(Resource):
 class Coffees(Resource):
     def get(self):
        coffees = [coffee.to_dict() for coffee in Coffee.query.all()]
-       return jsonify(coffees), 200
+       return coffees, 200
     
     def post(self):
         user_id = session.get('user_id')
@@ -103,14 +103,15 @@ class CoffeeByID(Resource):
         return coffee.to_dict(), 200
     
     #PATCH and DELETE for admin and user created the coffee
-    #check serialization rules to show coffee details inside coffee object 
 
 class CoffeeByIDReviews(Resource):
-    def get(self, coffee_id):
-       session[coffee_id] = coffee_id
-       reviews_meta = [review_meta.to_dict() for review_meta in ReviewMetadata.query.filter_by(coffee_id = coffee_id).all()]
-       return jsonify(reviews_meta), 200
-    
+    #get all review for this coffee
+    def get(self, id):
+       session['coffee_id'] = id
+       reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
+       return reviews_meta, 200
+
+    #create a new review for this coffee
     def post(self, coffee_id):
         session[coffee_id] = coffee_id
         if not session.get(coffee_id):
@@ -157,19 +158,10 @@ class UserByID(Resource):
         return user.to_dict(rules=('-_password_hash',)), 200
 
 class UserByIDReviews(Resource):
+    #all review left by this user
     def get(self, id):
-       reviews_meta = [review_meta.to_dict() for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
+       reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
        return reviews_meta, 200
-
-
-# class CoffeeByIDReviewByID(Resource):
-#     pass
-
-# class UserByIDCoffees(Resource):
-#     def get(self):
-#         user_id = session.get('user_id')
-#         if not user_id:
-#             return {}, 404
 
         
 @app.route('/')
@@ -183,14 +175,14 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Coffees, '/coffee', endpoint='coffees')
 api.add_resource(CoffeeByID, '/coffee/<int:id>', endpoint='coffee')
-# api.add_resource(ReviewIndex, '/review', endpoint='all-reviews')
-# api.add_resource(ReviewByID, '/review/<int:id>', endpoint='one-review')
 api.add_resource(Users, '/user', endpoint='users')
 api.add_resource(UserByID, '/user/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user/<int:id>/review', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffee/<int:id>/review', endpoint='coffee-reviews')
 # api.add_resource(CoffeeByIDReviewByID, '/coffee/<int:id>/review/<int:id>', endpoint='coffee-review')
 # api.add_resource(UserByIDCoffees, '/coffee/<int:id>/review/<int:id>', endpoint='user-coffees')
+# api.add_resource(ReviewIndex, '/review', endpoint='all-reviews')
+# api.add_resource(ReviewByID, '/review/<int:id>', endpoint='one-review')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

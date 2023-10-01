@@ -62,9 +62,7 @@ class ReviewMetadata(db.Model, SerializerMixin):
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
     review_id = db.Column(db.Integer, db.ForeignKey("review.id"))
     
-    # serialize_rules = ("-coffee.review_metadata")
     serialize_rules = ("-review.review_metadata",)
-    serialize_rules = ("-user.reviews_metadata",)
 
     def __repr__(self):
         return f"\n<Review metadata id={self.id} public={self.is_public}\
@@ -90,11 +88,10 @@ class Review(db.Model, SerializerMixin):
     review_text = db.Column(db.String(5000))
     flavor = db.Column(db.String(50)) #flavors as tag bubbles: cocoa, berries, etc.
     tag = db.Column(db.String(50)) #tag bubbles with non-flavor features: for espresso, for french press, etc.
-    #!!! created_at and edited_at or find a way to connect to the metadata 
+
 
     serialize_rules = ("-review_metadata.review",)
     review_metadata = db.relationship("ReviewMetadata", backref="review")
-    # review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
 
     def __repr__(self):
         return f"\n<Review id={self.id} rate={self.rate}\
@@ -120,11 +117,8 @@ class Coffee(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    # coffee_profile = db.relationship("CoffeeProfile", backref="coffee") #corresponding coffee profile
-    # reviews_metadata = db.relationship("ReviewMetadata", backref="coffee") #all reviews for this coffee
-
-    # serialize_rules = ("-coffee_profile.coffee")
-    # serialize_rules = ("-review_metadata.coffee")
+    serialize_rules = ("-coffee_profile.coffee",)
+    coffee_profile = db.relationship("CoffeeProfile", backref="coffee")
     
     @validates('name')
     def validate_title(self, key, name):
@@ -157,10 +151,8 @@ class CoffeeProfile(db.Model, SerializerMixin):
     process = db.Column(db.String(50))
     is_specialty = db.Column(db.Boolean, default=False)
     variety = db.Column(db.String(100))
-    #!!! created_at and edited_at or find a way to connect to the metadata 
 
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
-    # serialize_rules = ("-coffee.coffee_profile")  
 
     def __repr__(self):
         return f"\n<CoffeeProfile id={self.id} country={self.country}\
@@ -168,6 +160,3 @@ class CoffeeProfile(db.Model, SerializerMixin):
                 farm={self.farm} continent={self.continent}\
                     altitude={self.altitude} process={self.process}\
                           specialty={self.is_specialty} variety={self.variety} coffee_id={self.coffee_id}>"
-
-# class CoffeeList(db.Model, SerializerMixin):
-#     pass
