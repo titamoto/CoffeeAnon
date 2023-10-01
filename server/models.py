@@ -1,5 +1,4 @@
-# from validate_email import validate_email
-import re
+from validate_email import validate_email
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
@@ -20,26 +19,19 @@ class User(db.Model, SerializerMixin):
 
     _password_hash = db.Column(db.String(60), nullable=False)
 
+    serialize_rules = ("-reviews_metadata.user",)
     reviews_metadata = db.relationship("ReviewMetadata", backref="user")
-    serialize_rules = ("-review_metadata.user")
-
+    
     @validates('username')
     def validate_username(self, key, username):
         if not username: 
             raise ValueError('Username is required')
         return username
 
-    # @validates("email")
-    # def validate_email(self, key, address):
-    #     is_valid = validate_email(address)
-    #     if not is_valid:
-    #         raise ValueError("Invalid email address")
-    #     return address
-
-    #loosing email validation
     @validates("email")
     def validate_email(self, key, address):
-        if not re.match(r".+@.+\..+", address):
+        is_valid = validate_email(address)
+        if not is_valid:
             raise ValueError("Invalid email address")
         return address
 
@@ -70,10 +62,8 @@ class ReviewMetadata(db.Model, SerializerMixin):
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
     review_id = db.Column(db.Integer, db.ForeignKey("review.id"))
     
-    review = db.relationship("Review", backref="review_metadata")
-    serialize_rules = ("-user.review_metadata")
-    serialize_rules = ("-coffee.review_metadata")
-    serialize_rules = ("-review.review_metadata")
+    # serialize_rules = ("-coffee.review_metadata")
+    serialize_rules = ("-review.review_metadata",)
 
     def __repr__(self):
         return f"\n<Review metadata id={self.id} public={self.is_public}\
@@ -101,9 +91,9 @@ class Review(db.Model, SerializerMixin):
     tag = db.Column(db.String(50)) #tag bubbles with non-flavor features: for espresso, for french press, etc.
     #!!! created_at and edited_at or find a way to connect to the metadata 
 
+    serialize_rules = ("-review_metadata.review",)
+    review_metadata = db.relationship("ReviewMetadata", backref="review")
     # review_metadata_id = db.Column(db.Integer, db.ForeignKey("review_metadata.id"))
-    # review_metadata = db.relationship("ReviewMetadata", backref="review")
-    serialize_rules = ("-review_metadata.review")
 
     def __repr__(self):
         return f"\n<Review id={self.id} rate={self.rate}\
@@ -129,11 +119,11 @@ class Coffee(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    coffee_profile = db.relationship("CoffeeProfile", backref="coffee") #corresponding coffee profile
-    reviews_metadata = db.relationship("ReviewMetadata", backref="coffee") #all reviews for this coffee
+    # coffee_profile = db.relationship("CoffeeProfile", backref="coffee") #corresponding coffee profile
+    # reviews_metadata = db.relationship("ReviewMetadata", backref="coffee") #all reviews for this coffee
 
-    serialize_rules = ("-coffee_profile.coffee")
-    serialize_rules = ("-review_metadata.coffee")
+    # serialize_rules = ("-coffee_profile.coffee")
+    # serialize_rules = ("-review_metadata.coffee")
     
     @validates('name')
     def validate_title(self, key, name):
@@ -169,7 +159,7 @@ class CoffeeProfile(db.Model, SerializerMixin):
     #!!! created_at and edited_at or find a way to connect to the metadata 
 
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
-    serialize_rules = ("-coffee.coffee_profile")  
+    # serialize_rules = ("-coffee.coffee_profile")  
 
     def __repr__(self):
         return f"\n<CoffeeProfile id={self.id} country={self.country}\

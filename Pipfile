@@ -13,6 +13,8 @@ flask-cors = "*"
 ipdb = "*"
 flask-bcrypt = "*"
 faker = "*"
+validate-email = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

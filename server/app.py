@@ -1,8 +1,8 @@
-from flask import request, session, jsonify
+from flask import request, session, jsonify, make_response
 from flask_restful import Resource
-
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
+
 
 class ClearSession(Resource):
     def delete(self):
@@ -146,15 +146,15 @@ class CoffeeByIDReviews(Resource):
 
 class Users(Resource):
     def get(self):
-       users = [user.to_dict() for user in User.query.all()]
-       return jsonify(users), 200
+       users = [user.to_dict(rules=('-_password_hash',)) for user in User.query.all()]
+       return users, 200
 
 class UserByID(Resource):
     def get(self, id):
         user = User.query.filter_by(id=id).first()
         if not user:
             return {}, 404
-        return user.to_dict(), 200
+        return user.to_dict(rules=('-_password_hash',)), 200
 
 class UserByIDReviews(Resource):
     def get(self, user_id):
