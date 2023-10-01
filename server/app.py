@@ -157,9 +157,10 @@ class UserByID(Resource):
         return user.to_dict(rules=('-_password_hash',)), 200
 
 class UserByIDReviews(Resource):
-    def get(self, user_id):
-       reviews_meta = [review_meta.to_dict() for review_meta in ReviewMetadata.query.filter_by(user_id = user_id).all()]
-       return jsonify(reviews_meta), 200
+    def get(self, id):
+       reviews_meta = [review_meta.to_dict() for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
+       return reviews_meta, 200
+
 
 # class CoffeeByIDReviewByID(Resource):
 #     pass

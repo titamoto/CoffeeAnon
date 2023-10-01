@@ -64,6 +64,7 @@ class ReviewMetadata(db.Model, SerializerMixin):
     
     # serialize_rules = ("-coffee.review_metadata")
     serialize_rules = ("-review.review_metadata",)
+    serialize_rules = ("-user.reviews_metadata",)
 
     def __repr__(self):
         return f"\n<Review metadata id={self.id} public={self.is_public}\
