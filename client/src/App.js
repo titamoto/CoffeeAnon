@@ -1,10 +1,12 @@
-import Navbar from "./components/Navbar";
+import './App.css';
+import CoffeePage from './components/CoffeePage';
+import Header from './components/Header';
 
 function App() {
   return (
     <>
-      <Navbar />
-      <h1>Yo Dawg!</h1>
+    <Header />
+    <CoffeePage />
     </>
   );
 }
