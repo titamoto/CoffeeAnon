@@ -18,10 +18,17 @@ function SignIn() {
             },
             body: JSON.stringify(signInObject),
         })
-        .then((r) => r.json()
-        .then((data) => console.log(data))
-        )
-    }
+        .then((r) => {if (!r.ok) {
+            throw new Error('Incorrect username or password');
+        }
+        return r.json();
+        //render error
+    })
+        .then((data) => 
+        // set user and send to home
+        console.log(data))
+        .catch((err) => console.error(err));
+        }
 
   return (
     <Container className='w-25 position-absolute m-3'>

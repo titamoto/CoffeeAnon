@@ -11,11 +11,13 @@ class ClearSession(Resource):
     
 class CheckSession(Resource):
     def get(self):
-        user_id = session['user_id']
+        user_id = session.get('user_id')
         if user_id:
             user = User.query.filter(User.id == user_id).first()
-            return user.to_dict(), 200
-        return {}, 204
+            return {"id": user.to_dict()["id"],
+                    "username": user.to_dict()["username"]}, 200
+            # return user.to_dict(), 200
+        return {"message" : "user is not signed in"}, 204
     
 class Signup(Resource):
     def post(self):
@@ -43,7 +45,9 @@ class Login(Resource):
             return {}, 401
         if user.authenticate(password):
             session['user_id'] = user.id
-            return user.to_dict(), 200
+            # return user.to_dict(), 200
+            return {"id": user.to_dict()["id"],
+                    "username": user.to_dict()['username']}, 200
         return {}, 401
     
 class Logout(Resource):
