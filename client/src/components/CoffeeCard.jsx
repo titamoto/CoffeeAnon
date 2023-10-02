@@ -6,7 +6,7 @@ function CoffeeCard({coffee}) {
 
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card className='m-3' style={{ width: '18rem' }}>
       <Card.Img variant="top" src={coffee.image} />
       <Card.Body>
         <Card.Title>{coffee.name}</Card.Title>

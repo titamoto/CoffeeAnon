@@ -18,9 +18,7 @@ function Header() {
             className="me-auto my-2 my-lg-0"
             style={{ maxHeight: '100px' }}
             navbarScroll>
-            <NavLink exact to='/'>
             <Nav.Link href="/">All Coffee</Nav.Link>
-            </NavLink>
             <Nav.Link href="/my-reviews" disabled>My Reviews</Nav.Link>
             <Nav.Link href="/login">Sign In</Nav.Link>
           </Nav>

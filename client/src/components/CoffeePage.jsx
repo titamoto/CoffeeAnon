@@ -3,7 +3,6 @@ import {Route, Switch} from "react-router-dom"
 import CoffeeCard from './CoffeeCard'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 
 function CoffeePage() {
@@ -12,19 +11,21 @@ function CoffeePage() {
   useEffect(() => {
     fetch('http://127.0.0.1:5555/coffees')
     .then((r) => r.json())
-    .then((coffees) => console.log(coffees.map((coffee)=> coffee.image)))
-    // .then((coffees) => setCoffees(coffees));
+    // .then((coffees) => console.log(coffees.map((coffee)=> coffee.image)))
+    .then((coffees) => setCoffees(coffees));
   }, []);
 
   return (
-    <Container>
+    <Container className='position-absolute m-3'>
     <Switch>
     <Route exact path="/">
     <h4>All Coffee</h4>
+    <Row xs={1} md={2} className="g-4 mt-1">
     {coffees.map((coffee) => 
       <CoffeeCard key={coffee.id} coffee={coffee} />
     )
     }
+    </Row>
     </Route>
     </Switch>
     </Container>
