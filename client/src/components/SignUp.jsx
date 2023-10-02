@@ -2,26 +2,27 @@ import React, { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import CoffeePage from './CoffeePage';
-import { Route } from 'react-router-dom';
+// import { Route } from 'react-router-dom';
 
-function SignIn({signedUser, setSignedUser}) {
+function SignUp({signedUser, setSignedUser}) {
 
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const signInObject = {username, password}
+    const signUpObject = {username, email, password}
     const history = useHistory();
 
     function handleSubmit(e) {
         e.preventDefault();
-        fetch('http://localhost:5555/login', {
+        fetch('http://localhost:5555/signup', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(signInObject),
+            body: JSON.stringify(signUpObject),
         })
         .then((r) => {if (!r.ok) {
-            throw new Error('Incorrect username or password');
+            throw new Error('Signing up failed.');
         }
         return r.json();
         //render error
@@ -34,7 +35,7 @@ function SignIn({signedUser, setSignedUser}) {
 if (!signedUser) {
   return (
     <Container className='w-25 position-absolute m-3'>
-        <h4>Sign In</h4>
+        <h4>Sign Up</h4>
         <Form onSubmit={handleSubmit}>
         <Form.Label className='fw-medium mt-2' htmlFor="inputLogin">
             Login
@@ -43,6 +44,14 @@ if (!signedUser) {
         type="login"
         id="inputLogin"
         onChange={(e) => setUsername(e.target.value)}
+         />
+        <Form.Label className='fw-medium mt-2' htmlFor="inputEmail">
+            Email
+        </Form.Label>
+      <Form.Control
+        type="email"
+        id="inputEmail"
+        onChange={(e) => setEmail(e.target.value)}
          />
         <Form.Label className='fw-medium mt-2' htmlFor="inputPassword">
             Password
@@ -53,7 +62,6 @@ if (!signedUser) {
         onChange={(e) => setPassword(e.target.value)}/>
         <Button className='mt-2' as="input" type="submit" value="Submit" />
         </Form>
-        <p className='mt-2 fs-6'>Not registered? <a href='/signup'>Sign up</a></p>
     </Container>
   )} else {
     return <>
@@ -62,4 +70,4 @@ if (!signedUser) {
   }
 }
 
-export default SignIn
+export default SignUp

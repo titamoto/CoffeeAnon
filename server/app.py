@@ -3,7 +3,6 @@ from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
 
-
 class ClearSession(Resource):
     def delete(self):
         session['user_id'] = None
@@ -52,6 +51,8 @@ class Login(Resource):
     
 class Logout(Resource):
     def delete(self):
+        # check session (no user when signed in too)
+        print(session.get('user_id'))
         if session.get('user_id'):
             session['user_id'] = None
             return {}, 204

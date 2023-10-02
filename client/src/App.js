@@ -3,6 +3,8 @@ import CoffeePage from './components/CoffeePage';
 import Header from './components/Header';
 import { Route, Switch } from "react-router-dom";
 import SignIn from './components/SignIn';
+import SignOut from './components/SignOut';
+import SignUp from './components/SignUp';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,6 +29,12 @@ function App() {
       <Switch>
       <Route path="/login">
         <SignIn signedUser={user} setSignedUser={setUser}/>
+      </Route>
+      <Route path="/signup">
+        <SignUp signedUser={user} setSignedUser={setUser}/>
+      </Route>
+      <Route path="/logout">
+        <SignOut signedUser={user} setSignedUser={setUser}/>
       </Route>
       <Route exact path="/">
       <CoffeePage/>
