@@ -1,7 +1,7 @@
 import React, {useEffect, useState}  from 'react'
 import CoffeePage from './components/CoffeePage';
 import Header from './components/Header';
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import SignIn from './components/SignIn';
 
 function App() {
@@ -23,13 +23,15 @@ function App() {
 
   return (
     <div className="App">
-      <Header/>
+      <Header signedUser={user} setSignedUser={setUser}/>
+      <Switch>
       <Route path="/login">
-        <SignIn/>
+        <SignIn signedUser={user} setSignedUser={setUser}/>
       </Route>
-      <Route path="/">
+      <Route exact path="/">
       <CoffeePage/>
       </Route>
+      </Switch>
     </div>
   );
 }

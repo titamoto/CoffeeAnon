@@ -17,8 +17,8 @@ function CoffeePage() {
 
   return (
     <Container className='position-absolute m-3'>
-    <Switch>
-    <Route exact path="/">
+    {/* <Switch>
+    <Route exact path="/"> */}
     <h4>All Coffee</h4>
     <Row xs={1} md={2} className="g-4 mt-1">
     {coffees.map((coffee) => 
@@ -26,8 +26,8 @@ function CoffeePage() {
     )
     }
     </Row>
-    </Route>
-    </Switch>
+    {/* </Route>
+    </Switch> */}
     </Container>
 
   )

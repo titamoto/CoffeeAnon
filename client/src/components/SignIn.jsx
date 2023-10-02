@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
+import { Container, Form, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import CoffeePage from './CoffeePage';
 
-function SignIn() {
+function SignIn({signedUser, setSignedUser}) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const signInObject = {username, password}
+    const history = useHistory();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -24,12 +25,12 @@ function SignIn() {
         return r.json();
         //render error
     })
-        .then((data) => 
-        // set user and send to home
-        console.log(data))
-        .catch((err) => console.error(err));
-        }
-
+        .then((userData) => {
+        setSignedUser(userData);
+        history.push('/');
+        } )
+    }
+if (!signedUser) {
   return (
     <Container className='w-25 position-absolute m-3'>
         <h4>Sign In</h4>
@@ -42,6 +43,14 @@ function SignIn() {
         id="inputLogin"
         onChange={(e) => setUsername(e.target.value)}
          />
+        {/* <Form.Label className='fw-medium mt-2' htmlFor="inputEmail">
+            Email
+        </Form.Label>
+      <Form.Control
+        type="email"
+        id="inputEmail"
+        onChange={(e) => setEmail(e.target.value)}
+         /> */}
         <Form.Label className='fw-medium mt-2' htmlFor="inputPassword">
             Password
         </Form.Label>
@@ -53,7 +62,11 @@ function SignIn() {
         </Form>
         <p className='mt-2 fs-6'>Not registered? <a href='/signup'>Sign up</a></p>
     </Container>
-  )
+  )} else {
+    return <Container>
+        <CoffeePage/>
+    </Container>
+  }
 }
 
 export default SignIn

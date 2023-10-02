@@ -4,9 +4,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import { NavLink } from "react-router-dom";
 
-function Header() {
+function Header( {signedUser, setSignedUser}) {
   return (
 <>
 <Navbar expand="lg" className="bg-body-tertiary">
@@ -20,7 +19,9 @@ function Header() {
             navbarScroll>
             <Nav.Link href="/">All Coffee</Nav.Link>
             <Nav.Link href="/my-reviews" disabled>My Reviews</Nav.Link>
-            <Nav.Link href="/login">Sign In</Nav.Link>
+            {!signedUser ? 
+            (<Nav.Link href="/login">Sign In</Nav.Link>) :
+            (<Nav.Link href="/logout">Sign Out</Nav.Link>)}
           </Nav>
           <Form className="d-flex">
             <Form.Control
