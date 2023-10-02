@@ -1,13 +1,18 @@
 import React  from 'react'
 // import './App.css';
-import Navbar from './Navbar';
-import CoffeePage from './CoffeePage';
+import CoffeePage from './components/CoffeePage';
+import Header from './components/Header';
+import Welcome from './components/Welcome';
+import { Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <Navbar/>
+      <Header/>
+      <Welcome/>
+      <Route path="/">
       <CoffeePage/>
+      </Route>
     </div>
   );
 }
