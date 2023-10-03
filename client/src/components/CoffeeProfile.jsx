@@ -7,7 +7,7 @@ import Image from 'react-bootstrap/Image';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 
-function CoffeeProfile({signedUser, setSignedUser}) {
+function CoffeeProfile() {
 
 const [coffee, setCoffee] = useState({});
 const [coffeeProfile, setCoffeeProfile] = useState({})

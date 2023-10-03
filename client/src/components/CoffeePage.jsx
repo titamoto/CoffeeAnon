@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
 
-function CoffeePage({signedUser, setSignedUser}) {
+function CoffeePage() {
   const [coffees, setCoffees] = useState([])
 
   useEffect(() => {

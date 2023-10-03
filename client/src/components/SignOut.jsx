@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 
 function SignOut({signedUser, setSignedUser}) {
+
     fetch('/logout', {
         method: 'DELETE',
         headers: {

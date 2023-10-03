@@ -7,6 +7,8 @@ import SignOut from './components/SignOut';
 import SignUp from './components/SignUp';
 import CoffeeProfile from './components/CoffeeProfile'
 import CoffeeReview from './components/CoffeeReview';
+import NewCoffeePage from './components/NewCoffeePage';
+import MyReviews from './components/MyReviews';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,9 +34,11 @@ function App() {
       <Route path={"/login"} element={<SignIn signedUser={user} setSignedUser={setUser}/>}/>
       <Route path={"/signup"} element={<SignUp signedUser={user} setSignedUser={setUser}/>} />
       <Route path={"/logout"} element={<SignOut signedUser={user} setSignedUser={setUser}/>} />
-      <Route path={"/"} element={<CoffeePage  signedUser={user} setSignedUser={setUser}/>} />
-      <Route path={"/:id"} element={<CoffeeProfile  signedUser={user} setSignedUser={setUser}/>} />
-      <Route path={"/:id/rate"} element={<CoffeeReview signedUser={user} setSignedUser={setUser}/>} />
+      <Route path={"/"} element={<CoffeePage/>} />
+      <Route path={"/my-reviews"} element={<MyReviews signedUser={user}/>} />
+      <Route path={"/new"} element={<NewCoffeePage signedUser={user}/>} />
+      <Route path={"/:id"} element={<CoffeeProfile/>} />
+      <Route path={"/:id/rate"} element={<CoffeeReview signedUser={user}/>} />
       </Routes>
     </>
   );

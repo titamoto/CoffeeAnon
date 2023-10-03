@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CoffeeReview({signedUser, setSignedUser}) {
+function CoffeeReview({signedUser}) {
   return (
     <>
     <h4>CoffeeReview</h4>
