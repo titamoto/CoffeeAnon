@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import {Route, Switch} from "react-router-dom"
 import CoffeeCard from './CoffeeCard'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
 
-function CoffeePage() {
+function CoffeePage({signedUser, setSignedUser}) {
   const [coffees, setCoffees] = useState([])
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5555/coffees')
+    fetch('/coffees')
     .then((r) => r.json())
     // .then((coffees) => console.log(coffees.map((coffee)=> coffee.image)))
     .then((coffees) => setCoffees(coffees));
@@ -17,8 +16,6 @@ function CoffeePage() {
 
   return (
     <Container className='position-absolute m-3'>
-    {/* <Switch>
-    <Route exact path="/"> */}
     <h4>All Coffee</h4>
     <Row xs={1} md={2} className="g-4 mt-1">
     {coffees.map((coffee) => 
@@ -26,8 +23,6 @@ function CoffeePage() {
     )
     }
     </Row>
-    {/* </Route>
-    </Switch> */}
     </Container>
 
   )

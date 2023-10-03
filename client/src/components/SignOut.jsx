@@ -1,8 +1,8 @@
 import React from 'react'
-import CoffeePage from './CoffeePage'
+import { Navigate } from 'react-router-dom'
 
 function SignOut({signedUser, setSignedUser}) {
-    fetch('http://localhost:5555/logout', {
+    fetch('/logout', {
         method: 'DELETE',
         headers: {
             "Content-Type": "application/json"
@@ -14,10 +14,7 @@ function SignOut({signedUser, setSignedUser}) {
     })
 
   return (
-    <>
-    <CoffeePage/>
-</>
-
+    <Navigate to="/"/>
   )
 }
 

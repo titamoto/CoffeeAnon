@@ -1,13 +1,12 @@
 import React from 'react'
 import { Container, Form, Button } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
-import CoffeePage from './CoffeePage';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
 
 function SignIn({signedUser, setSignedUser}) {
 
-    const history = useHistory();
+  const navigate = useNavigate();
 
     const formSchema = yup.object().shape({
         username: yup.string().min(2, 'Too Short').required("Required"),
@@ -22,7 +21,7 @@ function SignIn({signedUser, setSignedUser}) {
       validationSchema: formSchema,
       onSubmit: (values) => {
         console.log(values)
-        fetch('http://localhost:5555/login', {
+        fetch('/login', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +36,7 @@ function SignIn({signedUser, setSignedUser}) {
     })
         .then((userData) => {
         setSignedUser(userData);
-        history.push('/');
+        navigate("/");
         } )
     }})
 
@@ -70,11 +69,7 @@ if (!signedUser) {
         </Form>
         <p className='mt-2 fs-6'>Not registered? <a href='/signup'>Sign up</a></p>
     </Container>
-  )} else {
-    return <>
-      <CoffeePage/>
-    </>
-  }
+  )} else navigate("/")
 }
 
 export default SignIn

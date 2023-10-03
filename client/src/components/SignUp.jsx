@@ -2,12 +2,11 @@ import React from 'react'
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Container, Form, Button } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
-import CoffeePage from './CoffeePage';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp({signedUser, setSignedUser}) {
   
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const formSchema = yup.object().shape({
       username: yup.string().min(2, 'Too Short').required("Required"),
@@ -24,7 +23,7 @@ function SignUp({signedUser, setSignedUser}) {
     validationSchema: formSchema,
     onSubmit: (values) => {
       console.log(values)
-        fetch('http://localhost:5555/signup', {
+        fetch('/signup', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -39,7 +38,7 @@ function SignUp({signedUser, setSignedUser}) {
     })
         .then((userData) => {
         setSignedUser(userData);
-        history.push('/');
+        navigate("/");
         } )
 }})
 
@@ -81,11 +80,7 @@ if (!signedUser) {
         <Button className='mt-2' as="input" type="submit" value="Submit" />
         </Form>
     </Container>
-  )} else {
-    return <>
-      <CoffeePage/>
-    </>
-  }
+  )} else navigate("/")
 }
 
 export default SignUp
