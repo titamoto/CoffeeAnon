@@ -11,8 +11,8 @@ function CoffeeCard({coffee}) {
       <Card.Body>
         <Card.Title>{coffee.name}</Card.Title>
         <Card.Text>{coffee.producer}</Card.Text>
-        <Button className='m-1'variant="outline-primary"><Link to={`/coffees/${coffee.id}`}>More Info</Link></Button>
-        <Button className='m-1' variant="outline-primary"><Link to={`/coffees/${coffee.id}/rate`}>Rate Coffee</Link></Button>
+        <Button className='m-1'variant="outline-primary"><Link to={`/${coffee.id}`}>More Info</Link></Button>
+        <Button className='m-1' variant="outline-primary"><Link to={`/${coffee.id}/rate`}>Rate Coffee</Link></Button>
       </Card.Body>
     </Card>
   )

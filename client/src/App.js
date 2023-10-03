@@ -33,8 +33,8 @@ function App() {
       <Route path={"/signup"} element={<SignUp signedUser={user} setSignedUser={setUser}/>} />
       <Route path={"/logout"} element={<SignOut signedUser={user} setSignedUser={setUser}/>} />
       <Route path={"/"} element={<CoffeePage  signedUser={user} setSignedUser={setUser}/>} />
-      <Route path={"/coffees/:id"} element={<CoffeeProfile  signedUser={user} setSignedUser={setUser}/>} />
-      <Route path={"/coffees/:id/rate"} element={<CoffeeReview signedUser={user} setSignedUser={setUser}/>} />
+      <Route path={"/:id"} element={<CoffeeProfile  signedUser={user} setSignedUser={setUser}/>} />
+      <Route path={"/:id/rate"} element={<CoffeeReview signedUser={user} setSignedUser={setUser}/>} />
       </Routes>
     </>
   );

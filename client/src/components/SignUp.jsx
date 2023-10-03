@@ -45,7 +45,7 @@ function SignUp({signedUser, setSignedUser}) {
 if (!signedUser) {
   return (
     <Container className='w-25 position-absolute m-3'>
-        <h4>Sign Up</h4>
+        <p className='fs-4 fw-medium'>Sign Up</p>
         <Form onSubmit={formik.handleSubmit}>
         <Form.Label className='fw-medium mt-2' htmlFor="inputLogin">
             Login
@@ -56,7 +56,7 @@ if (!signedUser) {
         id="inputUsername"
         onChange={formik.handleChange}
         value={formik.values.username}
-         /><p style={{ color: "#8B0000" }}> {formik.errors. username}</p>
+         /><p style={{ color: "#8B0000" }}> {formik.errors.username}</p>
         <Form.Label className='fw-medium mt-2' htmlFor="inputEmail">
             Email
         </Form.Label>
