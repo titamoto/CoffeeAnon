@@ -3,6 +3,7 @@ from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
 
+
 class ClearSession(Resource):
     def delete(self):
         session['user_id'] = None
@@ -182,8 +183,8 @@ api.add_resource(Coffees, '/coffees', endpoint='coffees')
 api.add_resource(CoffeeByID, '/coffees/<int:id>', endpoint='coffee')
 api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
-api.add_resource(UserByIDReviews, '/users/<int:id>/review', endpoint='user-reviews')
-api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/review', endpoint='coffee-reviews')
+api.add_resource(UserByIDReviews, '/users/<int:id>/reviews', endpoint='user-reviews')
+api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
 # api.add_resource(CoffeeByIDReviewByID, '/coffee/<int:id>/review/<int:id>', endpoint='coffee-review')
 # api.add_resource(UserByIDCoffees, '/coffee/<int:id>/review/<int:id>', endpoint='user-coffees')
 # api.add_resource(ReviewIndex, '/review', endpoint='all-reviews')
