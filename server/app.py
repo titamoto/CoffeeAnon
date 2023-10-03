@@ -1,4 +1,4 @@
-from flask import request, session
+from flask import request, session, jsonify, make_response
 from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
