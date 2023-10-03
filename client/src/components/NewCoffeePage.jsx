@@ -25,7 +25,7 @@ function NewCoffeePage({signedUser}) {
       name: yup.string().required("Required").min(3),
       producer: yup.string().required("Required").min(3),
       image: yup.string().url().min(5),
-      roast: yup.number().required("Required").integer().min(0).max(100),
+      roast: yup.number().required("Roast must a number from 0 to 100").integer().min(0).max(100),
       country: yup.string().min(2),
       region: yup.string().min(2),
     });
