@@ -1,17 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Container, Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import CoffeePage from './CoffeePage';
-// import { Route } from 'react-router-dom';
 
 function SignUp({signedUser, setSignedUser}) {
-
-    // const [username, setUsername] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    // const signUpObject = {username, email, password}
+  
     const history = useHistory();
 
     const formSchema = yup.object().shape({
