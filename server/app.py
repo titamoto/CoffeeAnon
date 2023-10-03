@@ -74,6 +74,7 @@ class Coffees(Resource):
             return {}, 422
         if 'producer' not in data:
             return {}, 422
+
         new_coffee = Coffee(
             name = data['name'],
             producer = data['producer'],

@@ -1,0 +1,17 @@
+{
+    "name": "coffee", 
+    "producer": "producer",
+    "product_type": "",
+    "weight": "",
+    "is_decaf": 0,
+    "image": "",
+    "roast": 50,
+    "country": "",
+    "region": "",
+    "farm":"",
+    "continent":"",
+    "altitude": "",
+    "process": "",
+    "is_specialty": 0,
+    "variety": ""
+    }
