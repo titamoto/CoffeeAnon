@@ -53,7 +53,7 @@ function CoffeeReview({signedUser}) {
       //render error
   })
       .then(() => {
-      navigate("/");
+      navigate(-1);
       } )
   }
   

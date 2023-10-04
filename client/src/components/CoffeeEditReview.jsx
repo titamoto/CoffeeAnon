@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
 
 function CoffeeEditReview({signedUser}) {
@@ -44,7 +43,7 @@ function CoffeeEditReview({signedUser}) {
             setBody(review.review.body);
             console.log(values)
           }
-         )}, [params.id]);
+         )}, []);
 
     function handleDelete() {
         fetch(`/coffees/${params.id}/reviews`, {
@@ -64,23 +63,21 @@ function CoffeeEditReview({signedUser}) {
       e.preventDefault()
         console.log(values)
   
-    //     fetch(`/coffees/${params.id}/reviews`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(values),
-    //     })
-    //     .then((r) => {if (!r.ok) {
-    //         throw new Error('Adding review failed.');
-    //     }
-    //     return r.json();
-    //     //render error
-    // })
-    //     .then(() => {
-    //     navigate("/");
-    //     } )
- }
+        fetch(`/coffees/${params.id}/reviews`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+        })
+        .then((r) => {if (r.ok) {
+            setSuccess(true)
+            navigate(-1)
+        } else {
+            setError(true)
+        }
+    })
+}
 
   return (
 
@@ -164,7 +161,7 @@ Something wrong!
               </Form.Group>
             </Row><Row>
                 <Col>
-            <Button className="" type="submit">Save review</Button></Col>
+            <Button className="" type="submit">Save changes</Button></Col>
             <Col><Button onClick={handleDelete} className="" variant="outline-warning" type="button">Delete review</Button>
             </Col>
             </Row>

@@ -61,7 +61,7 @@ useEffect(() => {
 <ProgressBar variant="warning" now={coffee.roast} />
 <Button size="lg" variant="primary" type="submit" className='mt-3' >
   { !isReviewed ? <Link className='link-light' to={`/${coffee.id}/new-rate`}>Rate</Link> :
-  <Link className='link-light' to={`/${coffee.id}/edit-rate`}>Edit Review</Link>}
+  <Link className='link-light' to={`/${coffee.id}/edit-rate`}>Edit review</Link>}
   </Button>
 </Col>
 </Row>

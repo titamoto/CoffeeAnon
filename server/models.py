@@ -97,7 +97,7 @@ class Review(db.Model, SerializerMixin):
         return f"\n<Review id={self.id} rate={self.rate}\
               price={self.price} acidity={self.acidity}\
                 body={self.body} aroma={self.aroma}\
-                    flavor={self.flavor} tag={self.tag} review_metadata_id={self.review_metadata_id}>"
+                    flavor={self.flavor} tag={self.tag}>"
  
 class Coffee(db.Model, SerializerMixin):
     __tablename__ = "coffee"  
