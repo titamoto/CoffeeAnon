@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import Container from 'react-bootstrap/Container';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-
+import Button from 'react-bootstrap/esm/Button';
 
 function CoffeeProfile() {
 
@@ -40,15 +40,14 @@ useEffect(() => {
 <p className='fs-5 fw-normal'>Region:</p>
 </Col>
 <Col xs={6}>
-<p className='fs-5 fw-semibold'>{ coffeeProfile.country }</p>
-<p className='fs-5 fw-semibold'>{ coffeeProfile.region }</p>
+<p className='fs-5 fw-semibold'>{ coffeeProfile.country || "🤔" }</p>
+<p className='fs-5 fw-semibold'>{ coffeeProfile.region || "🤔" }</p>
 </Col>
 <Col></Col>
 </Row>
 <p className='fs-6 fw-normal'>Roast:</p>
 <ProgressBar variant="warning" now={coffee.roast} />
-
-
+<Button size="lg" variant="primary" type="submit" className='mt-3' ><Link className='link-light' to={`/${coffee.id}/rate`}>Rate</Link></Button>
 </Col>
 </Row>
 </Container>
