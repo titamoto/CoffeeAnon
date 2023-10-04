@@ -15,6 +15,7 @@ function CoffeeReview({signedUser}) {
   const [acidity, setAcidity] = useState(40)
   const [body, setBody] = useState(50)
   const [aroma, setAroma] = useState(35)
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const values = {
     rate: rate,
