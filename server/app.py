@@ -119,12 +119,30 @@ class CoffeeByIDReviews(Resource):
        session['coffee_id'] = id
        reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
        return reviews_meta, 200
+    
+    def delete(self, id):
+        session["coffee_id"] = id
+        if not session.get("coffee_id"):
+             return {}, 403
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
+        review_metadata = ReviewMetadata.query.filter_by(coffee_id=id).first()
+        if not review_metadata:
+            return {}, 404
+        review = Review.query.filter_by(id=review_metadata.review_id).first()
+        if not review:
+            return {}, 404
+        db.session.delete(review)
+        db.session.delete(review_metadata)
+        db.session.commit()
+        return {}, 204
 
     #create a new review for this coffee
     def post(self, id):
         session["coffee_id"] = id
         if not session.get("coffee_id"):
-             return {}, 418
+             return {}, 403
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
