@@ -62,7 +62,7 @@ function NewCoffeePage({signedUser}) {
         name: "",
         producer: "",
         product_type: "",
-        weight: "",
+        weight: 340,
         is_decaf: 0,
         image: "",
         roast: 50,
@@ -76,7 +76,7 @@ function NewCoffeePage({signedUser}) {
         variety : ""
       }}
     >
-      {({ handleSubmit, handleChange, values, touched, errors }) => (
+      {({ handleSubmit, handleChange, values, errors }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group

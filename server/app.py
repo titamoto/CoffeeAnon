@@ -121,10 +121,10 @@ class CoffeeByIDReviews(Resource):
        return reviews_meta, 200
 
     #create a new review for this coffee
-    def post(self, coffee_id):
-        session[coffee_id] = coffee_id
-        if not session.get(coffee_id):
-            return {}, 418
+    def post(self, id):
+        session["coffee_id"] = id
+        if not session.get("coffee_id"):
+             return {}, 418
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
@@ -142,7 +142,7 @@ class CoffeeByIDReviews(Resource):
             tag = data['tag']
         )
         db.session.add(new_review)
-
+        db.session.commit()
         new_review_metadata = ReviewMetadata(
             is_public = data['is_public']
         )
