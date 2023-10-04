@@ -168,9 +168,12 @@ class UserByID(Resource):
 
 class UserByIDReviews(Resource):
     #all review left by this user
-    def get(self, id):
-       reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
-       return reviews_meta, 200
+    def get(self):
+        id = session.get('user_id')
+        if not id:
+            return {}, 401
+        reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
+        return reviews_meta, 200
 
         
 @app.route('/')
@@ -186,7 +189,7 @@ api.add_resource(Coffees, '/coffees', endpoint='coffees')
 api.add_resource(CoffeeByID, '/coffees/<int:id>', endpoint='coffee')
 api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
-api.add_resource(UserByIDReviews, '/users/<int:id>/reviews', endpoint='user-reviews')
+api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
 # api.add_resource(CoffeeByIDReviewByID, '/coffee/<int:id>/review/<int:id>', endpoint='coffee-review')
 # api.add_resource(UserByIDCoffees, '/coffee/<int:id>/review/<int:id>', endpoint='user-coffees')

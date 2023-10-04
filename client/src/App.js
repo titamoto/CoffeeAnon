@@ -9,6 +9,7 @@ import CoffeeProfile from './components/CoffeeProfile'
 import CoffeeReview from './components/CoffeeReview';
 import NewCoffeePage from './components/NewCoffeePage';
 import MyReviews from './components/MyReviews';
+import CoffeeEditReview from './components/CoffeeEditReview';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -38,7 +39,8 @@ function App() {
       <Route path={"/my-reviews"} element={<MyReviews signedUser={user}/>} />
       <Route path={"/new"} element={<NewCoffeePage signedUser={user}/>} />
       <Route path={"/:id"} element={<CoffeeProfile/>} />
-      <Route path={"/:id/rate"} element={<CoffeeReview signedUser={user}/>} />
+      <Route path={"/:id/new-rate"} element={<CoffeeReview signedUser={user}/>} />
+      <Route path={"/:id/edit-rate"} element={<CoffeeEditReview signedUser={user}/>} />
       </Routes>
     </>
   );

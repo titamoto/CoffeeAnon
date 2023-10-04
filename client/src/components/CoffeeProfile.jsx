@@ -12,6 +12,20 @@ function CoffeeProfile() {
 const [coffee, setCoffee] = useState({});
 const [coffeeProfile, setCoffeeProfile] = useState({})
 const params = useParams();
+const [isReviewed, setIsReviewed] = useState(false)
+
+useEffect(() => {
+  fetch('/user-reviews')
+  .then((r) => r.json())
+  .then((reviews) =>{
+    console.log(reviews)
+    const some = reviews.some((review) => review.coffee_id === parseInt(params.id));
+    setIsReviewed(some ? true : false);
+    console.log(some)
+
+  }
+ )}, [params.id]);
+
 
 useEffect(() => {
     fetch(`/coffees/${params.id}`)
@@ -20,11 +34,10 @@ useEffect(() => {
         if (coffee.coffee_profile && coffee.coffee_profile.length > 0) {
             setCoffeeProfile(coffee.coffee_profile[0]);
           }
-          console.log(coffee)
         setCoffee(coffee)
     }
         );
-    }, []);
+    }, [params.id]);
 
   return (
 <Container className='position-absolute m-3'>
@@ -47,7 +60,10 @@ useEffect(() => {
 </Row>
 <p className='fs-6 fw-normal'>Roast:</p>
 <ProgressBar variant="warning" now={coffee.roast} />
-<Button size="lg" variant="primary" type="submit" className='mt-3' ><Link className='link-light' to={`/${coffee.id}/rate`}>Rate</Link></Button>
+<Button size="lg" variant="primary" type="submit" className='mt-3' >
+  { !isReviewed ? <Link className='link-light' state={{isReviewed: isReviewed}} to={`/${coffee.id}/new-rate`}>Rate</Link> :
+  <Link className='link-light' state={{isReviewed: isReviewed}} to={`/${coffee.id}/edit-rate`}>Edit Review</Link>}
+  </Button>
 </Col>
 </Row>
 </Container>

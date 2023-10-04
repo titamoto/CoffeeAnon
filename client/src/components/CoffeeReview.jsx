@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 function CoffeeReview({signedUser}) {
 
   const navigate = useNavigate();
+
   const params = useParams(); 
   const [rate, setRate] = useState(65)
   const [acidity, setAcidity] = useState(40)

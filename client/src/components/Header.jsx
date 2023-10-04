@@ -3,10 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import { NavLink } from "react-router-dom";
-import NewCoffeePage from './NewCoffeePage';
-import Stack from 'react-bootstrap/Stack';
 
 
 function Header( {signedUser}) {
@@ -25,8 +22,8 @@ function Header( {signedUser}) {
             <NavLink to="/">All Coffee</NavLink></Button>
             <Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
             <NavLink to="/new">Add Coffee</NavLink></Button>
-            <Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
-            <NavLink to="/my-reviews">My Reviews</NavLink></Button>
+            {/* <Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
+            <NavLink to="/my-reviews">My Reviews</NavLink></Button> */}
             {!signedUser ? 
             ( <Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
               <NavLink to="/login">Sign In</NavLink></Button>) :
