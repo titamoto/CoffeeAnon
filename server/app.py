@@ -198,6 +198,19 @@ class CoffeeByIDReviews(Resource):
         review2 = Review.query.filter_by(id=review_metadata.review_id).first()
         return review2.to_dict(), 202
 
+class CoffeeByIDAverage(Resource):
+    def get(self, id):
+        session["coffee_id"] = id
+        if not session.get("coffee_id"):
+             return {}, 403
+        reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
+        rates = [review_meta['review']['rate'] for review_meta in reviews_meta]
+        if len(rates) <= 0:
+            return {"average_rate": 0}, 200
+        average = sum(rates) / len(rates)
+        return {"average_rate": average}, 200
+          
+
 class Users(Resource):
     def get(self):
         user_id = session.get('user_id')
@@ -242,6 +255,7 @@ api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
+api.add_resource(CoffeeByIDAverage, '/coffees/<int:id>/reviews/average', endpoint='coffee-reviews-average')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
