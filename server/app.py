@@ -6,7 +6,6 @@ from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
 
 class ClearSession(Resource):
     def delete(self):
-        print(session.get('user_id'))
         session['user_id'] = None
         return {}, 204
     
@@ -27,6 +26,9 @@ class Signup(Resource):
             username=signup_data['username'],
             email=signup_data['email']
         )
+        emailUsed = User.query.filter_by(email=user.email).first()
+        if emailUsed:
+            return {}, 422
         user.password_hash=signup_data['password']
         db.session.add(user)
         db.session.commit()

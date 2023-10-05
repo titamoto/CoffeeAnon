@@ -7,7 +7,7 @@ import Image from 'react-bootstrap/Image';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Button from 'react-bootstrap/esm/Button';
 
-function CoffeeProfile() {
+function CoffeeProfile({signedUser}) {
 
 const [coffee, setCoffee] = useState({});
 const [coffeeProfile, setCoffeeProfile] = useState({})
@@ -15,6 +15,7 @@ const params = useParams();
 const [isReviewed, setIsReviewed] = useState(false)
 
 useEffect(() => {
+  if (signedUser) {
   fetch('/user-reviews')
   .then((r) => r.json())
   .then((reviews) => {
@@ -23,10 +24,11 @@ useEffect(() => {
     some ? setIsReviewed(true) : setIsReviewed(false)
 
   }
- )}, [params.id]);
+ )}}, [params.id]);
 
  console.log(isReviewed);
-useEffect(() => {
+
+ useEffect(() => {
     fetch(`/coffees/${params.id}`)
     .then((r) => r.json())
     .then((coffee) => {
@@ -60,8 +62,8 @@ useEffect(() => {
 <p className='fs-6 fw-normal'>Roast:</p>
 <ProgressBar variant="warning" now={coffee.roast} />
 <Button size="lg" variant="primary" type="submit" className='mt-3' >
-  { !isReviewed ? <Link className='link-light' to={`/${coffee.id}/new-rate`}>Rate</Link> :
-  <Link className='link-light' to={`/${coffee.id}/edit-rate`}>Edit review</Link>}
+  { !isReviewed ? <Link className='link-light link-underline-opacity-0' to={`/${coffee.id}/new-rate`}>Rate</Link> :
+  <Link className='link-light link-underline-opacity-0' to={`/${coffee.id}/edit-rate`}>Edit review</Link>}
   </Button>
 </Col>
 </Row>

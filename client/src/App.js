@@ -48,7 +48,7 @@ function App() {
       <Route path={"/"} element={<CoffeePage signedUser={user}/>} />
       <Route path={"/my-reviews"} element={<MyReviews signedUser={user}/>} />
       <Route path={"/new"} element={<NewCoffeePage signedUser={user}/>} />
-      <Route path={"/:id"} element={<CoffeeProfile/>} />
+      <Route path={"/:id"} element={<CoffeeProfile signedUser={user}/>} />
       <Route path={"/:id/new-rate"} element={<CoffeeReview signedUser={user}/>} />
       <Route path={"/:id/edit-rate"} element={<CoffeeEditReview signedUser={user}/>} />
       </Routes>

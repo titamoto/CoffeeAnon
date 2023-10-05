@@ -33,6 +33,7 @@ function CoffeeEditReview({signedUser}) {
     }, [])
 
     useEffect(() => {
+      if (signedUser) {
         fetch(`/coffees/${params.id}/reviews`)
         .then((r) => r.json())
         .then((reviews) => {
@@ -44,7 +45,7 @@ function CoffeeEditReview({signedUser}) {
             console.log(signedUser)
             console.log(reviews)
           }
-         )}, []);
+         )}}, []);
 
     function handleDelete() {
         fetch(`/coffees/${params.id}/reviews`, {

@@ -15,8 +15,6 @@ function CoffeeReview({signedUser}) {
   const [acidity, setAcidity] = useState(40)
   const [body, setBody] = useState(50)
   const [aroma, setAroma] = useState(35)
-  // const [isDisabled, setIsDisabled] = useState(true)
-// const [isReviewed, setIsReviewed] = useState(false)
 
   useEffect(() => {
     if (!signedUser) {
@@ -25,16 +23,16 @@ function CoffeeReview({signedUser}) {
 }, [])
 
   useEffect(() => {
+    if (signedUser) {
   fetch('/user-reviews')
   .then((r) => r.json())
   .then((reviews) =>{
-
     const some = reviews.some((review) => review.coffee_id === parseInt(params.id));
     if (some === true) {
       navigate(`/${params.id}/edit-rate`)
     }
   }
- )}, [handleSubmit]);
+ )}}, [handleSubmit]);
 
 
   const values = {
