@@ -15,7 +15,27 @@ function CoffeeReview({signedUser}) {
   const [acidity, setAcidity] = useState(40)
   const [body, setBody] = useState(50)
   const [aroma, setAroma] = useState(35)
-  const [isDisabled, setIsDisabled] = useState(true)
+  // const [isDisabled, setIsDisabled] = useState(true)
+// const [isReviewed, setIsReviewed] = useState(false)
+
+  useEffect(() => {
+    if (!signedUser) {
+        navigate("/login")
+    }
+}, [])
+
+  useEffect(() => {
+  fetch('/user-reviews')
+  .then((r) => r.json())
+  .then((reviews) =>{
+
+    const some = reviews.some((review) => review.coffee_id === parseInt(params.id));
+    if (some === true) {
+      navigate(`/${params.id}/edit-rate`)
+    }
+  }
+ )}, [handleSubmit]);
+
 
   const values = {
     rate: rate,
@@ -28,12 +48,6 @@ function CoffeeReview({signedUser}) {
     tag: "",
     is_public : 1
     }
-
-  useEffect(() => {
-      if (!signedUser) {
-          navigate("/login")
-      }
-  }, [])
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -53,7 +67,7 @@ function CoffeeReview({signedUser}) {
       //render error
   })
       .then(() => {
-      navigate(-1);
+      navigate(`/${params.id}`);
       } )
   }
   

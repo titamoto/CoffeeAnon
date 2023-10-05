@@ -41,7 +41,8 @@ function CoffeeEditReview({signedUser}) {
             setAcidity(review.review.acidity);
             setAroma(review.review.aroma);
             setBody(review.review.body);
-            console.log(values)
+            console.log(signedUser)
+            console.log(reviews)
           }
          )}, []);
 
@@ -52,7 +53,7 @@ function CoffeeEditReview({signedUser}) {
         .then((r) => {
             if (r.ok) {
                 setSuccess(true)
-                navigate(-1)
+                navigate(`/${params.id}`)
             } else {
                 setError(true)
             }
@@ -72,7 +73,7 @@ function CoffeeEditReview({signedUser}) {
         })
         .then((r) => {if (r.ok) {
             setSuccess(true)
-            navigate(-1)
+            navigate(`/${params.id}`)
         } else {
             setError(true)
         }

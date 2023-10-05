@@ -6,6 +6,7 @@ from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
 
 class ClearSession(Resource):
     def delete(self):
+        print(session.get('user_id'))
         session['user_id'] = None
         return {}, 204
     
@@ -52,7 +53,6 @@ class Login(Resource):
     
 class Logout(Resource):
     def delete(self):
-        # check session (no user when signed in too)
         print(session.get('user_id'))
         if session.get('user_id'):
             session['user_id'] = None
@@ -200,19 +200,26 @@ class CoffeeByIDReviews(Resource):
 
 class Users(Resource):
     def get(self):
-       users = [user.to_dict(rules=('-_password_hash',)) for user in User.query.all()]
-       return users, 200
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
+        users = [user.to_dict(rules=('-_password_hash',)) for user in User.query.all()]
+        return users, 200
 
 class UserByID(Resource):
     def get(self, id):
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
         user = User.query.filter_by(id=id).first()
         if not user:
             return {}, 404
         return user.to_dict(rules=('-_password_hash',)), 200
 
 class UserByIDReviews(Resource):
-    #all review left by this user
+    #all reviews left by this user
     def get(self):
+        print(session)
         id = session.get('user_id')
         if not id:
             return {}, 401

@@ -15,13 +15,23 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    fetch("http://localhost:5555/clear",
+    {method: "DELETE", }
+    ).then((r) => {
+      if (r.ok) {
+        setUser(null) }});
+  }, []);
+  
+
+  useEffect(() => {
     fetch("http://localhost:5555/check_session")
     .then((r) => {
       if (r.status === 204) {
         setUser(null) }
       else if (r.ok) {
         return r.json()
-        .then((user) => setUser(user));
+        .then((user) => {
+          setUser(user)});
       }
     });
   }, []);
@@ -35,7 +45,7 @@ function App() {
       <Route path={"/login"} element={<SignIn signedUser={user} setSignedUser={setUser}/>}/>
       <Route path={"/signup"} element={<SignUp signedUser={user} setSignedUser={setUser}/>} />
       <Route path={"/logout"} element={<SignOut signedUser={user} setSignedUser={setUser}/>} />
-      <Route path={"/"} element={<CoffeePage/>} />
+      <Route path={"/"} element={<CoffeePage signedUser={user}/>} />
       <Route path={"/my-reviews"} element={<MyReviews signedUser={user}/>} />
       <Route path={"/new"} element={<NewCoffeePage signedUser={user}/>} />
       <Route path={"/:id"} element={<CoffeeProfile/>} />

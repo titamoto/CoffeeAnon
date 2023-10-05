@@ -20,7 +20,6 @@ function SignIn({signedUser, setSignedUser}) {
       },
       validationSchema: formSchema,
       onSubmit: (values) => {
-        console.log(values)
         fetch('/login', {
             method: "POST",
             headers: {

@@ -1,8 +1,17 @@
-import React from 'react'
+import {React, useEffect} from 'react'
 import { Navigate } from 'react-router-dom'
 
 function SignOut({signedUser, setSignedUser}) {
 
+    useEffect(() => {
+        fetch("http://localhost:5555/clear",
+        {method: "DELETE", }
+        ).then((r) => {
+          if (r.ok) {
+            setSignedUser(null) }});
+      }, []);
+      
+      useEffect(() => {
     fetch('/logout', {
         method: 'DELETE',
         headers: {
@@ -11,8 +20,9 @@ function SignOut({signedUser, setSignedUser}) {
     }).then((r) => {
         if(r.ok) {
             setSignedUser(null)
-        }
+        } else {setSignedUser(null)}
     })
+}, []);
 
   return (
     <Navigate to="/"/>

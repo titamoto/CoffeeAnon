@@ -17,15 +17,15 @@ const [isReviewed, setIsReviewed] = useState(false)
 useEffect(() => {
   fetch('/user-reviews')
   .then((r) => r.json())
-  .then((reviews) =>{
+  .then((reviews) => {
     console.log(reviews)
     const some = reviews.some((review) => review.coffee_id === parseInt(params.id));
-    setIsReviewed(some ? true : false);
-    console.log(some)
+    some ? setIsReviewed(true) : setIsReviewed(false)
+
   }
  )}, [params.id]);
 
-
+ console.log(isReviewed);
 useEffect(() => {
     fetch(`/coffees/${params.id}`)
     .then((r) => r.json())
