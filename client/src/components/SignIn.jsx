@@ -27,17 +27,14 @@ function SignIn({signedUser, setSignedUser}) {
             },
             body: JSON.stringify(values, null, 2),
         })
-        .then((r) => {if (!r.ok) {
-            throw new Error('Incorrect username or password');
-        }
-        return r.json();
-        //render error
-    })
-        .then((userData) => {
-        setSignedUser(userData);
-        navigate("/");
-        } )
-    }})
+        .then((r) => {if (r.ok) {
+          r.json().then((userData) => {
+            setSignedUser(userData);
+            navigate("/");
+          }) 
+        } else {
+            alert('Incorrect username or password');
+        }})}})
 
 if (!signedUser) {
   return (
@@ -53,7 +50,7 @@ if (!signedUser) {
         id="inputUsername"
         onChange={formik.handleChange}
         value={formik.values.username}
-         /><p style={{ color: "#8B0000" }}> {formik.errors.username}</p>
+         /><p style={{ color: "red" }}> {formik.errors.username}</p>
         <Form.Label className='fw-medium mt-2' htmlFor="inputPassword">
             Password
         </Form.Label>
@@ -63,7 +60,7 @@ if (!signedUser) {
         id="inputPassword" 
         onChange={formik.handleChange}
         value={formik.values.password}/>
-        <p style={{ color: "#8B0000" }}> {formik.errors.password}</p>
+        <p style={{ color: "red" }}> {formik.errors.password}</p>
         <Button className='mt-2' as="input" type="submit" value="Submit" />
         </Form>
         <p className='mt-2 fs-6'>Not registered? <a href='/signup'>Sign up</a></p>

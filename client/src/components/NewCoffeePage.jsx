@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import React from 'react'
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -39,17 +38,13 @@ function NewCoffeePage({signedUser}) {
             },
             body: JSON.stringify(values),
         })
-        .then((r) => {if (!r.ok) {
-            throw new Error('Adding coffee failed.');
-        }
-        return r.json();
-        //render error
-    })
-        .then(() => {
-        navigate("/");
-        } )
-    }
-    )
+        .then((r) => {if (r.ok) {
+          r.json().then(() => {
+            navigate("/");
+          }) 
+        } else {
+            alert('Coffee not added');
+        }})})
 
 
     return (

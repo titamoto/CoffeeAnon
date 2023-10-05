@@ -58,16 +58,14 @@ function CoffeeReview({signedUser}) {
           },
           body: JSON.stringify(values),
       })
-      .then((r) => {if (!r.ok) {
-          throw new Error('Adding review failed.');
-      }
-      return r.json();
-      //render error
-  })
-      .then(() => {
-      navigate(`/${params.id}`);
-      } )
-  }
+      .then((r) => {if (r.ok) {
+        r.json().then(() => {
+          navigate(`/${params.id}`)
+        }) 
+      } else {
+          alert('Error: Review not saved');
+      }})}
+
   
   return (
 <Container className='position-absolute m-3'>

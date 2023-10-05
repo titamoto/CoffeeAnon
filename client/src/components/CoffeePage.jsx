@@ -4,13 +4,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
 
-function CoffeePage({signedUser}) {
+function CoffeePage() {
   const [coffees, setCoffees] = useState([])
 
   useEffect(() => {
     fetch('/coffees')
     .then((r) => r.json())
-    // .then((coffees) => console.log(coffees.map((coffee)=> coffee.image)))
     .then((coffees) => setCoffees(coffees));
   }, []);
 
