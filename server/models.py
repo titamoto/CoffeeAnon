@@ -112,7 +112,7 @@ class Coffee(db.Model, SerializerMixin):
     product_type = db.Column(db.String(50))
     weight = db.Column(db.Integer, default=340)
     is_decaf = db.Column(db.Boolean, default=False)
-    image = db.Column(db.String(1000), default='coffee_seeds/coffee_placeholder.jpg')
+    image = db.Column(db.String(1000), default='images/coffee_placeholder.jpg')
     roast = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -129,7 +129,7 @@ class Coffee(db.Model, SerializerMixin):
     @validates("image")
     def validate_image(self, key, image_path):
         if image_path == "":
-            return "coffee_seeds/coffee_placeholder.jpg"
+            return "images/coffee_placeholder.jpg"
         elif not (image_path.endswith(".jpg") or image_path.endswith(".png")):
             raise ValueError("Image file type must be a jpg or png")
         return image_path

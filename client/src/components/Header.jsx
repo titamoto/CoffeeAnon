@@ -12,7 +12,7 @@ function Header( {signedUser}) {
 <>
 <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-      <Navbar.Brand><Image width='70px' height='70px' src="/frog-coffee.jpg" roundedCircle /></Navbar.Brand>
+      <Navbar.Brand><Image width='70px' height='70px' src="images/frog-coffee.jpg" roundedCircle /></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

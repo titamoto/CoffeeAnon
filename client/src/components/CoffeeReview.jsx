@@ -49,7 +49,6 @@ function CoffeeReview({signedUser}) {
 
   function handleSubmit(e) {
     e.preventDefault()
-      console.log(values)
 
       fetch(`/coffees/${params.id}/reviews`, {
           method: "POST",

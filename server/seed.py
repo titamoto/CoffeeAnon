@@ -19,19 +19,12 @@ with app.app_context():
 
     print("Seeding users...")
     users = []
-    # usernames = []
 
     for i in range(20):
-        # username = fake.simple_profile()['username']
-        # while username in usernames:
-        #     username = fake.simple_profile()['username']
-        # usernames.append(username)
-
         user = User(
             username=fake.first_name().lower(),
             email=fake.email()
         )
-        # user.password_hash = fake.password()
         user.password_hash = user.username
         users.append(user)
 

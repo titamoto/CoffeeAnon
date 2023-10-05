@@ -1,4 +1,4 @@
-from flask import request, session, jsonify, make_response
+from flask import request, session
 from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
@@ -112,8 +112,6 @@ class CoffeeByID(Resource):
         if not coffee:
             return {}, 404
         return coffee.to_dict(), 200
-    
-    #PATCH and DELETE for admin and user created the coffee
 
 class CoffeeByIDReviews(Resource):
     #get all review for this coffee
@@ -244,10 +242,6 @@ api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
-# api.add_resource(CoffeeByIDReviewByID, '/coffee/<int:id>/review/<int:id>', endpoint='coffee-review')
-# api.add_resource(UserByIDCoffees, '/coffee/<int:id>/review/<int:id>', endpoint='user-coffees')
-# api.add_resource(ReviewIndex, '/review', endpoint='all-reviews')
-# api.add_resource(ReviewByID, '/review/<int:id>', endpoint='one-review')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -10,6 +10,7 @@ def seed_coffees():
         producer='Atlas Coffee Club',
         product_type='whole bean',
         weight=340,
+        image='images/coffee_1.jpg',
         roast=20
     )
     test_coffee_1_profile = CoffeeProfile(
@@ -29,7 +30,7 @@ def seed_coffees():
         producer='Atlas Coffee Club',
         product_type='whole bean',
         weight=340,
-        image='coffee_seeds/coffee_2.jpg',
+        image='images/coffee_2.jpg',
         roast=20
     )
     test_coffee_2_profile = CoffeeProfile(
@@ -50,7 +51,7 @@ def seed_coffees():
         product_type='ground',
         weight=272,
         is_decaf=True,
-        image='coffee_seeds/coffee_3.jpg',
+        image='images/coffee_3.jpg',
         roast=50
     )
     test_coffee_3_profile = CoffeeProfile(
@@ -63,7 +64,7 @@ def seed_coffees():
         producer='Blue Bottle',
         product_type='instant',
         weight=48,
-        image='coffee_seeds/coffee_4.jpg',
+        image='images/coffee_4.jpg',
         roast=70
     )
     test_coffee_4_profile = CoffeeProfile(
@@ -75,7 +76,7 @@ def seed_coffees():
         name='Colombia Pink Bourbon Natural',
         producer='Paradise Coffee Roasters',
         product_type='whole bean',
-        image='coffee_seeds/coffee_5.jpg',
+        image='images/coffee_5.jpg',
         roast=10
     )
     test_coffee_5_profile = CoffeeProfile(
