@@ -64,7 +64,7 @@ function CoffeeEditReview({signedUser}) {
         console.log(values)
   
         fetch(`/coffees/${params.id}/reviews`, {
-            method: "PUT",
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },

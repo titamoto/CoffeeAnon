@@ -134,8 +134,6 @@ class CoffeeByIDReviews(Resource):
         review = Review.query.filter_by(id=review_metadata.review_id).first()
         if not review:
             return {}, 404
-        print(review)
-        print(review_metadata)
         db.session.delete(review)
         db.session.commit()
         db.session.delete(review_metadata)
@@ -175,6 +173,30 @@ class CoffeeByIDReviews(Resource):
         db.session.commit()
         new_review_data = Review.query.filter_by(id=new_review.id).first().to_dict()
         return new_review_data, 201
+    
+    # edit review for this coffee
+    def patch(self, id):
+        session["coffee_id"] = id
+        if not session.get("coffee_id"):
+             return {}, 403
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
+        data = request.get_json()
+        if 'rate' not in data:
+            return {}, 422
+        review_metadata = ReviewMetadata.query.filter_by(coffee_id=id).first()
+        if not review_metadata:
+            return {}, 404
+        review = Review.query.filter_by(id=review_metadata.review_id).first()
+        if not review:
+            return {}, 404
+        for attr in data:
+            setattr(review, attr, data[attr])
+        db.session.add(review)
+        db.session.commit()
+        review2 = Review.query.filter_by(id=review_metadata.review_id).first()
+        return review2.to_dict(), 202
 
 class Users(Resource):
     def get(self):
