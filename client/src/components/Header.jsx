@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { NavLink } from "react-router-dom";
+import Image from 'react-bootstrap/Image';
 
 
 function Header( {signedUser}) {
@@ -11,7 +12,7 @@ function Header( {signedUser}) {
 <>
 <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-      <Navbar.Brand>CoffeeAnon</Navbar.Brand>
+      <Navbar.Brand><Image width='70px' height='70px' src="/frog-coffee.jpg" roundedCircle /></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
