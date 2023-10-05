@@ -48,7 +48,6 @@ class Login(Resource):
             return {}, 401
         if user.authenticate(password):
             session['user_id'] = user.id
-            # return user.to_dict(), 200
             return {"id": user.to_dict()["id"],
                     "username": user.to_dict()['username']}, 200
         return {}, 401
@@ -210,7 +209,6 @@ class CoffeeByIDAverage(Resource):
         average = sum(rates) / len(rates)
         return {"average_rate": average}, 200
           
-
 class Users(Resource):
     def get(self):
         user_id = session.get('user_id')

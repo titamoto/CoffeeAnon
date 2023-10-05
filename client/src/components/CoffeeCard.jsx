@@ -17,7 +17,7 @@ function CoffeeCard({coffee}) {
 
   return (
     <Card className='m-2' style={{ width: '18rem' }}>
-      <Card.Img alt='Coffee Image' variant="top" src={coffee.image} />
+      <Card.Img className="img-fluid" alt='Coffee Image' variant="top" src={coffee.image} />
       <Card.Body>
       <Card.ImgOverlay><Badge pill bg="warning" className='ms-2 fw-medium fs-6 text-primary-emphasis'>{parseInt(averageRate)/10}/10</Badge></Card.ImgOverlay>
         <Card.Title>{coffee.name}</Card.Title>

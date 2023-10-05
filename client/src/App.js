@@ -8,7 +8,6 @@ import SignUp from './components/SignUp';
 import CoffeeProfile from './components/CoffeeProfile'
 import CoffeeReview from './components/CoffeeReview';
 import NewCoffeePage from './components/NewCoffeePage';
-import MyReviews from './components/MyReviews';
 import CoffeeEditReview from './components/CoffeeEditReview';
 
 function App() {
@@ -35,8 +34,6 @@ function App() {
       }
     });
   }, []);
-  
-    // if (!user) console.log(user)
 
   return (
     <>
@@ -46,7 +43,6 @@ function App() {
       <Route path={"/signup"} element={<SignUp signedUser={user} setSignedUser={setUser}/>} />
       <Route path={"/logout"} element={<SignOut signedUser={user} setSignedUser={setUser}/>} />
       <Route path={"/"} element={<CoffeePage signedUser={user}/>} />
-      <Route path={"/my-reviews"} element={<MyReviews signedUser={user}/>} />
       <Route path={"/new"} element={<NewCoffeePage signedUser={user}/>} />
       <Route path={"/:id"} element={<CoffeeProfile signedUser={user}/>} />
       <Route path={"/:id/new-rate"} element={<CoffeeReview signedUser={user}/>} />

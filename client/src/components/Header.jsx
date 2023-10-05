@@ -23,23 +23,12 @@ function Header( {signedUser}) {
             <NavLink to="/">All Coffee</NavLink></Button>
             <Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
             <NavLink to="/new">Add Coffee</NavLink></Button>
-            {/* <Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
-            <NavLink to="/my-reviews">My Reviews</NavLink></Button> */}
             {!signedUser ? 
             ( <Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
               <NavLink to="/login">Sign In</NavLink></Button>) :
             (<Button variant="link" className='link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
             <NavLink to="/logout">Sign Out</NavLink></Button>)}
           </Nav>
-          {/* <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="🔍"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>
