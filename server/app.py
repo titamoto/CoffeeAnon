@@ -16,7 +16,6 @@ class CheckSession(Resource):
             user = User.query.filter(User.id == user_id).first()
             return {"id": user.to_dict()["id"],
                     "username": user.to_dict()["username"]}, 200
-            # return user.to_dict(), 200
         return {"message" : "user is not signed in"}, 204
     
 class Signup(Resource):
@@ -118,26 +117,6 @@ class CoffeeByIDReviews(Resource):
        session['coffee_id'] = id
        reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
        return reviews_meta, 200
-    
-    # delete review for this coffee
-    def delete(self, id):
-        session["coffee_id"] = id
-        if not session.get("coffee_id"):
-             return {}, 403
-        user_id = session.get('user_id')
-        if not user_id:
-            return {}, 401
-        review_metadata = ReviewMetadata.query.filter_by(coffee_id=id).first()
-        if not review_metadata:
-            return {}, 404
-        review = Review.query.filter_by(id=review_metadata.review_id).first()
-        if not review:
-            return {}, 404
-        db.session.delete(review)
-        db.session.commit()
-        db.session.delete(review_metadata)
-        db.session.commit()
-        return {}, 204
 
     #create a new review for this coffee
     def post(self, id):
@@ -173,29 +152,6 @@ class CoffeeByIDReviews(Resource):
         new_review_data = Review.query.filter_by(id=new_review.id).first().to_dict()
         return new_review_data, 201
     
-    # edit review for this coffee
-    def patch(self, id):
-        session["coffee_id"] = id
-        if not session.get("coffee_id"):
-             return {}, 403
-        user_id = session.get('user_id')
-        if not user_id:
-            return {}, 401
-        data = request.get_json()
-        if 'rate' not in data:
-            return {}, 422
-        review_metadata = ReviewMetadata.query.filter_by(coffee_id=id).first()
-        if not review_metadata:
-            return {}, 404
-        review = Review.query.filter_by(id=review_metadata.review_id).first()
-        if not review:
-            return {}, 404
-        for attr in data:
-            setattr(review, attr, data[attr])
-        db.session.add(review)
-        db.session.commit()
-        review2 = Review.query.filter_by(id=review_metadata.review_id).first()
-        return review2.to_dict(), 202
 
 class CoffeeByIDAverage(Resource):
     def get(self, id):
@@ -236,7 +192,44 @@ class UserByIDReviews(Resource):
             return {}, 401
         reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
         return reviews_meta, 200
-
+    
+class ReviewByID(Resource):
+    
+    def delete(self, id):
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
+        review_metadata = ReviewMetadata.query.filter_by(id=id).first()
+        if not review_metadata:
+            return {}, 404
+        review = Review.query.filter_by(id=id).first()
+        if not review:
+            return {}, 404
+        db.session.delete(review)
+        db.session.commit()
+        db.session.delete(review_metadata)
+        db.session.commit()
+        return {}, 204
+    
+    def patch(self, id):
+        user_id = session.get('user_id')
+        if not user_id:
+            return {}, 401
+        if 'rate' not in data:
+            return {}, 422
+        review_metadata = ReviewMetadata.query.filter_by(id=id).first()
+        if not review_metadata:
+            return {}, 404
+        review = Review.query.filter_by(id=id).first()
+        if not review:
+            return {}, 404
+        data = request.get_json()
+        for attr in data:
+            setattr(review, attr, data[attr])
+        db.session.add(review)
+        db.session.commit()
+        updated_review = Review.query.filter_by(id=review_metadata.review_id).first()
+        return updated_review.to_dict(), 202
         
 @app.route('/')
 def index():
@@ -254,6 +247,6 @@ api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
 api.add_resource(CoffeeByIDAverage, '/coffees/<int:id>/reviews/average', endpoint='coffee-reviews-average')
-
+api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

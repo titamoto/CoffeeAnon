@@ -14,19 +14,17 @@ const [coffeeProfile, setCoffeeProfile] = useState({})
 const params = useParams();
 const [isReviewed, setIsReviewed] = useState(false)
 
+
 useEffect(() => {
   if (signedUser) {
   fetch('/user-reviews')
   .then((r) => r.json())
   .then((reviews) => {
-    console.log(reviews)
     const some = reviews.some((review) => review.coffee_id === parseInt(params.id));
     some ? setIsReviewed(true) : setIsReviewed(false)
-
   }
- )}}, [params.id]);
+ )}}, []);
 
- console.log(isReviewed);
 
  useEffect(() => {
     fetch(`/coffees/${params.id}`)

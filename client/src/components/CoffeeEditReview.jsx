@@ -18,6 +18,7 @@ function CoffeeEditReview({signedUser}) {
     const [aroma, setAroma] = useState(0)
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    const [reviewId, setReviewId] = useState(null);
   
     const values = {
       rate: rate,
@@ -37,18 +38,17 @@ function CoffeeEditReview({signedUser}) {
         fetch(`/coffees/${params.id}/reviews`)
         .then((r) => r.json())
         .then((reviews) => {
-            const review = reviews.find((review) => review.coffee_id === parseInt(params.id));
+            const review = reviews.find((review) => review.user_id === signedUser.id);
             setRate(review.review.rate);
             setAcidity(review.review.acidity);
             setAroma(review.review.aroma);
             setBody(review.review.body);
-            console.log(signedUser)
-            console.log(reviews)
+            setReviewId(review.review_id); 
           }
          )}}, []);
 
     function handleDelete() {
-        fetch(`/coffees/${params.id}/reviews`, {
+        fetch(`/reviews/${reviewId}`, {
             method: 'DELETE',
         })
         .then((r) => {
@@ -63,9 +63,7 @@ function CoffeeEditReview({signedUser}) {
 
     function handleSubmit(e) {
       e.preventDefault()
-        console.log(values)
-  
-        fetch(`/coffees/${params.id}/reviews`, {
+        fetch(`/reviews/${reviewId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

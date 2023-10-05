@@ -30,7 +30,6 @@ function NewCoffeePage({signedUser}) {
     });
     
     const handleSubmit = ((values) => {
-        console.log(values)
         fetch('/coffees', {
             method: "POST",
             headers: {
@@ -172,7 +171,7 @@ function NewCoffeePage({signedUser}) {
           <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="validationFormikRoast">
               <Form.Label>Roast</Form.Label>
-              <InputGroup hasValidation>
+              {/* <InputGroup hasValidation>
                 <Form.Control
                   type="text"
                   aria-describedby="inputGroupPrepend"
@@ -184,8 +183,12 @@ function NewCoffeePage({signedUser}) {
                 <Form.Control.Feedback type="invalid" tooltip>
                   {errors.roast}
                 </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group></Row>
+      </InputGroup> */}
+                    <Form.Range
+                type="number"
+                value={values.rate}
+                onChange={handleChange}/>
+             </Form.Group></Row>
           <Button type="submit">Save coffee</Button>
         </Form>
       )}

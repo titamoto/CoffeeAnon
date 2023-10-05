@@ -16,7 +16,7 @@ function CoffeePage() {
   return (
     <Container className='position-absolute m-3'>
     <p className='fs-4 fw-medium'>All Coffee</p>
-    <Row xs={1} md={2} className="g-4 mt-1">
+    <Row xs={2} md={4} lg={6} className="g-4 mt-1">
     {coffees.map((coffee) => 
       <CoffeeCard key={coffee.id} coffee={coffee}/>
     )

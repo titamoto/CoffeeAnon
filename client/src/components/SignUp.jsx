@@ -22,7 +22,6 @@ function SignUp({signedUser, setSignedUser}) {
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      console.log(values)
         fetch('/signup', {
             method: "POST",
             headers: {
