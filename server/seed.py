@@ -11,9 +11,9 @@ load_dotenv()
 
 with app.app_context():
     print("Deleting all records...")
-    User.query.delete()
     ReviewMetadata.query.delete()
     Review.query.delete()
+    User.query.delete()
     CoffeeProfile.query.delete()
     Coffee.query.delete()
 
