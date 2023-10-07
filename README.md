@@ -86,7 +86,7 @@ The app is going to run on `port:3000` by default.
 
 ## How to Use
 
-![CoffeeAnon Home Page](screenshots/coffee-anon-home.jpg)
+![CoffeeAnon Home Page](_screenshots/coffee-anon-home.jpg)
 
 - **_Home Page_**
   Home page shows all available coffee products with their average overall ratings.
