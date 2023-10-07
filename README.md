@@ -1,6 +1,6 @@
 # CoffeeAnon 😋☕🤢
 
-CoffeeAnon is a web app with coffee ratings. The project implies sharing coffees and experiences by users.
+CoffeeAnon is a web app with coffee ratings.    The project implies sharing coffees and experiences by users.
 Find good coffee, rate coffee products you have tried, and add new coffee to our database.
 
 ## How to Install
