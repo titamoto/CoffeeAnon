@@ -1,32 +1,32 @@
-import {React, useEffect} from 'react'
-import { Navigate } from 'react-router-dom'
+import { React, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
-function SignOut({signedUser, setSignedUser}) {
+function SignOut({ signedUser, setSignedUser }) {
+  useEffect(() => {
+    fetch("clear", { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setSignedUser(null);
+      }
+    });
+  }, []);
 
-    useEffect(() => {
-        fetch("http://localhost:5555/clear",
-        {method: "DELETE", }
-        ).then((r) => {
-          if (r.ok) {
-            setSignedUser(null) }});
-      }, []);
-      
-      useEffect(() => {
-    fetch('/logout', {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json"
-        },    body: JSON.stringify(signedUser)
+  useEffect(() => {
+    fetch("/logout", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(signedUser),
     }).then((r) => {
-        if(r.ok) {
-            setSignedUser(null)
-        } else {setSignedUser(null)}
-    })
-}, []);
+      if (r.ok) {
+        setSignedUser(null);
+      } else {
+        setSignedUser(null);
+      }
+    });
+  }, []);
 
-  return (
-    <Navigate to="/"/>
-  )
+  return <Navigate to="/" />;
 }
 
-export default SignOut
+export default SignOut;
