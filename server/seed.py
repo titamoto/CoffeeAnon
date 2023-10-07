@@ -12,21 +12,24 @@ load_dotenv()
 with app.app_context():
     print("Deleting all records...")
     User.query.delete()
-    Review.query.delete()
     ReviewMetadata.query.delete()
-    Coffee.query.delete()
+    Review.query.delete()
     CoffeeProfile.query.delete()
+    Coffee.query.delete()
 
     print("Seeding users...")
     users = []
 
     for i in range(20):
         user = User(
-            username=fake.first_name().lower(),
-            email=fake.email()
+            username=fake.unique.first_name().lower(),
+            email=fake.unique.email()
         )
         user.password_hash = user.username
         users.append(user)
+
+    db.session.add_all(users)
+    db.session.commit()
 
     #creating admin account:
     admin = User(
@@ -36,12 +39,12 @@ with app.app_context():
     )
     admin.password_hash = os.environ.get('ADMIN_PASSWORD')
     
-    users.append(admin)
-    db.session.add_all(users)
+    db.session.add(admin)
+    db.session.commit()
 
     print("Seeding coffees...")
     seed_coffees()
-
+    db.session.commit()
     print("Seeding reviews...")
 
     flavors = ['honey', 'cinnamon', 'rose', 'cherry', 'apple', 'grapefruit', 'wine', 'fresh', 'malt', 'cardboard', 'mold', 'fermented']
@@ -59,6 +62,7 @@ with app.app_context():
         )
         reviews.append(review)
     db.session.add_all(reviews)
+    db.session.commit()
 
     reviews_metadata = []
     for i in range(50):
@@ -66,7 +70,7 @@ with app.app_context():
             user_id=randint(1, 20),
             coffee_id=randint(1, 5)
         )
-        review_metadata.review_id = i + 1
+        review_metadata.review_id = review_metadata.id
         reviews_metadata.append(review_metadata)
     db.session.add_all(reviews_metadata)
     db.session.commit()
