@@ -22,6 +22,7 @@ with app.app_context():
 
     for i in range(20):
         user = User(
+            id=i+1,
             username=fake.unique.first_name().lower(),
             email=fake.unique.email()
         )
@@ -52,6 +53,7 @@ with app.app_context():
     reviews = []
     for i in range(50):
         review = Review(
+            id=i+1,
             rate=randint(0, 100),
             price=randint(10, 20),
             acidity=randint(50, 90),
@@ -66,6 +68,7 @@ with app.app_context():
 
     reviews_metadata = []
     for i in range(50):
+        id=i+1,
         review_metadata = ReviewMetadata(
             user_id=randint(1, 20),
             coffee_id=randint(1, 5)
