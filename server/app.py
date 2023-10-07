@@ -233,7 +233,7 @@ class ReviewByID(Resource):
         
 @app.route('/')
 def index():
-    return '<h1>Project Server</h1>'
+    return '<body style="background-color: LightGreen; font-family: monospace;"><h1>CoffeeAnon Server</h1><h2>─=≡Σ((((ó ì_í)=ó</h2></body>'
 
 api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')

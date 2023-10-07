@@ -3,14 +3,6 @@ import { Navigate } from "react-router-dom";
 
 function SignOut({ signedUser, setSignedUser }) {
   useEffect(() => {
-    fetch("clear", { method: "DELETE" }).then((r) => {
-      if (r.ok) {
-        setSignedUser(null);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
     fetch("/logout", {
       method: "DELETE",
       headers: {
