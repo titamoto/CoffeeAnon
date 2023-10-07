@@ -1,6 +1,6 @@
 # CoffeeAnon 😋☕🤢
 
-CoffeeAnon is a web app with coffee ratings. The project implies sharing coffees and experiences by users.
+CoffeeAnon is a web app with coffee ratings.    The project implies sharing coffees and experiences by users.
 Find good coffee, rate coffee products you have tried, and add new coffee to our database.
 
 ## How to Install
@@ -10,7 +10,7 @@ To install this app locally on your machine follow the steps below.
 1. clone the repo by typing this command in your terminal:
 
 ```bash
-$git clone https://github.com/titamoto/IdolMatch.git
+$git clone https://github.com/titamoto/CoffeeAnon.git
 ```
 
 or if you want to clone using SSH:
@@ -39,7 +39,7 @@ $ pipenv install && pipenv shell
 $ cd server
 ```
 
-3. Initiate the database and run migration:
+3. Initiate the database and run the migration:
 
 ```bash
 $ flask db init
@@ -53,14 +53,14 @@ $ flask db upgrade
 $ python seed.py
 ```
 
-5. start the flask app by running `app.py` file:
+5. start the Flask app by running the `app.py` file:
 
 ```bash
 $ python app.py
 ```
 
 Your server is going to run on `port:5555` by default. You will see the welcome page on http://localhost:5555 if the server runs successfully.  
-Note: If `python filename.py` command doesn't work for you to run .py files, try `python3 filename.py` instead.
+Note: If the `python filename.py` command doesn't work for you to run .py files, try `python3 filename.py` instead.
 
 ### Set the React App
 
@@ -93,21 +93,21 @@ The app is going to run on `port:3000` by default.
   Click on the coffee card to see the coffee profile.
 
 - **_Coffee Profile_**
-  Coffee profile page contains basic info about the coffee product. Registration is not required to see this page.
+  Coffee Profile page contains basic info about the coffee product. Registration is not required to see this page.
 
 - **_Rate Coffee_**
   To rate the coffee product you need an account. Sign up and then sign in with your login and password.
-  You can rate coffee's aroma, body, acidity and the overall flavor. You can edit or delete your review if you will change your mind later.
+  You can rate coffee's aroma, body, acidity, and the overall flavor. You can edit or delete your review if you will change your mind later.
 
 - **_Add Coffee_**
-  Please add new coffee products that are not in the database using this page. The coffee you added will appear on Home Page.
+  Please add new coffee products not in the database using this page. The coffee you added will appear on the Home Page.
 
 ## Credits
 
-CoffeeAnon is made with React. To learn React, check out the [React documentation](https://reactjs.org/).  
+CoffeeAnon is made with React. Check out the [React documentation](https://reactjs.org/) to learn React.  
 This project uses [React Router](https://reactrouter.com/) for client-side routing.
 [React Bootstrap](https://react-bootstrap.netlify.app/) library was used for styling elements.  
-Back-end app is built with [Flask](https://palletsprojects.com/p/flask/).
+The back-end app is built with [Flask](https://palletsprojects.com/p/flask/).
 
 ## License
 
