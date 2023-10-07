@@ -10,7 +10,7 @@ function Header({ signedUser }) {
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
-        <Container fluid>
+        <Container className="ms-2" fluid>
           <Navbar.Brand>
             <Image
               width="70px"
