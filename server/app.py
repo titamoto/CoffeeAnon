@@ -249,5 +249,9 @@ api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
 api.add_resource(CoffeeByIDAverage, '/coffees/<int:id>/reviews/average', endpoint='coffee-reviews-average')
 api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
+
+def index(id=0):
+    return render_template("index.html")
+
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
