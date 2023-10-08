@@ -1,5 +1,3 @@
-import os
-from dotenv import load_dotenv
 from faker import Faker
 from random import randint, choice
 from models import User, Review, ReviewMetadata, Coffee, CoffeeProfile
@@ -7,7 +5,6 @@ from config import db, app
 from coffee_seeds.coffee_seeds import seed_coffees
 
 fake = Faker()
-load_dotenv()
 
 with app.app_context():
     print("Deleting all records...")
@@ -22,21 +19,12 @@ with app.app_context():
 
     for i in range(20):
         user = User(
-            username=fake.first_name().lower(),
-            email=fake.email()
+            username=fake.unique.first_name().lower(),
+            email=fake.unique.email()
         )
         user.password_hash = user.username
         users.append(user)
-
-    #creating admin account:
-    admin = User(
-        username='admin',
-        email=os.environ.get('ADMIN_EMAIL'),
-        is_admin=True
-    )
-    admin.password_hash = os.environ.get('ADMIN_PASSWORD')
     
-    users.append(admin)
     db.session.add_all(users)
 
     print("Seeding coffees...")
