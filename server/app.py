@@ -47,7 +47,6 @@ class Login(Resource):
     
 class Logout(Resource):
     def delete(self):
-        print(session.get('user_id'))
         if session.get('user_id'):
             session['user_id'] = None
             return {}, 204
@@ -92,7 +91,6 @@ class Coffees(Resource):
             variety = data['variety']
         )
         new_coffee_profile.coffee_id = new_coffee.id
-        print(new_coffee_profile)
         db.session.add(new_coffee_profile)
         db.session.commit()
         new_coffee_data = Coffee.query.filter_by(id=new_coffee.id).first().to_dict()

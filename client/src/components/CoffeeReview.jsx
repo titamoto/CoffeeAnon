@@ -21,6 +21,7 @@ function CoffeeReview({ signedUser }) {
     }
   }, [signedUser, navigate]);
 
+  // checking for this coffee' review by this user
   useEffect(() => {
     if (signedUser) {
       fetch("/user-reviews")
@@ -36,6 +37,7 @@ function CoffeeReview({ signedUser }) {
     }
   }, [navigate, params.id, signedUser]);
 
+  // with features to be implemented
   const values = {
     rate: rate,
     acidity: acidity,

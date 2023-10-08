@@ -58,6 +58,7 @@ function NewCoffeePage({ signedUser }) {
       <Formik
         validationSchema={schema}
         onSubmit={handleSubmit}
+        // with features to be implemented
         initialValues={{
           name: "",
           producer: "",
