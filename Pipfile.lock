@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c920e72f4c3e1894e4b37f6c0606caec640292c037756f5c1fd8c2032d947f05"
+            "sha256": "d1f21be5d2f5bb2a060e429607f776320ce343fc9e934569b5bd511269d8c865"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -105,11 +105,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:8fba91068dc26e3159c1ac9f22444a2338704b0991d86605322e454bda420092",
-                "sha256:d5d5953556b0fb428a46019e03fc2d40eab2980135ddef5a9eb3d054947fdf83"
+                "sha256:c8f799fbd7b2e75b3f51d3f048268a41d47000e8eef100de4c8ee31c0b5d7634",
+                "sha256:e54e7611358d2eef7bc2364a31501d8399c79b73dd89baee5b7034bc30ac764c"
             ],
             "index": "pypi",
-            "version": "==19.6.2"
+            "version": "==18.12.0"
         },
         "flask": {
             "hashes": [
@@ -630,7 +630,7 @@
                 "sha256:8f92fc8806f9a6b641eaa5318da32b44d401efaac0f6678c9bc448ba3605faa0",
                 "sha256:df8e4339e9cb77357558cbdbceca33c303714cf861d1eef15e1070055ae8b7ef"
             ],
-            "markers": "python_version < '3.9'",
+            "markers": "python_version >= '3.8'",
             "version": "==4.8.0"
         },
         "validate-email": {
