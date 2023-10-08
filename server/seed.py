@@ -11,11 +11,11 @@ load_dotenv()
 
 with app.app_context():
     print("Deleting all records...")
-    User.query.delete()
-    Review.query.delete()
     ReviewMetadata.query.delete()
-    Coffee.query.delete()
+    Review.query.delete()
     CoffeeProfile.query.delete()
+    Coffee.query.delete()
+    User.query.delete()
 
     print("Seeding users...")
     users = []
