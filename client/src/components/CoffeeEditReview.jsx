@@ -30,7 +30,7 @@ function CoffeeEditReview({ signedUser }) {
     if (!signedUser) {
       navigate("/login");
     }
-  }, []);
+  }, [signedUser]);
 
   useEffect(() => {
     if (signedUser) {
@@ -47,7 +47,7 @@ function CoffeeEditReview({ signedUser }) {
           setReviewId(review.review_id);
         });
     }
-  }, []);
+  }, [signedUser, params.id]);
 
   function handleDelete() {
     fetch(`/reviews/${reviewId}`, {

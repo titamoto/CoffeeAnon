@@ -19,7 +19,7 @@ function CoffeeReview({ signedUser }) {
     if (!signedUser) {
       navigate("/login");
     }
-  }, []);
+  }, [signedUser, navigate]);
 
   useEffect(() => {
     if (signedUser) {
@@ -34,7 +34,7 @@ function CoffeeReview({ signedUser }) {
           }
         });
     }
-  }, [handleSubmit]);
+  }, [navigate, params.id, signedUser]);
 
   const values = {
     rate: rate,

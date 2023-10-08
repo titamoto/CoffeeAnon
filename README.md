@@ -1,7 +1,9 @@
-# CoffeeAnon 😋☕🤢
+# CoffeeAnon 🐸☕👌
 
-CoffeeAnon is a web app with coffee ratings. The project implies sharing coffees and experiences by users.
-Find good coffee, rate coffee products you have tried, and add new coffee to our database.
+CoffeeAnon is a web app with coffee ratings.  
+The project implies sharing coffees and experiences by users.
+Find good coffee, rate coffee products you have tried, and add new coffee to the database.
+Deployment... soon 🫃.
 
 ## How to Install
 
@@ -53,7 +55,7 @@ $ flask db upgrade
 $ python seed.py
 ```
 
-5. generate secret key for Flask app, e.g. in the terminal:
+5. generate secret key for Flask app in the terminal:
 
 ```bash
 $ python -c 'import os; print(os.urandom(16))'
@@ -100,18 +102,18 @@ The app is going to run on `port:3000` by default.
 
 ![CoffeeAnon Home Page](_screenshots/coffee-anon-home.jpg)
 
-- **_Home Page_**
+- **_Home Page_**  
   Home page shows all available coffee products with their average overall ratings.
   Click on the coffee card to see the coffee profile.
 
-- **_Coffee Profile_**
+- **_Coffee Profile_**  
   Coffee Profile page contains basic info about the coffee product. Registration is not required to see this page.
 
-- **_Rate Coffee_**
+- **_Rate Coffee_**  
   To rate the coffee product you need an account. Sign up and then sign in with your login and password.
   You can rate coffee's aroma, body, acidity, and the overall flavor. You can edit or delete your review if you will change your mind later.
 
-- **_Add Coffee_**
+- **_Add Coffee_**  
   Please add new coffee products not in the database using this page. The coffee you added will appear on the Home Page.
 
 ## Credits

@@ -11,7 +11,7 @@ function CoffeeCard({ coffee }) {
     fetch(`/coffees/${coffee.id}/reviews/average`)
       .then((r) => r.json())
       .then((data) => setAverageRate(data.average_rate));
-  }, []);
+  }, [coffee.id]);
 
   return (
     <Card className="m-2" style={{ width: "20rem" }}>

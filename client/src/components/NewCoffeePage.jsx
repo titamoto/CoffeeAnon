@@ -4,7 +4,6 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import * as formik from "formik";
 import * as yup from "yup";
@@ -16,7 +15,7 @@ function NewCoffeePage({ signedUser }) {
     if (!signedUser) {
       navigate("/login");
     }
-  });
+  }, [signedUser, navigate]);
 
   const { Formik } = formik;
 
