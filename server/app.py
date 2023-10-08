@@ -142,6 +142,7 @@ class CoffeeByIDReviews(Resource):
         db.session.add(new_review)
         db.session.commit()
         new_review_metadata = ReviewMetadata(
+            id = new_review.id,
             is_public = data['is_public']
         )
         new_review_metadata.review_id = new_review.id
@@ -212,6 +213,7 @@ class ReviewByID(Resource):
         return {}, 204
     
     def patch(self, id):
+        data = request.get_json()
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
@@ -223,7 +225,6 @@ class ReviewByID(Resource):
         review = Review.query.filter_by(id=id).first()
         if not review:
             return {}, 404
-        data = request.get_json()
         for attr in data:
             setattr(review, attr, data[attr])
         db.session.add(review)
@@ -249,4 +250,4 @@ api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffe
 api.add_resource(CoffeeByIDAverage, '/coffees/<int:id>/reviews/average', endpoint='coffee-reviews-average')
 api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run(port=8000, debug=True)

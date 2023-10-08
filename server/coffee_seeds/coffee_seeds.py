@@ -14,6 +14,7 @@ def seed_coffees():
         roast=20
     )
     test_coffee_1_profile = CoffeeProfile(
+        id=1,
         country='Papua New Guinea',
         region='Eastern Highlands',
         farm='AAK',
@@ -34,6 +35,7 @@ def seed_coffees():
         roast=20
     )
     test_coffee_2_profile = CoffeeProfile(
+         id=2,
         country='India',
         region='Tamil Nadu',
         farm='Riverdale Estates',
@@ -55,6 +57,7 @@ def seed_coffees():
         roast=50
     )
     test_coffee_3_profile = CoffeeProfile(
+        id=3,
         coffee_id=3
     )
 
@@ -68,6 +71,7 @@ def seed_coffees():
         roast=70
     )
     test_coffee_4_profile = CoffeeProfile(
+        id=4,
         coffee_id=4
     )
 
@@ -80,6 +84,7 @@ def seed_coffees():
         roast=10
     )
     test_coffee_5_profile = CoffeeProfile(
+        id=5,
         country='Colombia',
         region='Huila',
         farm='Finca El Corozal',

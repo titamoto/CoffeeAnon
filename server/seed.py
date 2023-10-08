@@ -68,12 +68,12 @@ with app.app_context():
 
     reviews_metadata = []
     for i in range(50):
-        id=i+1,
         review_metadata = ReviewMetadata(
+            id=i+1,
             user_id=randint(1, 20),
             coffee_id=randint(1, 5)
         )
-        review_metadata.review_id = review_metadata.id
+        review_metadata.review_id = i+1
         reviews_metadata.append(review_metadata)
     db.session.add_all(reviews_metadata)
     db.session.commit()
