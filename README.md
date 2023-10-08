@@ -1,6 +1,6 @@
 # CoffeeAnon 😋☕🤢
 
-CoffeeAnon is a web app with coffee ratings.    The project implies sharing coffees and experiences by users.
+CoffeeAnon is a web app with coffee ratings. The project implies sharing coffees and experiences by users.
 Find good coffee, rate coffee products you have tried, and add new coffee to our database.
 
 ## How to Install
@@ -53,7 +53,19 @@ $ flask db upgrade
 $ python seed.py
 ```
 
-5. start the Flask app by running the `app.py` file:
+5. generate secret key for Flask app, e.g. in the terminal:
+
+```bash
+$ python -c 'import os; print(os.urandom(16))'
+```
+
+and add it in the config.py file:
+
+```python
+app.secret_key = 'YOUR_SECRET_KEY'
+```
+
+6. start the Flask app by running the `app.py` file:
 
 ```bash
 $ python app.py

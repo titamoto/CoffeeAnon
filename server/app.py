@@ -66,10 +66,10 @@ class Coffees(Resource):
        return coffees, 200
     
     def post(self):
+        data = request.get_json()
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
-        data = request.get_json()
         if 'name' not in data:
             return {}, 422
         if 'producer' not in data:
@@ -120,13 +120,13 @@ class CoffeeByIDReviews(Resource):
 
     #create a new review for this coffee
     def post(self, id):
+        data = request.get_json()
         session["coffee_id"] = id
         if not session.get("coffee_id"):
              return {}, 403
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
-        data = request.get_json()
         if 'rate' not in data:
             return {}, 422
         new_review = Review(
@@ -212,6 +212,7 @@ class ReviewByID(Resource):
         return {}, 204
     
     def patch(self, id):
+        data = request.get_json()
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
@@ -223,7 +224,6 @@ class ReviewByID(Resource):
         review = Review.query.filter_by(id=id).first()
         if not review:
             return {}, 404
-        data = request.get_json()
         for attr in data:
             setattr(review, attr, data[attr])
         db.session.add(review)
