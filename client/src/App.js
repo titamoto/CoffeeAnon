@@ -14,15 +14,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5555/clear", { method: "DELETE" }).then((r) => {
-      if (r.ok) {
-        setUser(null);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    fetch("http://localhost:5555/check_session").then((r) => {
+    fetch("/check_session").then((r) => {
       if (r.status === 204) {
         setUser(null);
       } else if (r.ok) {

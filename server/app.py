@@ -2,12 +2,6 @@ from flask import request, session
 from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
-
-
-class ClearSession(Resource):
-    def delete(self):
-        session['user_id'] = None
-        return {}, 204
     
 class CheckSession(Resource):
     def get(self):
@@ -235,7 +229,6 @@ class ReviewByID(Resource):
 def index():
     return '<body style="background-color: LightGreen; font-family: monospace;"><h1>CoffeeAnon Server</h1><h2>─=≡Σ((((ó ì_í)=ó</h2></body>'
 
-api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')

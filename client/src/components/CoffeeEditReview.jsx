@@ -30,7 +30,7 @@ function CoffeeEditReview({ signedUser }) {
     if (!signedUser) {
       navigate("/login");
     }
-  }, [signedUser]);
+  }, [signedUser, navigate]);
 
   useEffect(() => {
     if (signedUser) {
