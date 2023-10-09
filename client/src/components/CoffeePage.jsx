@@ -9,7 +9,8 @@ function CoffeePage() {
   useEffect(() => {
     fetch("/coffees")
       .then((r) => r.json())
-      .then((coffees) => setCoffees(coffees));
+      .then((coffees) => setCoffees(coffees))
+      .catch((error) => alert("Error fetching data:", error));
   }, []);
 
   return (

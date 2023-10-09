@@ -16,7 +16,7 @@ function SignOut({ signedUser, setSignedUser }) {
         setSignedUser(null);
       }
     });
-  }, []);
+  }, [signedUser, setSignedUser]);
 
   return <Navigate to="/" />;
 }

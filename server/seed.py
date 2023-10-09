@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # import os
 # from dotenv import load_dotenv
 # from faker import Faker
@@ -16,10 +17,28 @@
 #     User.query.delete()
 #     CoffeeProfile.query.delete()
 #     Coffee.query.delete()
+=======
+from faker import Faker
+from random import randint, choice
+from models import User, Review, ReviewMetadata, Coffee, CoffeeProfile
+from config import db, app
+from coffee_seeds.coffee_seeds import seed_coffees
+
+fake = Faker()
+
+with app.app_context():
+    print("Deleting all records...")
+    ReviewMetadata.query.delete()
+    Review.query.delete()
+    CoffeeProfile.query.delete()
+    Coffee.query.delete()
+    User.query.delete()
+>>>>>>> main
 
 #     print("Seeding users...")
 #     users = []
 
+<<<<<<< HEAD
 #     for i in range(20):
 #         user = User(
 #             id=i+1,
@@ -42,6 +61,17 @@
     
 #     db.session.add(admin)
 #     db.session.commit()
+=======
+    for i in range(20):
+        user = User(
+            username=fake.unique.first_name().lower(),
+            email=fake.unique.email()
+        )
+        user.password_hash = user.username
+        users.append(user)
+    
+    db.session.add_all(users)
+>>>>>>> main
 
 #     print("Seeding coffees...")
 #     seed_coffees()

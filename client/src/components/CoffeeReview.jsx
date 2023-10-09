@@ -19,8 +19,9 @@ function CoffeeReview({ signedUser }) {
     if (!signedUser) {
       navigate("/login");
     }
-  }, []);
+  }, [signedUser, navigate]);
 
+  // checking for this coffee' review by this user
   useEffect(() => {
     if (signedUser) {
       fetch("/user-reviews")
@@ -34,8 +35,9 @@ function CoffeeReview({ signedUser }) {
           }
         });
     }
-  }, [handleSubmit]);
+  }, [navigate, params.id, signedUser]);
 
+  // with features to be implemented
   const values = {
     rate: rate,
     acidity: acidity,

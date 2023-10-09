@@ -2,12 +2,6 @@ from flask import request, session
 from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
-
-
-class ClearSession(Resource):
-    def delete(self):
-        session['user_id'] = None
-        return {}, 204
     
 class CheckSession(Resource):
     def get(self):
@@ -53,7 +47,6 @@ class Login(Resource):
     
 class Logout(Resource):
     def delete(self):
-        print(session.get('user_id'))
         if session.get('user_id'):
             session['user_id'] = None
             return {}, 204
@@ -66,10 +59,10 @@ class Coffees(Resource):
        return coffees, 200
     
     def post(self):
+        data = request.get_json()
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
-        data = request.get_json()
         if 'name' not in data:
             return {}, 422
         if 'producer' not in data:
@@ -98,7 +91,6 @@ class Coffees(Resource):
             variety = data['variety']
         )
         new_coffee_profile.coffee_id = new_coffee.id
-        print(new_coffee_profile)
         db.session.add(new_coffee_profile)
         db.session.commit()
         new_coffee_data = Coffee.query.filter_by(id=new_coffee.id).first().to_dict()
@@ -120,13 +112,13 @@ class CoffeeByIDReviews(Resource):
 
     #create a new review for this coffee
     def post(self, id):
+        data = request.get_json()
         session["coffee_id"] = id
         if not session.get("coffee_id"):
              return {}, 403
         user_id = session.get('user_id')
         if not user_id:
             return {}, 401
-        data = request.get_json()
         if 'rate' not in data:
             return {}, 422
         new_review = Review(
@@ -236,7 +228,6 @@ class ReviewByID(Resource):
 def index():
     return '<body style="background-color: LightGreen; font-family: monospace;"><h1>CoffeeAnon Server</h1><h2>─=≡Σ((((ó ì_í)=ó</h2></body>'
 
-api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')

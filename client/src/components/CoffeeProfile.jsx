@@ -24,7 +24,7 @@ function CoffeeProfile({ signedUser }) {
           some ? setIsReviewed(true) : setIsReviewed(false);
         });
     }
-  }, []);
+  }, [signedUser, params.id]);
 
   useEffect(() => {
     fetch(`/coffees/${params.id}`)

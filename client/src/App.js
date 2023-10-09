@@ -14,14 +14,6 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("/clear", { method: "DELETE" }).then((r) => {
-      if (r.ok) {
-        setUser(null);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
     fetch("/check_session").then((r) => {
       if (r.status === 204) {
         setUser(null);

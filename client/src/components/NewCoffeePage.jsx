@@ -15,7 +15,7 @@ function NewCoffeePage({ signedUser }) {
     if (!signedUser) {
       navigate("/login");
     }
-  });
+  }, [signedUser, navigate]);
 
   const { Formik } = formik;
 
@@ -34,6 +34,7 @@ function NewCoffeePage({ signedUser }) {
   });
 
   const handleSubmit = (values) => {
+    console.log(values);
     fetch("/coffees", {
       method: "POST",
       headers: {
@@ -57,6 +58,7 @@ function NewCoffeePage({ signedUser }) {
       <Formik
         validationSchema={schema}
         onSubmit={handleSubmit}
+        // with features to be implemented
         initialValues={{
           name: "",
           producer: "",
@@ -179,11 +181,11 @@ function NewCoffeePage({ signedUser }) {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Form.Group as={Col} md="4" controlId="validationFormikRoast">
+              <Form.Group as={Col} md="4" controlId="roast">
                 <Form.Label>Roast</Form.Label>
                 <Form.Range
                   type="number"
-                  value={values.rate}
+                  value={values.roast}
                   onChange={handleChange}
                 />
               </Form.Group>
