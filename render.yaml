@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: coffee-anon
+    runtime: python
+    repo: https://github.com/titamoto/CoffeeAnon.git
+    plan: free
+    branch: deploy
