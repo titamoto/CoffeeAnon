@@ -237,6 +237,19 @@ api.add_resource(CoffeeByIDAverage, '/coffees/<int:id>/reviews/average', endpoin
 api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
 
 @app.route('/')
+@app.route('/check_session')
+@app.route('/login')
+@app.route('/logout')
+@app.route('/signup')
+@app.route('/coffees')
+@app.route('/coffees/<int:id>')
+@app.route('/users')
+@app.route('/users/<int:id>')
+@app.route('/user-reviews')
+@app.route('/coffees/<int:id>/reviews')
+@app.route('/coffees/int:id>/reviews/average')
+@app.route('/reviews/<int:id>')
+
 def index(id=0):
     return render_template("index.html")
 
