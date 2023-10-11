@@ -5,3 +5,10 @@ services:
     repo: https://github.com/titamoto/CoffeeAnon.git
     plan: free
     branch: deploy
+    buildCommand: pip install -r requirements.txt && npm install --prefix client && npm run build --prefix client
+    startCommand: gunicorn --chdir server app:app
+    envVars:
+      - key: DATABASE_URI
+        sync: false
+      - key: PYTHON_VERSION
+        value: 3.8.13
