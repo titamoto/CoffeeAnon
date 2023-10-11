@@ -10,7 +10,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__, static_url_path='', static_folder='../client/build', template_folder='../client/build')
+app = Flask(__name__, 
+            static_url_path='', 
+            static_folder='../client/build', 
+            template_folder='../client/build'
+            )
 
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')

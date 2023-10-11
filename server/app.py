@@ -1,4 +1,4 @@
-from flask import request, session
+from flask import request, session, render_template
 from flask_restful import Resource
 from config import app, db, api
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
@@ -145,7 +145,6 @@ class CoffeeByIDReviews(Resource):
         new_review_data = Review.query.filter_by(id=new_review.id).first().to_dict()
         return new_review_data, 201
     
-
 class CoffeeByIDAverage(Resource):
     def get(self, id):
         session["coffee_id"] = id
@@ -224,10 +223,6 @@ class ReviewByID(Resource):
         updated_review = Review.query.filter_by(id=review_metadata.review_id).first()
         return updated_review.to_dict(), 202
         
-@app.route('/')
-def index():
-    return '<body style="background-color: LightGreen; font-family: monospace;"><h1>CoffeeAnon Server</h1><h2>─=≡Σ((((ó ì_í)=ó</h2></body>'
-
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
@@ -241,8 +236,9 @@ api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffe
 api.add_resource(CoffeeByIDAverage, '/coffees/<int:id>/reviews/average', endpoint='coffee-reviews-average')
 api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
 
+@app.route('/')
 def index(id=0):
     return render_template("index.html")
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run()
