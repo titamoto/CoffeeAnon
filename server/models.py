@@ -130,7 +130,7 @@ class Coffee(db.Model, SerializerMixin):
     def validate_image(self, key, image_path):
         if image_path == "":
             return "images/coffee_placeholder.jpg"
-        elif not (image_path.endswith(".jpg") or image_path.endswith(".png")):
+        elif not (image_path.endswith(".jpg") or image_path.endswith(".jpeg")):
             raise ValueError("Image file type must be a jpg or png")
         return image_path
 
