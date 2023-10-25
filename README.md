@@ -1,6 +1,6 @@
 # ratte 🐸☕👌
 
-[***ratte***](https://coffee-anon.onrender.com/) is a website with coffee ratings.  
+[***ratte***](https://ratte.onrender.com/) is a website with coffee ratings.  
 The project implies sharing coffees and experiences by users.
 Find good coffee, rate coffee products you have tried, and add new coffee to the database.
 
