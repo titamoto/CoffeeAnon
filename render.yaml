@@ -4,7 +4,7 @@ services:
     runtime: python
     repo: https://github.com/titamoto/CoffeeAnon.git
     plan: free
-    branch: deploy
+    branch: main
     buildCommand: pip install -r requirements.txt && npm install --prefix client && npm run build --prefix client
     startCommand: gunicorn --chdir server app:app
     envVars:
