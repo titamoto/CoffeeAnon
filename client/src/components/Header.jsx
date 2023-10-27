@@ -21,11 +21,6 @@ function Header({ signedUser }) {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
-              navbarScroll
-            >
               <Button
                 variant="link"
                 className="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
@@ -38,6 +33,8 @@ function Header({ signedUser }) {
               >
                 <NavLink to="/new">Add Coffee</NavLink>
               </Button>
+              </Navbar.Collapse>
+              <Nav.Item className="justify-content-end">
               {!signedUser ? (
                 <Button
                   variant="link"
@@ -53,8 +50,7 @@ function Header({ signedUser }) {
                   <NavLink to="/logout">Sign Out</NavLink>
                 </Button>
               )}
-            </Nav>
-          </Navbar.Collapse>
+              </Nav.Item>
         </Container>
       </Navbar>
     </>
