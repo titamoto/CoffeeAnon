@@ -4,15 +4,14 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { NavLink } from "react-router-dom";
-// import NavLink from "react-bootstrap/NavLink";
 import Image from "react-bootstrap/Image";
 
 function Header({ signedUser }) {
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
-      <Container className="ms-3 me-3" fluid>
-          <Navbar.Brand className="ms-0" href="/">
+        <Container className="ms-2" fluid>
+          <Navbar.Brand>
             <Image
               width="70px"
               height="70px"
@@ -20,7 +19,9 @@ function Header({ signedUser }) {
               roundedCircle
             />
           </Navbar.Brand>
-          <Button
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+              <Button
                 variant="link"
                 className="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
               >
@@ -32,7 +33,8 @@ function Header({ signedUser }) {
               >
                 <NavLink to="/new">Add Coffee</NavLink>
               </Button>
-          <Navbar.Collapse className="justify-content-end">
+              </Navbar.Collapse>
+              <Nav.Item className="justify-content-end">
               {!signedUser ? (
                 <Button
                   variant="link"
@@ -48,8 +50,8 @@ function Header({ signedUser }) {
                   <NavLink to="/logout">Sign Out</NavLink>
                 </Button>
               )}
-              </Navbar.Collapse>
-                    </Container>
+              </Nav.Item>
+        </Container>
       </Navbar>
     </>
   );
