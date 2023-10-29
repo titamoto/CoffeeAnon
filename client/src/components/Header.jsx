@@ -3,16 +3,16 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import Form from 'react-bootstrap/Form';
 import { NavLink } from "react-router-dom";
-// import NavLink from "react-bootstrap/NavLink";
 import Image from "react-bootstrap/Image";
 
 function Header({ signedUser }) {
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
-      <Container className="ms-3 me-3" fluid>
-          <Navbar.Brand className="ms-0" href="/">
+      <Navbar expand="lg">
+      <Container className="ms-3 me-2" fluid>
+          <Navbar.Brand href="/">
             <Image
               width="70px"
               height="70px"
@@ -20,18 +20,6 @@ function Header({ signedUser }) {
               roundedCircle
             />
           </Navbar.Brand>
-          <Button
-                variant="link"
-                className="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-              >
-                <NavLink to="/">All Coffee</NavLink>
-              </Button>
-              <Button
-                variant="link"
-                className="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-              >
-                <NavLink to="/new">Add Coffee</NavLink>
-              </Button>
           <Navbar.Collapse className="justify-content-end">
               {!signedUser ? (
                 <Button
@@ -51,6 +39,25 @@ function Header({ signedUser }) {
               </Navbar.Collapse>
                     </Container>
       </Navbar>
+      <Navbar expand="lg">
+      <Container className="ms-3 me-3" fluid>
+      <Navbar.Collapse>
+      <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button className="me-3" variant="outline-success">Search</Button>
+          </Form>
+                <NavLink className="me-3" to="/">All Coffee</NavLink>
+                </Navbar.Collapse>
+                <Navbar.Collapse className="justify-content-end">
+                <NavLink className="" to="/new">Add Coffee</NavLink>
+                </Navbar.Collapse>
+              </Container>
+              </Navbar>
     </>
   );
 }
