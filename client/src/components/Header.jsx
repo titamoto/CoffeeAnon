@@ -12,13 +12,13 @@ function Header({ signedUser }) {
     <>
       <Navbar expand="lg">
       <Container className="ms-3 me-2" fluid>
-          <Navbar.Brand href="/">
-            <Image
+          <Navbar.Brand style={{ fontFamily: 'Pacifico', fontSize: '2.5em' }} href="/">
+            <Image className="me-3"
               width="70px"
               height="70px"
               src="images/frog-coffee.jpg"
               roundedCircle
-            />
+            />ratte
           </Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
               {!signedUser ? (
