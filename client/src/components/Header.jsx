@@ -12,7 +12,7 @@ function Header({ signedUser }) {
   return (
     <>
       <Navbar expand="lg">
-      <Container className="ms-3 me-2" fluid>
+      <Container className="ms-3 me-3" fluid>
           <Navbar.Brand style={{ fontFamily: 'Pacifico', fontSize: '2.5em' }} href="/">
             <Image className="me-3"
               width="70px"
@@ -46,12 +46,16 @@ function Header({ signedUser }) {
               className="me-2"
               aria-label="Search"
             />
-            <Button className="me-3" variant="outline-success">Search</Button>
+            <Button className="me-4" variant="outline-light">Search</Button>
           </Form>
-                <NavLink className="me-3" to="/">All Coffee</NavLink>
+          <LinkContainer to="/"><Button variant="outline-light" className="me-2">Show All</Button></LinkContainer>
+                <LinkContainer to=""><Button variant="outline-light" className="me-2" disabled>Best 🔥</Button></LinkContainer>
+                <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Worst 🤮</Button></LinkContainer>
+                <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Best Decaf 🌚</Button></LinkContainer>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
-                <NavLink className="" to="/new">Add Coffee</NavLink>
+                <LinkContainer to="/new">
+                  <Button size="lg" variant="outline-warning">Add Coffee + </Button></LinkContainer>
                 </Navbar.Collapse>
               </Container>
               </Navbar>
