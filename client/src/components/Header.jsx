@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import { NavLink } from "react-router-dom";
 import Image from "react-bootstrap/Image";
+import { LinkContainer } from 'react-router-bootstrap'
 
 function Header({ signedUser }) {
   return (
@@ -22,19 +23,15 @@ function Header({ signedUser }) {
           </Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
               {!signedUser ? (
-                <Button
-                  variant="link"
-                  className="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                >
-                  <NavLink to="/login">Sign In</NavLink>
-                </Button>
+                <LinkContainer to="/login">
+                <Button size="lg"
+                  variant="light"
+                >Sign In</Button>
+                </LinkContainer>
               ) : (
-                <Button
-                  variant="link"
-                  className="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                >
-                  <NavLink to="/logout">Sign Out</NavLink>
-                </Button>
+                <LinkContainer to="/logout">
+                <Button variant="outline-secondary">Sign Out</Button>
+                </LinkContainer>
               )}
               </Navbar.Collapse>
                     </Container>
