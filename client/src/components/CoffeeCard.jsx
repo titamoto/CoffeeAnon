@@ -27,7 +27,7 @@ function CoffeeCard({ coffee }) {
           <Badge
             pill
             bg="warning"
-            className="ms-2 mt-1 fw-medium fs-6 text-primary-emphasis"
+            className="ms-2 mt-1 fw-medium fs-6"
           >
             {parseInt(averageRate) / 10}/10
           </Badge>
