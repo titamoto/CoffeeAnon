@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import Badge from "react-bootstrap/Badge";
+import { LinkContainer } from 'react-router-bootstrap'
 
 function CoffeeCard({ coffee }) {
   const [averageRate, setAverageRate] = useState(0);
@@ -26,29 +27,22 @@ function CoffeeCard({ coffee }) {
           {coffee.name}
           <Badge
             pill
+            text="dark"
             bg="warning"
-            className="ms-2 mt-1 fw-medium fs-6"
+            className="ms-2 mt-1 fs-6"
           >
             {parseInt(averageRate) / 10}/10
           </Badge>
         </Card.Title>
         <Card.Text>{coffee.producer}</Card.Text>
-        <Button className="m-1" variant="primary">
-          <Link
-            className="link-light link-underline-opacity-0"
-            to={`/${coffee.id}`}
-          >
+        <LinkContainer to={`/${coffee.id}`}>
+        <Button className="me-1 ms-1" variant="secondary">
             More Info
-          </Link>
-        </Button>
-        <Button className="m-1" variant="primary">
-          <Link
-            className="link-light link-underline-opacity-0"
-            to={`/${coffee.id}/new-rate`}
-          >
-            Rate Coffee
-          </Link>
-        </Button>
+        </Button></LinkContainer>
+        <LinkContainer to={`/${coffee.id}/new-rate`}>
+        <Button className="me-1 ms-1" variant="primary">
+            Rate Coffee</Button>
+        </LinkContainer>
       </Card.Body>
     </Card>
   );
