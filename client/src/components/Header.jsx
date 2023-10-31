@@ -40,11 +40,11 @@ function Header({ signedUser }) {
       <Form className="d-flex">
             <Form.Control
               type="search"
-              placeholder="Search"
+              placeholder="Folgers"
               className="me-2"
               aria-label="Search"
             />
-            <Button className="me-4" variant="outline-light">Search</Button>
+            <Button className="me-4" variant="outline-light" disabled>Search</Button>
           </Form>
           <LinkContainer to="/"><Button variant="outline-light" className="me-2">Show All</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2" disabled>Best 🔥</Button></LinkContainer>
