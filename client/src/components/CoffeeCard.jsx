@@ -14,7 +14,7 @@ function CoffeeCard({ coffee }) {
   }, [coffee.id]);
 
   return (
-    <Card className="m-2" style={{ width: "20rem" }}>
+    <Card className="m-2" style={{ width: "19.5rem" }}>
       <Card.Img
         className="img-fluid"
         alt="Coffee Image"
