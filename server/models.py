@@ -1,4 +1,4 @@
-from validate_email import validate_email
+import re
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
@@ -30,8 +30,7 @@ class User(db.Model, SerializerMixin):
 
     @validates("email")
     def validate_email(self, key, address):
-        is_valid = validate_email(address)
-        if not is_valid:
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", address):
             raise ValueError("Invalid email address")
         return address
 
