@@ -3,7 +3,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy import CheckConstraint
-from sqlalchemy import Sequence
 
 from config import db, bcrypt
 
@@ -11,8 +10,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
-    id_seq = Sequence('user_id_seq')
-    id = db.Column(db.Integer, id_seq, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String(250), unique=True, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
@@ -55,8 +53,7 @@ class User(db.Model, SerializerMixin):
 class ReviewMetadata(db.Model, SerializerMixin):
     __tablename__ = "review_metadata"
 
-    id_seq = Sequence('review_metadata_id_seq')
-    id = db.Column(db.Integer, id_seq, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     is_public = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -81,8 +78,7 @@ class Review(db.Model, SerializerMixin):
         CheckConstraint('aroma >= 0 AND aroma <= 100', name='check_aroma_range')
     )
 
-    id_seq = Sequence('review_id_seq')
-    id = db.Column(db.Integer, id_seq, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     rate = db.Column(db.Integer)
     price = db.Column(db.Integer)
     acidity = db.Column(db.Integer)
@@ -107,10 +103,9 @@ class Coffee(db.Model, SerializerMixin):
 
     __table_args__ = (
         CheckConstraint('roast >= 0 AND roast <= 100', name='check_roast_range'),
-    )  
+    )
 
-    id_seq = Sequence('coffee_id_seq')
-    id = db.Column(db.Integer, id_seq, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     producer = db.Column(db.String(100), nullable=False)
     product_type = db.Column(db.String(50))
@@ -146,10 +141,9 @@ class Coffee(db.Model, SerializerMixin):
                           created at={self.created_at} updated at={self.updated_at}>"
 
 class CoffeeProfile(db.Model, SerializerMixin): 
-    __tablename__ = "coffee_profile"    
+    __tablename__ = "coffee_profile"  
 
-    id_seq = Sequence('coffee_profile_id_seq')
-    id = db.Column(db.Integer, id_seq, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     country = db.Column(db.String(100))
     region = db.Column(db.String(100))
     farm = db.Column(db.String(100))
