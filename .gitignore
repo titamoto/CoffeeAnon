@@ -166,7 +166,8 @@ cython_debug/
 migrations
 instance
 
-.vscode
-
 seed.py
-coffee_seeds
+coffee_seeds/
+coffee_seeds.py
+
+.vscode
