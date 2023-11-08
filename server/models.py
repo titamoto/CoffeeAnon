@@ -10,7 +10,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = "user"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String(250), unique=True, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
@@ -53,7 +53,7 @@ class User(db.Model, SerializerMixin):
 class ReviewMetadata(db.Model, SerializerMixin):
     __tablename__ = "review_metadata"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     is_public = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -78,7 +78,7 @@ class Review(db.Model, SerializerMixin):
         CheckConstraint('aroma >= 0 AND aroma <= 100', name='check_aroma_range')
     )
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     rate = db.Column(db.Integer)
     price = db.Column(db.Integer)
     acidity = db.Column(db.Integer)
@@ -105,7 +105,7 @@ class Coffee(db.Model, SerializerMixin):
         CheckConstraint('roast >= 0 AND roast <= 100', name='check_roast_range'),
     )  
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     producer = db.Column(db.String(100), nullable=False)
     product_type = db.Column(db.String(50))
@@ -143,7 +143,7 @@ class Coffee(db.Model, SerializerMixin):
 class CoffeeProfile(db.Model, SerializerMixin): 
     __tablename__ = "coffee_profile"    
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     country = db.Column(db.String(100))
     region = db.Column(db.String(100))
     farm = db.Column(db.String(100))
