@@ -166,3 +166,6 @@ migrations
 instance
 
 .vscode
+
+seed.py
+coffee_seeds
