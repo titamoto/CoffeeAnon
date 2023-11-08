@@ -32,17 +32,17 @@ with app.app_context():
     db.session.add_all(users)
     db.session.commit()
 
-    #creating admin account:
-    # admin = User(
-    #     id=1,
-    #     username='admin',
-    #     email=os.environ.get('ADMIN_EMAIL'),
-    #     is_admin=True
-    # )
-    # admin.password_hash = os.environ.get('ADMIN_PASSWORD')
+    # creating admin account:
+    admin = User(
+        # id=1,
+        username='admin',
+        email=os.environ.get('ADMIN_EMAIL'),
+        is_admin=True
+    )
+    admin.password_hash = os.environ.get('ADMIN_PASSWORD')
     
-    # db.session.add(admin)
-    # db.session.commit()
+    db.session.add(admin)
+    db.session.commit()
 
     print("Seeding coffees...")
     seed_coffees()
