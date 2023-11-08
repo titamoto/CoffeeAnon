@@ -107,7 +107,7 @@ class CoffeeByIDReviews(Resource):
     #get all review for this coffee
     def get(self, id):
        session['coffee_id'] = id
-       reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
+       reviews_meta = [review_meta.to_dict(rules=('-users',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
        return reviews_meta, 200
 
     #create a new review for this coffee
@@ -150,7 +150,7 @@ class CoffeeByIDAverage(Resource):
         session["coffee_id"] = id
         if not session.get("coffee_id"):
              return {}, 403
-        reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
+        reviews_meta = [review_meta.to_dict(rules=('-users',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
         rates = [review_meta['review']['rate'] for review_meta in reviews_meta]
         if len(rates) <= 0:
             return {"average_rate": 0}, 200
@@ -182,7 +182,7 @@ class UserByIDReviews(Resource):
         id = session.get('user_id')
         if not id:
             return {}, 401
-        reviews_meta = [review_meta.to_dict(rules=('-user',)) for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
+        reviews_meta = [review_meta.to_dict(rules=('-users',)) for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
         return reviews_meta, 200
     
 class ReviewByID(Resource):

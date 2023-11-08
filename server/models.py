@@ -8,7 +8,7 @@ from config import db, bcrypt
 
 
 class User(db.Model, SerializerMixin):
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -19,8 +19,8 @@ class User(db.Model, SerializerMixin):
 
     _password_hash = db.Column(db.String(60), nullable=False)
 
-    serialize_rules = ("-reviews_metadata.user",)
-    reviews_metadata = db.relationship("ReviewMetadata", backref="user")
+    serialize_rules = ("-review_metadata.users",)
+    reviews_metadata = db.relationship("ReviewMetadata", backref="users")
     
     @validates('username')
     def validate_username(self, key, username):
@@ -57,7 +57,7 @@ class ReviewMetadata(db.Model, SerializerMixin):
     is_public = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
     review_id = db.Column(db.Integer, db.ForeignKey("review.id"))
     
