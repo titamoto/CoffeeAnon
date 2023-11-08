@@ -34,7 +34,7 @@ with app.app_context():
 
     # creating admin account:
     admin = User(
-        # id=1,
+        id=21,
         username='admin',
         email=os.environ.get('ADMIN_EMAIL'),
         is_admin=True
