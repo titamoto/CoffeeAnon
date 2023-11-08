@@ -159,6 +159,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+
 # Ignore db
 *.db
 */*.db
@@ -169,3 +170,4 @@ instance
 
 seed.py
 coffee_seeds
+_screenshots
