@@ -178,7 +178,6 @@ class UserByID(Resource):
 class UserByIDReviews(Resource):
     #all reviews left by this user
     def get(self):
-        print(session)
         id = session.get('user_id')
         if not id:
             return {}, 401
