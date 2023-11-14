@@ -5,8 +5,16 @@ import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import Image from "react-bootstrap/Image";
 import { LinkContainer } from 'react-router-bootstrap'
+import { useState } from "react";
 
 function Header({ signedUser }) {
+
+  const [searchInput, setSearchInput] = useState("")
+
+  function handleSearch() {
+    console.log(searchInput);
+  }
+
   return (
     <>
       <Navbar expand="lg">
@@ -43,8 +51,9 @@ function Header({ signedUser }) {
               placeholder="Folgers"
               className="me-2"
               aria-label="Search"
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-            <Button className="me-4" variant="outline-light" disabled>Search</Button>
+            <Button className="me-4" variant="outline-light" type="button" onClick={handleSearch}>Search</Button>
           </Form>
           <LinkContainer to="/"><Button variant="outline-light" className="me-2">Show All</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2" disabled>Best 🔥</Button></LinkContainer>
