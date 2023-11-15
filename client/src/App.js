@@ -9,10 +9,12 @@ import CoffeeProfile from "./components/CoffeeProfile";
 import CoffeeReview from "./components/CoffeeReview";
 import NewCoffeePage from "./components/NewCoffeePage";
 import CoffeeEditReview from "./components/CoffeeEditReview";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   function updateSearch(input) {
     setSearchTerm(input);
@@ -20,6 +22,7 @@ function App() {
 
   function resetSerch() {
     setSearchTerm('')
+    navigate("/");
   }
 
   useEffect(() => {
@@ -36,7 +39,7 @@ function App() {
 
   return (
     <>
-      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch} showAll={{resetSerch}}/>
+      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch} showAll={resetSerch}/>
       <Routes>
         <Route
           path={"/login"}

@@ -55,7 +55,7 @@ function Header({ signedUser, submitSearch, showAll }) {
             />
             <Button className="me-4" variant="outline-light" type="button" onClick={handleSearch}>Search</Button>
           </Form>
-          <LinkContainer to="/"><Button variant="outline-light" className="me-2" onClick={showAll}>Show All</Button></LinkContainer>
+          <Button variant="outline-light" className="me-2" onClick={showAll}>Show All</Button>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2" disabled>Best 🔥</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Worst 🤮</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Best Decaf 🌚</Button></LinkContainer>
