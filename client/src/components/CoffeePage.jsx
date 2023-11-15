@@ -19,7 +19,6 @@ function CoffeePage({ searchTerm }) {
       .then((r) => r.json())
       .then((coffees) => setCoffees(coffees))
       .catch((error) => alert("Error fetching data:", error));
-      console.log(coffees)
   }, []);
 
   return (
