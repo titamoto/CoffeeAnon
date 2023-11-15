@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -18,10 +18,6 @@ function Header({ signedUser, submitSearch, showAll }) {
     setIsAllShowed(!searchInput);
     setIsSearchActive(!!searchInput);
   }
-
-  useEffect( () => {
-    // setIsAllShowed(!isSearchActive)
-  }, [isSearchActive])
 
   return (
     <>
