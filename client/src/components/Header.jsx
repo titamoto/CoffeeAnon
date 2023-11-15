@@ -14,13 +14,13 @@ function Header({ signedUser, submitSearch, showAll }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
   
   function handleSearch() {
-    searchInput === '' ? setIsAllShowed(false) : setIsAllShowed(false)
     submitSearch(searchInput);
-    setIsSearchActive(!isSearchActive);
+    setIsAllShowed(!searchInput);
+    setIsSearchActive(!!searchInput);
   }
 
   useEffect( () => {
-    isSearchActive ? setIsAllShowed(false) : setIsAllShowed(true)
+    // setIsAllShowed(!isSearchActive)
   }, [isSearchActive])
 
   return (
@@ -63,7 +63,7 @@ function Header({ signedUser, submitSearch, showAll }) {
             />
             <Button className="me-4" variant="outline-light" type="button" active={isSearchActive} onClick={handleSearch}>Search</Button>
           </Form>
-          <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={showAll}>Show All</Button>
+          <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={() => {showAll(); setIsSearchActive(false); setIsAllShowed(true)}}>Show All</Button>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2" disabled>Best 🔥</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Worst 🤮</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Best Decaf 🌚</Button></LinkContainer>
