@@ -5,20 +5,21 @@ import Row from "react-bootstrap/Row";
 
 function CoffeePage({ searchTerm }) {
   const [coffees, setCoffees] = useState([]);
-  const [coffeesToRender, setCoffeesToRender] = useState([])
+  const [coffeesToRender, setCoffeesToRender] = useState(coffees)
 
   useEffect(() => {
     if (searchTerm !== '') {
     const filteredCoffees = coffees.filter((coffee) => coffee.name.toLowerCase().includes(searchTerm.toLowerCase()));
     setCoffeesToRender(filteredCoffees);
     } else { setCoffeesToRender(coffees) }
-}, [searchTerm])
+}, [coffees, searchTerm])
 
   useEffect(() => {
     fetch("/coffees")
       .then((r) => r.json())
       .then((coffees) => setCoffees(coffees))
       .catch((error) => alert("Error fetching data:", error));
+      console.log(coffees)
   }, []);
 
   return (

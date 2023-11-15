@@ -7,9 +7,10 @@ import Image from "react-bootstrap/Image";
 import { LinkContainer } from 'react-router-bootstrap'
 import { useState } from "react";
 
-function Header({ signedUser, submitSearch}) {
+function Header({ signedUser, submitSearch, showAll }) {
 
   const [searchInput, setSearchInput] = useState('');
+  
   function handleSearch() {
     submitSearch(searchInput);
   }
@@ -54,7 +55,7 @@ function Header({ signedUser, submitSearch}) {
             />
             <Button className="me-4" variant="outline-light" type="button" onClick={handleSearch}>Search</Button>
           </Form>
-          <LinkContainer to="/"><Button variant="outline-light" className="me-2">Show All</Button></LinkContainer>
+          <LinkContainer to="/"><Button variant="outline-light" className="me-2" onClick={showAll}>Show All</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2" disabled>Best 🔥</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Worst 🤮</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Best Decaf 🌚</Button></LinkContainer>

@@ -18,6 +18,10 @@ function App() {
     setSearchTerm(input);
   }
 
+  function resetSerch() {
+    setSearchTerm('')
+  }
+
   useEffect(() => {
     fetch("/check_session").then((r) => {
       if (r.status === 204) {
@@ -32,7 +36,7 @@ function App() {
 
   return (
     <>
-      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch}/>
+      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch} showAll={{resetSerch}}/>
       <Routes>
         <Route
           path={"/login"}
