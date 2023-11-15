@@ -10,11 +10,7 @@ function SignOut({ signedUser, setSignedUser }) {
       },
       body: JSON.stringify(signedUser),
     }).then((r) => {
-      if (r.ok) {
         setSignedUser(null);
-      } else {
-        setSignedUser(null);
-      }
     });
   }, [signedUser, setSignedUser]);
 
