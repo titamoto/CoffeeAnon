@@ -10,6 +10,8 @@ import { useState } from "react";
 function Header({ signedUser, submitSearch, showAll }) {
 
   const [searchInput, setSearchInput] = useState('');
+  const [isAllShowed, setIsAllShowed] = useState(true);
+  const [isSearchActive, setIsSearchActive] = useState(false);
   
   function handleSearch() {
     submitSearch(searchInput);
@@ -53,9 +55,9 @@ function Header({ signedUser, submitSearch, showAll }) {
               aria-label="Search"
               onChange={(e) => setSearchInput(e.target.value)}
             />
-            <Button className="me-4" variant="outline-light" type="button" onClick={handleSearch}>Search</Button>
+            <Button className="me-4" variant="outline-light" type="button" active={isSearchActive} onClick={handleSearch}>Search</Button>
           </Form>
-          <Button variant="outline-light" className="me-2" onClick={showAll}>Show All</Button>
+          <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={showAll}>Show All</Button>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2" disabled>Best 🔥</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Worst 🤮</Button></LinkContainer>
                 <LinkContainer to=""><Button variant="outline-light" className="me-2"disabled>Best Decaf 🌚</Button></LinkContainer>
