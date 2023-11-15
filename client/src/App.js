@@ -15,7 +15,6 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
 
   function updateSearch(input) {
-    console.log(`search input: ${input}`);
     setSearchTerm(input);
   }
 

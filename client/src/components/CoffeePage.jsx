@@ -7,12 +7,9 @@ function CoffeePage({ searchTerm }) {
   const [coffees, setCoffees] = useState([]);
   const [coffeesToRender, setCoffeesToRender] = useState([])
 
-  console.log(`rendering: ${searchTerm}`);
   useEffect(() => {
     if (searchTerm !== '') {
     const filteredCoffees = coffees.filter((coffee) => coffee.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    console.log(`filtered: ${filteredCoffees}`);
-    // console.log(`coffees: ${coffees}`);
     setCoffeesToRender(filteredCoffees);
     } else { setCoffeesToRender(coffees) }
 }, [searchTerm])
