@@ -7,12 +7,11 @@ import Image from "react-bootstrap/Image";
 import { LinkContainer } from 'react-router-bootstrap'
 import { useState } from "react";
 
-function Header({ signedUser }) {
+function Header({ signedUser, submitSearch}) {
 
-  const [searchInput, setSearchInput] = useState("")
-
+  const [searchInput, setSearchInput] = useState('');
   function handleSearch() {
-    console.log(searchInput);
+    submitSearch(searchInput);
   }
 
   return (

@@ -12,6 +12,12 @@ import CoffeeEditReview from "./components/CoffeeEditReview";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  function updateSearch(input) {
+    console.log(`search input: ${input}`);
+    setSearchTerm(input);
+  }
 
   useEffect(() => {
     fetch("/check_session").then((r) => {
@@ -27,7 +33,7 @@ function App() {
 
   return (
     <>
-      <Header signedUser={user} setSignedUser={setUser} />
+      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch}/>
       <Routes>
         <Route
           path={"/login"}
@@ -41,7 +47,7 @@ function App() {
           path={"/logout"}
           element={<SignOut signedUser={user} setSignedUser={setUser} />}
         />
-        <Route path={"/"} element={<CoffeePage signedUser={user} />} />
+        <Route path={"/"} element={<CoffeePage signedUser={user} searchTerm={searchTerm} />} />
         <Route path={"/new"} element={<NewCoffeePage signedUser={user} />} />
         <Route path={"/:id"} element={<CoffeeProfile signedUser={user} />} />
         <Route
