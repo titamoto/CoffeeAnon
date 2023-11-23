@@ -1,13 +1,13 @@
 import re
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy_serializer import SerializerMixin
+# from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy import CheckConstraint
 
 from config import db, bcrypt
 
 
-class User(db.Model, SerializerMixin):
+class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -19,7 +19,7 @@ class User(db.Model, SerializerMixin):
 
     _password_hash = db.Column(db.String(60), nullable=False)
 
-    serialize_rules = ("-review_metadata.users",)
+    # serialize_rules = ("-review_metadata.users",)
     reviews_metadata = db.relationship("ReviewMetadata", backref="users")
     
     @validates('username')
@@ -50,7 +50,7 @@ class User(db.Model, SerializerMixin):
         return f"\n<User id={self.id} username={self.username} email={self.email}\
               admin={self.is_admin} created at={self.created_at} updated at={self.updated_at}>"
     
-class ReviewMetadata(db.Model, SerializerMixin):
+class ReviewMetadata(db.Model):
     __tablename__ = "review_metadata"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -61,14 +61,14 @@ class ReviewMetadata(db.Model, SerializerMixin):
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
     review_id = db.Column(db.Integer, db.ForeignKey("review.id"))
     
-    serialize_rules = ("-review.review_metadata",)
+    # serialize_rules = ("-review.review_metadata",)
 
     def __repr__(self):
         return f"\n<Review metadata id={self.id} public={self.is_public}\
               created at={self.created_at} updated at={self.updated_at}\
                 user id={self.user_id} coffee id={self.coffee_id}>"
 
-class Review(db.Model, SerializerMixin):
+class Review(db.Model):
     __tablename__ = "review"
 
     __table_args__ = (
@@ -89,7 +89,7 @@ class Review(db.Model, SerializerMixin):
     tag = db.Column(db.String(50)) #tag bubbles with non-flavor features: for espresso, for french press, etc.
 
 
-    serialize_rules = ("-review_metadata.review",)
+    # serialize_rules = ("-review_metadata.review",)
     review_metadata = db.relationship("ReviewMetadata", backref="review")
 
     def __repr__(self):
@@ -98,7 +98,7 @@ class Review(db.Model, SerializerMixin):
                 body={self.body} aroma={self.aroma}\
                     flavor={self.flavor} tag={self.tag}>"
  
-class Coffee(db.Model, SerializerMixin):
+class Coffee(db.Model):
     __tablename__ = "coffee"  
 
     __table_args__ = (
@@ -116,7 +116,7 @@ class Coffee(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    serialize_rules = ("-coffee_profile.coffee",)
+    # serialize_rules = ("-coffee_profile.coffee",)
     coffee_profile = db.relationship("CoffeeProfile", backref="coffee")
     
     @validates('name')
@@ -140,7 +140,7 @@ class Coffee(db.Model, SerializerMixin):
                     roast={self.roast} decaf={self.is_decaf}\
                           created at={self.created_at} updated at={self.updated_at}>"
 
-class CoffeeProfile(db.Model, SerializerMixin): 
+class CoffeeProfile(db.Model): 
     __tablename__ = "coffee_profile"  
 
     id = db.Column(db.Integer, primary_key=True)

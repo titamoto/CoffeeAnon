@@ -33,6 +33,7 @@ function SignIn({ signedUser, setSignedUser }) {
           });
         } else {
           alert("Incorrect username or password");
+          console.log(r)
         }
       });
     },

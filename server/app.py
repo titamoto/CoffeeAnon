@@ -1,15 +1,62 @@
-from flask import request, session, render_template
+from flask import request, session, render_template, make_response
 from flask_restful import Resource
-from config import app, db, api
+from config import app, db, api, ma
 from models import User, ReviewMetadata, Review, Coffee, CoffeeProfile
+
+class UserSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
+        load_instance = True
+    id = ma.auto_field()
+    username = ma.auto_field()
+    reviews_metadata = ma.auto_field()
+
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "user",
+                values=dict(id="<id>")),
+            "collection": ma.URLFor("users"),
+        }
+    )
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
+
+class CoffeeSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Coffee
+        load_instance = True
+    id = ma.auto_field()
+    name = ma.auto_field()
+    producer = ma.auto_field()
+    product_type = ma.auto_field()
+    weight = ma.auto_field()
+    is_decaf = ma.auto_field()
+    image = ma.auto_field()
+    roast = ma.auto_field()
+    coffee_profile = ma.auto_field()
     
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "coffee",
+                values=dict(id="<id>")),
+            "collection": ma.URLFor("coffees"),
+        }
+    )
+
+coffee_schema = CoffeeSchema()
+coffees_schema = CoffeeSchema(many=True)
+
 class CheckSession(Resource):
     def get(self):
         user_id = session.get('user_id')
         if user_id:
             user = User.query.filter(User.id == user_id).first()
-            return {"id": user.to_dict()["id"],
-                    "username": user.to_dict()["username"]}, 200
+            return make_response(
+            user_schema.dump(user),
+            200, )
         return {"message" : "user is not signed in"}, 204
     
 class Signup(Resource):
@@ -19,8 +66,8 @@ class Signup(Resource):
             username=signup_data['username'],
             email=signup_data['email']
         )
-        emailUsed = User.query.filter_by(email=user.email).first()
-        if emailUsed:
+        email_used = User.query.filter_by(email=user.email).first()
+        if email_used:
             return {}, 422
         user.password_hash=signup_data['password']
         db.session.add(user)
@@ -29,11 +76,15 @@ class Signup(Resource):
         if not user_record:
             return {}, 422
         session['user_id'] = user_record.id
-        return user_record.to_dict(), 201
+        return make_response(
+            user_schema.dump(user),
+            201,
+        )
     
 class Login(Resource):
     def post(self):
         data = request.get_json()
+        print(data)
         username = data['username']
         password = data['password']
         user = User.query.filter(User.username == username).first()
@@ -41,8 +92,9 @@ class Login(Resource):
             return {}, 401
         if user.authenticate(password):
             session['user_id'] = user.id
-            return {"id": user.to_dict()["id"],
-                    "username": user.to_dict()['username']}, 200
+            return make_response(
+                user_schema.dump(user),
+                200, )
         return {}, 401
     
 class Logout(Resource):
@@ -55,8 +107,14 @@ class Logout(Resource):
     
 class Coffees(Resource):
     def get(self):
-       coffees = [coffee.to_dict() for coffee in Coffee.query.all()]
-       return coffees, 200
+        coffees = Coffee.query.all()
+        if not coffees:
+            return make_response(
+                {"message": "Not found"}, 404,
+            )
+        return make_response(
+            coffees_schema.dump(coffees),
+            200,)
     
     def post(self):
         data = request.get_json()
@@ -93,8 +151,11 @@ class Coffees(Resource):
         new_coffee_profile.coffee_id = new_coffee.id
         db.session.add(new_coffee_profile)
         db.session.commit()
-        new_coffee_data = Coffee.query.filter_by(id=new_coffee.id).first().to_dict()
-        return new_coffee_data, 201
+        new_coffee_data = Coffee.query.filter_by(id=new_coffee.id).first()
+        return make_response(
+            coffee_schema.dump(new_coffee_data), 
+            201,
+        )
     
 class CoffeeByID(Resource):
     def get(self, id):
@@ -157,23 +218,27 @@ class CoffeeByIDAverage(Resource):
         average = sum(rates) / len(rates)
         return {"average_rate": average}, 200
           
-class Users(Resource):
-    def get(self):
-        user_id = session.get('user_id')
-        if not user_id:
-            return {}, 401
-        users = [user.to_dict(rules=('-_password_hash',)) for user in User.query.all()]
-        return users, 200
+# class Users(Resource):
+#     def get(self):
+#         user_id = session.get('user_id')
+#         if not user_id:
+#             return {}, 401
+#         users = [user.to_dict(rules=('-_password_hash',)) for user in User.query.all()]
+#         return users, 200
 
 class UserByID(Resource):
     def get(self, id):
         user_id = session.get('user_id')
-        if not user_id:
-            return {}, 401
+        # if not user_id:
+        #     return {}, 401
         user = User.query.filter_by(id=id).first()
         if not user:
             return {}, 404
-        return user.to_dict(rules=('-_password_hash',)), 200
+        response = make_response(
+            user_schema.dump(user),
+            200,
+        )
+        return response
 
 class UserByIDReviews(Resource):
     #all reviews left by this user
@@ -228,7 +293,7 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Coffees, '/coffees', endpoint='coffees')
 api.add_resource(CoffeeByID, '/coffees/<int:id>', endpoint='coffee')
-api.add_resource(Users, '/users', endpoint='users')
+# api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
@@ -242,7 +307,7 @@ api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
 @app.route('/signup')
 @app.route('/coffees')
 @app.route('/coffees/<int:id>')
-@app.route('/users')
+# @app.route('/users')
 @app.route('/users/<int:id>')
 @app.route('/user-reviews')
 @app.route('/coffees/<int:id>/reviews')
