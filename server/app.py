@@ -161,8 +161,11 @@ class CoffeeByID(Resource):
     def get(self, id):
         coffee = Coffee.query.filter_by(id=id).first()
         if not coffee:
-            return {}, 404
-        return coffee.to_dict(), 200
+            return {'message': 'Not found'}, 404
+        return make_response(
+            coffee_schema.dump(coffee), 
+            200,
+        )
 
 class CoffeeByIDReviews(Resource):
     #get all review for this coffee
@@ -218,14 +221,6 @@ class CoffeeByIDAverage(Resource):
         average = sum(rates) / len(rates)
         return {"average_rate": average}, 200
           
-# class Users(Resource):
-#     def get(self):
-#         user_id = session.get('user_id')
-#         if not user_id:
-#             return {}, 401
-#         users = [user.to_dict(rules=('-_password_hash',)) for user in User.query.all()]
-#         return users, 200
-
 class UserByID(Resource):
     def get(self, id):
         user_id = session.get('user_id')
