@@ -49,6 +49,56 @@ class CoffeeSchema(ma.SQLAlchemySchema):
 coffee_schema = CoffeeSchema()
 coffees_schema = CoffeeSchema(many=True)
 
+class ReviewSchema(ma.SQLAchemySchema):
+    class Meta:
+        model = Review
+        load_instance = True
+    id = ma.auto_field()
+    rate = ma.auto_field()
+    price = ma.auto_field()
+    acidity = ma.auto_field()
+    body = ma.auto_field()
+    aroma = ma.auto_field()
+    review_text = ma.auto_field()
+    flavor = ma.auto_field()
+    tag = ma.auto_field()
+    review_metadata = ma.auto_field()
+
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "review",
+                value=dict(id="<id>")),
+            "collection": ma.URLFor("reviews"),
+        }
+    )
+
+review_schema = ReviewSchema()
+reviews_schema = ReviewSchema(many=True)
+
+class ReviewMetadataSchema(ma.SQLAchemySchema):
+    class Meta:
+        model = ReviewMetadata
+        load_instance = True
+    id = ma.auto_field()
+    is_public = ma.auto_field()
+    user_id = ma.auto_field()
+    coffee_id = ma.auto_field()
+    review_id = ma.auto_field()
+
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "review_metadata",
+                value=dict(id="<id>")),
+            "collection": ma.URLFor("reviews_metadata"),
+        }
+    )
+
+review_metadata_schema = ReviewMetadataSchema()
+reviews_metadata_schema = ReviewMetadataSchema(many=True)
+
+
 class CheckSession(Resource):
     def get(self):
         user_id = session.get('user_id')
@@ -171,9 +221,12 @@ class CoffeeByIDReviews(Resource):
     #get all review for this coffee
     def get(self, id):
        session['coffee_id'] = id
-       reviews_meta = [review_meta.to_dict(rules=('-users',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
-       return reviews_meta, 200
-
+       reviews_meta = ReviewMetadata.query.filter_by(coffee_id = id).all()
+       return make_response(
+           review_metadata_schema.dump(reviews_meta), 
+           200,
+       )
+    
     #create a new review for this coffee
     def post(self, id):
         data = request.get_json()
@@ -206,15 +259,19 @@ class CoffeeByIDReviews(Resource):
         new_review_metadata.user_id = session.get('user_id')
         db.session.add(new_review_metadata)
         db.session.commit()
-        new_review_data = Review.query.filter_by(id=new_review.id).first().to_dict()
-        return new_review_data, 201
+        new_review_data = Review.query.filter_by(id=new_review.id).first()
+        return make_response(
+            review_schema.dump(new_review_data), 
+            201,
+        )
     
 class CoffeeByIDAverage(Resource):
     def get(self, id):
         session["coffee_id"] = id
         if not session.get("coffee_id"):
              return {}, 403
-        reviews_meta = [review_meta.to_dict(rules=('-users',)) for review_meta in ReviewMetadata.query.filter_by(coffee_id = id).all()]
+        reviews_meta_query = ReviewMetadata.query.filter_by(coffee_id = id).all()
+        reviews_meta = reviews_metadata_schema.dump(reviews_meta_query)
         rates = [review_meta['review']['rate'] for review_meta in reviews_meta]
         if len(rates) <= 0:
             return {"average_rate": 0}, 200
@@ -224,8 +281,8 @@ class CoffeeByIDAverage(Resource):
 class UserByID(Resource):
     def get(self, id):
         user_id = session.get('user_id')
-        # if not user_id:
-        #     return {}, 401
+        if not user_id:
+            return {}, 401
         user = User.query.filter_by(id=id).first()
         if not user:
             return {}, 404
@@ -241,8 +298,11 @@ class UserByIDReviews(Resource):
         id = session.get('user_id')
         if not id:
             return {}, 401
-        reviews_meta = [review_meta.to_dict(rules=('-users',)) for review_meta in ReviewMetadata.query.filter_by(user_id = id).all()]
-        return reviews_meta, 200
+        reviews_meta = ReviewMetadata.query.filter_by(user_id = id).all()
+        return make_response(
+            reviews_metadata_schema.dump(reviews_meta), 
+            200,
+        )
     
 class ReviewByID(Resource):
     
@@ -280,7 +340,10 @@ class ReviewByID(Resource):
         db.session.add(review)
         db.session.commit()
         updated_review = Review.query.filter_by(id=review_metadata.review_id).first()
-        return updated_review.to_dict(), 202
+        return make_response(
+            review_schema.dump(updated_review), 
+        202,
+        )
         
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
@@ -288,7 +351,6 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Coffees, '/coffees', endpoint='coffees')
 api.add_resource(CoffeeByID, '/coffees/<int:id>', endpoint='coffee')
-# api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
@@ -302,7 +364,6 @@ api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
 @app.route('/signup')
 @app.route('/coffees')
 @app.route('/coffees/<int:id>')
-# @app.route('/users')
 @app.route('/users/<int:id>')
 @app.route('/user-reviews')
 @app.route('/coffees/<int:id>/reviews')
