@@ -222,7 +222,6 @@ class CoffeeByIDReviews(Resource):
     def get(self, id):
        session['coffee_id'] = id
        reviews_meta = ReviewMetadata.query.filter_by(coffee_id = id).all()
-    #    print(reviews_metadata_schema.dump(reviews_meta))
        return make_response(
            reviews_metadata_schema.dump(reviews_meta), 
            200,
@@ -261,7 +260,6 @@ class CoffeeByIDReviews(Resource):
         db.session.add(new_review_metadata)
         db.session.commit()
         new_review_data = Review.query.filter_by(id=new_review.id).first()
-        # print(new_review_data)
         return make_response(
             review_schema.dump(new_review_data), 
             201,
@@ -276,12 +274,10 @@ class CoffeeByIDAverage(Resource):
         reviews_meta_query = ReviewMetadata.query.filter_by(coffee_id = id).all()
         reviews_meta = reviews_metadata_schema.dump(reviews_meta_query)
         rates = [review_meta['review']['rate'] for review_meta in reviews_meta]
-        print(rates)
         if len(rates) <= 0:
             return {"average_rate": 0}, 200
         average = sum(rates) / len(rates)
         return {"average_rate": average}, 200
-        # return {"average_rate": '0'}, 200
           
 class UserByID(Resource):
     def get(self, id):
@@ -304,7 +300,6 @@ class UserByIDReviews(Resource):
         if not id:
             return {}, 401
         reviews_meta = ReviewMetadata.query.filter_by(user_id = id).all()
-        # reviews_meta_dump = reviews_metadata_schema.dump(reviews_meta)
         return make_response(
             reviews_metadata_schema.dump(reviews_meta), 
             200,
@@ -350,11 +345,7 @@ class ReviewByID(Resource):
             review_schema.dump(updated_review), 
         202,
         )
-
-# class ReviewMetadata(Resource):
-#     def get(self):
-#         pass
-
+    
 api.add_resource(CheckSession, '/check_session', endpoint='check-session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')

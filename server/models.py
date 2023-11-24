@@ -61,10 +61,6 @@ class ReviewMetadata(db.Model):
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
     review_id = db.Column(db.Integer, db.ForeignKey("review.id"))
 
-    # review = db.relationship("Review", backref="review_metadata")
-    
-    # serialize_rules = ("-review.review_metadata",)
-
     def __repr__(self):
         return f"\n<Review metadata id={self.id} public={self.is_public}\
               created at={self.created_at} updated at={self.updated_at}\
@@ -90,8 +86,6 @@ class Review(db.Model):
     flavor = db.Column(db.String(50)) #flavors as tag bubbles: cocoa, berries, etc.
     tag = db.Column(db.String(50)) #tag bubbles with non-flavor features: for espresso, for french press, etc.
 
-
-    # serialize_rules = ("-review_metadata.review",)
     review_metadata = db.relationship("ReviewMetadata", backref="review")
 
     def __repr__(self):
@@ -118,7 +112,6 @@ class Coffee(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    # serialize_rules = ("-coffee_profile.coffee",)
     coffee_profile = db.relationship("CoffeeProfile", backref="coffee")
     
     @validates('name')
