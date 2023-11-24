@@ -60,6 +60,8 @@ class ReviewMetadata(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     coffee_id = db.Column(db.Integer, db.ForeignKey("coffee.id"))
     review_id = db.Column(db.Integer, db.ForeignKey("review.id"))
+
+    # review = db.relationship("Review", backref="review_metadata")
     
     # serialize_rules = ("-review.review_metadata",)
 
