@@ -26,7 +26,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch("/check_session").then((r) => {
+    fetch("/check-session").then((r) => {
       if (r.status === 204) {
         // setUser(null);
         console.log("no user " + user);

@@ -49,7 +49,7 @@ class CoffeeSchema(ma.SQLAlchemySchema):
 coffee_schema = CoffeeSchema()
 coffees_schema = CoffeeSchema(many=True)
 
-class ReviewSchema(ma.SQLAchemySchema):
+class ReviewSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Review
         load_instance = True
@@ -76,7 +76,7 @@ class ReviewSchema(ma.SQLAchemySchema):
 review_schema = ReviewSchema()
 reviews_schema = ReviewSchema(many=True)
 
-class ReviewMetadataSchema(ma.SQLAchemySchema):
+class ReviewMetadataSchema(ma.SQLAlchemySchema):
     class Meta:
         model = ReviewMetadata
         load_instance = True
@@ -345,7 +345,7 @@ class ReviewByID(Resource):
         202,
         )
         
-api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(CheckSession, '/check_session', endpoint='check-session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -355,10 +355,11 @@ api.add_resource(UserByID, '/users/<int:id>', endpoint='user')
 api.add_resource(UserByIDReviews, '/user-reviews', endpoint='user-reviews')
 api.add_resource(CoffeeByIDReviews, '/coffees/<int:id>/reviews', endpoint='coffee-reviews')
 api.add_resource(CoffeeByIDAverage, '/coffees/<int:id>/reviews/average', endpoint='coffee-reviews-average')
-api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='all-reviews')
+api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='review')
+
 
 @app.route('/')
-@app.route('/check_session')
+@app.route('/check-session')
 @app.route('/login')
 @app.route('/logout')
 @app.route('/signup')
