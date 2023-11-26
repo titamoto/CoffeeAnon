@@ -107,8 +107,8 @@ class CheckSession(Resource):
             user = User.query.filter(User.id == user_id).first()
             return make_response(
             user_schema.dump(user),
-            200, )
-        return {"message" : "user is not signed in"}, 204
+            200)
+        return make_response({'message' : 'user is not signed in'}, 204)
     
 class Signup(Resource):
     def post(self):
@@ -119,17 +119,17 @@ class Signup(Resource):
         )
         email_used = User.query.filter_by(email=user.email).first()
         if email_used:
-            return {}, 422
+            return make_response({'error': 'this email is already used'}, 422)
         user.password_hash=signup_data['password']
         db.session.add(user)
         db.session.commit()
         user_record = User.query.filter(User.username == user.username).first()
         if not user_record:
-            return {}, 422
+            return make_response({'error': 'sign up error'}, 422)
         session['user_id'] = user_record.id
         return make_response(
             user_schema.dump(user),
-            201,
+            201
         )
     
 class Login(Resource):
@@ -138,43 +138,43 @@ class Login(Resource):
         username = data['username']
         password = data['password']
         user = User.query.filter(User.username == username).first()
-        if not user:
-            return {}, 401
+        if not user:    
+            return make_response({'error': 'user is not found'}, 401)
         if user.authenticate(password):
             session['user_id'] = user.id
             return make_response(
                 user_schema.dump(user),
-                200, )
-        return {}, 401
+                200)
+        return make_response({'error': 'password is incorrect'}, 401)
     
 class Logout(Resource):
     def delete(self):
         if session.get('user_id'):
             session['user_id'] = None
-            return {}, 204
+            return make_response({'message': 'user is logged out'}, 204)
         session['user_id'] = None
-        return {}, 401
+        return make_response({'error': 'no user is logged in'}, 401)
     
 class Coffees(Resource):
     def get(self):
         coffees = Coffee.query.all()
         if not coffees:
             return make_response(
-                {"message": "Not found"}, 404,
+                {"error": "no coffees found"}, 404
             )
         return make_response(
             coffees_schema.dump(coffees),
-            200,)
+            200)
     
     def post(self):
         data = request.get_json()
         user_id = session.get('user_id')
         if not user_id:
-            return {}, 401
+            return make_response({'error': 'user must be logged in to add coffee'}, 401)
         if 'name' not in data:
-            return {}, 422
+            return make_response({'error': 'coffee name is not in the input'}, 422)
         if 'producer' not in data:
-            return {}, 422
+            return make_response({'error': 'coffee producer is not in the input'}, 422)
 
         new_coffee = Coffee(
             name = data['name'],
@@ -204,17 +204,17 @@ class Coffees(Resource):
         new_coffee_data = Coffee.query.filter_by(id=new_coffee.id).first()
         return make_response(
             coffee_schema.dump(new_coffee_data), 
-            201,
+            201
         )
     
 class CoffeeByID(Resource):
     def get(self, id):
         coffee = Coffee.query.filter_by(id=id).first()
         if not coffee:
-            return {'message': 'Not found'}, 404
+            return make_response({'error': 'coffee not found'}, 404)
         return make_response(
             coffee_schema.dump(coffee), 
-            200,
+            200
         )
 
 class CoffeeByIDReviews(Resource):
@@ -222,9 +222,10 @@ class CoffeeByIDReviews(Resource):
     def get(self, id):
        session['coffee_id'] = id
        reviews_meta = ReviewMetadata.query.filter_by(coffee_id = id).all()
+    #    print(reviews_metadata_schema.dump(reviews_meta))
        return make_response(
            reviews_metadata_schema.dump(reviews_meta), 
-           200,
+           200
        )
     
     #create a new review for this coffee
@@ -262,31 +263,31 @@ class CoffeeByIDReviews(Resource):
         new_review_data = Review.query.filter_by(id=new_review.id).first()
         return make_response(
             review_schema.dump(new_review_data), 
-            201,
+            201
         )
     
 class CoffeeByIDAverage(Resource):
     def get(self, id):
         session["coffee_id"] = id
         if not session.get("coffee_id"):
-             return {}, 403
+             return make_response({'error': 'no coffee id'}, 403)
         reviews_meta = ReviewMetadata.query.filter_by(coffee_id = id).all()
         reviews_meta_query = ReviewMetadata.query.filter_by(coffee_id = id).all()
         reviews_meta = reviews_metadata_schema.dump(reviews_meta_query)
         rates = [review_meta['review']['rate'] for review_meta in reviews_meta]
         if len(rates) <= 0:
-            return {"average_rate": 0}, 200
+            return make_response({"average_rate": "0"}, 200)
         average = sum(rates) / len(rates)
-        return {"average_rate": average}, 200
+        return make_response({"average_rate": average}, 200)
           
 class UserByID(Resource):
     def get(self, id):
         user_id = session.get('user_id')
         if not user_id:
-            return {}, 401
+            return make_response({'error': 'user is not signed in'}, 401)
         user = User.query.filter_by(id=id).first()
         if not user:
-            return {}, 404
+            return make_response({'error': 'user not found'}, 404)
         response = make_response(
             user_schema.dump(user),
             200,
@@ -298,11 +299,11 @@ class UserByIDReviews(Resource):
     def get(self):
         id = session.get('user_id')
         if not id:
-            return {}, 401
+            return make_response({'error': 'user is not signed in'}, 401)
         reviews_meta = ReviewMetadata.query.filter_by(user_id = id).all()
         return make_response(
             reviews_metadata_schema.dump(reviews_meta), 
-            200,
+            200
         )
     
 class ReviewByID(Resource):
@@ -310,32 +311,32 @@ class ReviewByID(Resource):
     def delete(self, id):
         user_id = session.get('user_id')
         if not user_id:
-            return {}, 401
+            return make_response({'error': 'user is not signed in'}, 401)
         review_metadata = ReviewMetadata.query.filter_by(id=id).first()
         if not review_metadata:
-            return {}, 404
+            return make_response({'error': 'review metadata is not found'}, 404)
         review = Review.query.filter_by(id=id).first()
         if not review:
-            return {}, 404
+            return make_response({'error': 'review is not found'}, 404)
         db.session.delete(review)
         db.session.commit()
         db.session.delete(review_metadata)
         db.session.commit()
-        return {}, 204
+        return make_response({'success': 'review is deleted'}, 204)
     
     def patch(self, id):
         data = request.get_json()
         user_id = session.get('user_id')
         if not user_id:
-            return {}, 401
+            return make_response({'error': 'user is not signed in'}, 401)
         if 'rate' not in data:
-            return {}, 422
+            return make_response({'error': 'rate must be in the input'}, 422)
         review_metadata = ReviewMetadata.query.filter_by(id=id).first()
         if not review_metadata:
-            return {}, 404
+            return make_response({'error': 'review metadata is not found'}, 404)
         review = Review.query.filter_by(id=id).first()
         if not review:
-            return {}, 404
+            return make_response({'error': 'review is not found'}, 404)
         for attr in data:
             setattr(review, attr, data[attr])
         db.session.add(review)
@@ -343,7 +344,7 @@ class ReviewByID(Resource):
         updated_review = Review.query.filter_by(id=review_metadata.review_id).first()
         return make_response(
             review_schema.dump(updated_review), 
-        202,
+        202
         )
     
 api.add_resource(CheckSession, '/check_session', endpoint='check-session')
