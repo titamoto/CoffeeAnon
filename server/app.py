@@ -233,12 +233,12 @@ class CoffeeByIDReviews(Resource):
         data = request.get_json()
         session["coffee_id"] = id
         if not session.get("coffee_id"):
-             return {}, 403
+             return make_response({'error': 'no coffee id'}, 403)
         user_id = session.get('user_id')
         if not user_id:
-            return {}, 401
+            return make_response({'error': 'user is not signed in'}, 401)
         if 'rate' not in data:
-            return {}, 422
+            return make_response({'error': 'rate must be in the input'}, 422)
         new_review = Review(
             rate = data['rate'],
             price = data['price'],
