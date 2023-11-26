@@ -28,20 +28,18 @@ function App() {
   useEffect(() => {
     fetch("/check-session").then((r) => {
       if (r.status === 204) {
-        // setUser(null);
-        console.log("no user " + user);
+        setUser(null);
       } else if (r.ok) {
-        return r.json().then((user) => {
-          console.log(user);
+          r.json().then((user) => {
           setUser(user);
         });
       }
       else {
-        // setUser(null);
-        console.log("server error " + user);
+        setUser(null);
+
       }
     });
-  });
+  }, []);
 
   return (
     <>

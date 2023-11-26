@@ -276,7 +276,7 @@ class CoffeeByIDAverage(Resource):
         reviews_meta = reviews_metadata_schema.dump(reviews_meta_query)
         rates = [review_meta['review']['rate'] for review_meta in reviews_meta]
         if len(rates) <= 0:
-            return make_response({"average_rate": "0"}, 200)
+            return make_response({"average_rate": 0}, 200)
         average = sum(rates) / len(rates)
         return make_response({"average_rate": average}, 200)
           
@@ -347,7 +347,7 @@ class ReviewByID(Resource):
         202
         )
     
-api.add_resource(CheckSession, '/check_session', endpoint='check-session')
+api.add_resource(CheckSession, '/check-session', endpoint='check-session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
