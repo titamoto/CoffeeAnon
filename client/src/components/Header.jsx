@@ -13,10 +13,18 @@ function Header({ signedUser, submitSearch, showAll }) {
   const [isAllShowed, setIsAllShowed] = useState(true);
   const [isSearchActive, setIsSearchActive] = useState(false);
   
-  function handleSearch() {
+  function handleSearch(e) {
+    e.preventDefault();
     submitSearch(searchInput);
     setIsAllShowed(!searchInput);
     setIsSearchActive(!!searchInput);
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    showAll(); 
+    setIsSearchActive(false); 
+    setIsAllShowed(true)
   }
 
   return (
@@ -52,14 +60,25 @@ function Header({ signedUser, submitSearch, showAll }) {
       <Form className="d-flex">
             <Form.Control
               type="search"
+              name="search"
               placeholder="Folgers"
               className="me-2"
               aria-label="Search"
-              onChange={(e) => setSearchInput(e.target.value)}
+              // onSubmit={(e) => {
+              //   e.preventSubmit();
+              // }
+              // }
+              onChange={(e) => {
+                // if (e.key === 'Enter') {
+                //   e.preventDefault();
+                // }
+                setSearchInput(e.target.value);
+              }
+              }
             />
             <Button className="me-4" variant="outline-light" type="button" active={isSearchActive} onClick={handleSearch}>Search</Button>
           </Form>
-          <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={() => {showAll(); setIsSearchActive(false); setIsAllShowed(true)}}>Show All</Button>
+          <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={handleClick}>Show All</Button>
                 <Button variant="outline-light" className="me-2" active={false}>Best 🔥</Button>
                 <Button variant="outline-light" className="me-2" active={false}>Worst 🤮</Button>
                 <Button variant="outline-light" className="me-2" active={false}>Best Decaf 🌚</Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect }  from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -6,6 +6,12 @@ import * as yup from "yup";
 
 function SignIn({ signedUser, setSignedUser }) {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (signedUser) {
+      navigate("/");
+    }
+  }, [signedUser, navigate]);
 
   const formSchema = yup.object().shape({
     username: yup.string().min(2, "Too Short").required("Required"),
@@ -39,7 +45,6 @@ function SignIn({ signedUser, setSignedUser }) {
     },
   });
 
-  if (!signedUser) {
     return (
       <Container className="w-25 position-absolute m-3">
         <p className="fs-4 fw-medium">Sign In</p>
@@ -73,7 +78,6 @@ function SignIn({ signedUser, setSignedUser }) {
         </p>
       </Container>
     );
-  } else navigate("/");
-}
+  }
 
 export default SignIn;

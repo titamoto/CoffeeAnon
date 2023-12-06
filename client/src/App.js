@@ -21,7 +21,7 @@ function App() {
   }
 
   function resetSerch() {
-    setSearchTerm('')
+    setSearchTerm('');
     navigate("/");
   }
 
