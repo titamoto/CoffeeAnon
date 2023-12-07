@@ -12,8 +12,9 @@ function CoffeeCard({ coffee, formCoffeesRates }) {
       .then((r) => r.json())
       .then((data) => {
         setAverageRate(data.average_rate);
+        if (data.average_rate !== 0) {
         const coffeeRateObj = {coffee : coffee, rate : data.average_rate}
-        formCoffeesRates(coffeeRateObj)
+        formCoffeesRates(coffeeRateObj) }
       });
   }, [coffee.id]);
 
