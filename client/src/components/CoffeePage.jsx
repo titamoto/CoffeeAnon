@@ -3,9 +3,15 @@ import CoffeeCard from "./CoffeeCard";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-function CoffeePage({ searchTerm }) {
+function CoffeePage({ searchTerm, showBest }) {
   const [coffees, setCoffees] = useState([]);
   const [coffeesToRender, setCoffeesToRender] = useState(coffees)
+  const [coffeesRates, setCoffeesRates] = useState([])
+
+  function formCoffeesRates(obj) {
+    coffeesRates.push(obj);
+    setCoffeesRates(coffeesRates);
+  }
 
   useEffect(() => {
     if (searchTerm !== '') {
@@ -13,6 +19,19 @@ function CoffeePage({ searchTerm }) {
     setCoffeesToRender(filteredCoffees);
     } else { setCoffeesToRender(coffees) }
 }, [coffees, searchTerm])
+
+  useEffect(() => {
+    if (showBest) {
+        console.log(coffeesRates);
+        const sortedCoffeesRates = coffeesRates.toSorted((a, b) => b.rate - a.rate);
+        console.log(sortedCoffeesRates);
+        const bestCoffees = sortedCoffeesRates.map((obj) => obj.coffee);
+        const uniqueBestCoffees = [...new Set(bestCoffees)]
+        setCoffeesToRender(uniqueBestCoffees);
+    } else {
+      setCoffeesToRender(coffees);
+    }
+  }, [coffees, showBest, coffeesRates])
 
   useEffect(() => {
     fetch("/coffees")
@@ -26,7 +45,7 @@ function CoffeePage({ searchTerm }) {
       <p className="fs-4 fw-medium">All Coffee</p>
       <Row xs={2} md={4} lg={6} className="g-4 mt-1">
         {coffeesToRender.map((coffee) => (
-          <CoffeeCard key={coffee.id} coffee={coffee} />
+          <CoffeeCard key={coffee.id} coffee={coffee} formCoffeesRates={formCoffeesRates} />
         ))}
       </Row>
     </Container>

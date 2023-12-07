@@ -4,13 +4,17 @@ import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import { LinkContainer } from 'react-router-bootstrap'
 
-function CoffeeCard({ coffee }) {
+function CoffeeCard({ coffee, formCoffeesRates }) {
   const [averageRate, setAverageRate] = useState(0);
 
   useEffect(() => {
     fetch(`/coffees/${coffee.id}/reviews/average`)
       .then((r) => r.json())
-      .then((data) => setAverageRate(data.average_rate));
+      .then((data) => {
+        setAverageRate(data.average_rate);
+        const coffeeRateObj = {coffee : coffee, rate : data.average_rate}
+        formCoffeesRates(coffeeRateObj)
+      });
   }, [coffee.id]);
 
   return (

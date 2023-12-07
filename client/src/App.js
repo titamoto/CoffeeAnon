@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 function App() {
   const [user, setUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showBest, setShowBest] = useState(false);
   const navigate = useNavigate();
 
   function updateSearch(input) {
@@ -23,6 +24,10 @@ function App() {
   function resetSerch() {
     setSearchTerm('');
     navigate("/");
+  }
+
+  function switchShowBest() {
+    setShowBest(!showBest);
   }
 
   useEffect(() => {
@@ -43,7 +48,7 @@ function App() {
 
   return (
     <>
-      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch} showAll={resetSerch}/>
+      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch} showAll={resetSerch} switchShowBest={switchShowBest} showBest={showBest}/>
       <Routes>
         <Route
           path={"/login"}
@@ -57,7 +62,7 @@ function App() {
           path={"/logout"}
           element={<SignOut signedUser={user} setSignedUser={setUser} />}
         />
-        <Route path={"/"} element={<CoffeePage signedUser={user} searchTerm={searchTerm} />} />
+        <Route path={"/"} element={<CoffeePage signedUser={user} searchTerm={searchTerm} showBest={showBest}/>} />
         <Route path={"/new"} element={<NewCoffeePage signedUser={user} />} />
         <Route path={"/:id"} element={<CoffeeProfile signedUser={user} />} />
         <Route

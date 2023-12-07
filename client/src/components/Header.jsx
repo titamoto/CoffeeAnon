@@ -7,11 +7,12 @@ import Image from "react-bootstrap/Image";
 import { LinkContainer } from 'react-router-bootstrap'
 import { useState } from "react";
 
-function Header({ signedUser, submitSearch, showAll }) {
+function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest }) {
 
   const [searchInput, setSearchInput] = useState('');
   const [isAllShowed, setIsAllShowed] = useState(true);
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [isBestPressed, setIsBestPressed] = useState(false);
   
   function handleSearch(e) {
     e.preventDefault();
@@ -79,7 +80,7 @@ function Header({ signedUser, submitSearch, showAll }) {
             <Button className="me-4" variant="outline-light" type="button" active={isSearchActive} onClick={handleSearch}>Search</Button>
           </Form>
           <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={handleClick}>Show All</Button>
-                <Button variant="outline-light" className="me-2" active={false}>Best 🔥</Button>
+                <Button variant="outline-light" className="me-2" active={showBest} onClick={switchShowBest}>Best 🔥</Button>
                 <Button variant="outline-light" className="me-2" active={false}>Worst 🤮</Button>
                 <Button variant="outline-light" className="me-2" active={false}>Best Decaf 🌚</Button>
                 </Navbar.Collapse>
