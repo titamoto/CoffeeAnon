@@ -3,7 +3,7 @@ import CoffeeCard from "./CoffeeCard";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-function CoffeePage({ searchTerm, showBest }) {
+function CoffeePage({ searchTerm, showBest, showWorst }) {
   const [coffees, setCoffees] = useState([]);
   const [coffeesToRender, setCoffeesToRender] = useState(coffees)
   const [coffeesRates, setCoffeesRates] = useState([])
@@ -22,16 +22,27 @@ function CoffeePage({ searchTerm, showBest }) {
 
   useEffect(() => {
     if (showBest) {
-        console.log(coffeesRates);
-        const sortedCoffeesRates = coffeesRates.toSorted((a, b) => b.rate - a.rate);
-        console.log(sortedCoffeesRates);
-        const bestCoffees = sortedCoffeesRates.map((obj) => obj.coffee);
+        const reversedSortedCoffeesRates = coffeesRates.toSorted((a, b) => b.rate - a.rate);
+        console.log(reversedSortedCoffeesRates);
+        const bestCoffees = reversedSortedCoffeesRates.map((obj) => obj.coffee);
         const uniqueBestCoffees = [...new Set(bestCoffees)]
         setCoffeesToRender(uniqueBestCoffees);
     } else {
       setCoffeesToRender(coffees);
     }
   }, [coffees, showBest, coffeesRates])
+
+  useEffect(() => {
+  if (showWorst) {
+      const sortedCoffeesRates = coffeesRates.toSorted((a, b) => a.rate - b.rate);
+      console.log(sortedCoffeesRates);
+      const worstCoffees = sortedCoffeesRates.map((obj) => obj.coffee);
+      const uniqueWorstCoffees = [...new Set(worstCoffees)]
+      setCoffeesToRender(uniqueWorstCoffees);
+    } else {
+      setCoffeesToRender(coffees);
+    }
+  }, [coffees, showWorst, coffeesRates])
 
   useEffect(() => {
     fetch("/coffees")

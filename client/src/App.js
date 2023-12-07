@@ -15,6 +15,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [showBest, setShowBest] = useState(false);
+  const [showWorst, setShowWorst] = useState(false);
   const navigate = useNavigate();
 
   function updateSearch(input) {
@@ -28,6 +29,10 @@ function App() {
 
   function switchShowBest() {
     setShowBest(!showBest);
+  }
+
+  function switchShowWorst() {
+    setShowWorst(!showWorst);
   }
 
   useEffect(() => {
@@ -48,7 +53,16 @@ function App() {
 
   return (
     <>
-      <Header signedUser={user} setSignedUser={setUser} submitSearch={updateSearch} showAll={resetSerch} switchShowBest={switchShowBest} showBest={showBest}/>
+      <Header 
+        signedUser={user} 
+        setSignedUser={setUser} 
+        submitSearch={updateSearch} 
+        showAll={resetSerch} 
+        switchShowBest={switchShowBest} 
+        showBest={showBest}
+        switchShowWorst={switchShowWorst} 
+        showWorst={showWorst}
+        />
       <Routes>
         <Route
           path={"/login"}
@@ -62,7 +76,7 @@ function App() {
           path={"/logout"}
           element={<SignOut signedUser={user} setSignedUser={setUser} />}
         />
-        <Route path={"/"} element={<CoffeePage signedUser={user} searchTerm={searchTerm} showBest={showBest}/>} />
+        <Route path={"/"} element={<CoffeePage signedUser={user} searchTerm={searchTerm} showBest={showBest} showWorst={showWorst}/>} />
         <Route path={"/new"} element={<NewCoffeePage signedUser={user} />} />
         <Route path={"/:id"} element={<CoffeeProfile signedUser={user} />} />
         <Route
