@@ -16,6 +16,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showBest, setShowBest] = useState(false);
   const [showWorst, setShowWorst] = useState(false);
+  const [showDecaf, setShowDecaf] = useState(false);
   const navigate = useNavigate();
 
   function updateSearch(input) {
@@ -33,6 +34,11 @@ function App() {
 
   function switchShowWorst() {
     setShowWorst(!showWorst);
+  }
+
+  function switchShowDecaf() {
+    console.log('decaf switched')
+    setShowDecaf(!showDecaf);
   }
 
   useEffect(() => {
@@ -62,6 +68,8 @@ function App() {
         showBest={showBest}
         switchShowWorst={switchShowWorst} 
         showWorst={showWorst}
+        switchShowDecaf={switchShowDecaf}
+        showDecaf={showDecaf}
         />
       <Routes>
         <Route
@@ -76,7 +84,11 @@ function App() {
           path={"/logout"}
           element={<SignOut signedUser={user} setSignedUser={setUser} />}
         />
-        <Route path={"/"} element={<CoffeePage signedUser={user} searchTerm={searchTerm} showBest={showBest} showWorst={showWorst}/>} />
+        <Route path={"/"} element={<CoffeePage signedUser={user} 
+          searchTerm={searchTerm} 
+          showBest={showBest} 
+          showWorst={showWorst} 
+          showDecaf={showDecaf}/>} />
         <Route path={"/new"} element={<NewCoffeePage signedUser={user} />} />
         <Route path={"/:id"} element={<CoffeeProfile signedUser={user} />} />
         <Route

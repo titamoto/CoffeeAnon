@@ -3,7 +3,7 @@ import CoffeeCard from "./CoffeeCard";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-function CoffeePage({ searchTerm, showBest, showWorst }) {
+function CoffeePage({ searchTerm, showBest, showWorst, showDecaf }) {
   const [coffees, setCoffees] = useState([]);
   const [coffeesToRender, setCoffeesToRender] = useState(coffees)
   const [coffeesRates, setCoffeesRates] = useState([])
@@ -19,6 +19,19 @@ function CoffeePage({ searchTerm, showBest, showWorst }) {
     setCoffeesToRender(filteredCoffees);
     } else { setCoffeesToRender(coffees) }
 }, [coffees, searchTerm])
+
+useEffect(() => {
+  if (showDecaf) {
+      // const reversedSortedCoffeesRates = coffeesRates.toSorted((a, b) => b.rate - a.rate);
+      // const bestCoffees = reversedSortedCoffeesRates.map((obj) => obj.coffee);
+      // const uniqueBestCoffees = [...new Set(bestCoffees)]
+      const uniqueBestDecaf = coffees.filter((coffee) => coffee.is_decaf === true)
+      console.log(uniqueBestDecaf)
+      setCoffeesToRender(uniqueBestDecaf);
+  } else {
+    setCoffeesToRender(coffees);
+  }
+}, [coffees, showDecaf])
 
   useEffect(() => {
     if (showBest) {
