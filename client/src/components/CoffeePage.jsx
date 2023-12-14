@@ -25,8 +25,9 @@ useEffect(() => {
       // const reversedSortedCoffeesRates = coffeesRates.toSorted((a, b) => b.rate - a.rate);
       // const bestCoffees = reversedSortedCoffeesRates.map((obj) => obj.coffee);
       // const uniqueBestCoffees = [...new Set(bestCoffees)]
+      // showBest = false;
+      // showWorst = false;
       const uniqueBestDecaf = coffees.filter((coffee) => coffee.is_decaf === true)
-      console.log(uniqueBestDecaf)
       setCoffeesToRender(uniqueBestDecaf);
   } else {
     setCoffeesToRender(coffees);
@@ -35,6 +36,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (showBest) {
+        // showWorst = false;
+        // showDecaf = false;
         const reversedSortedCoffeesRates = coffeesRates.toSorted((a, b) => b.rate - a.rate);
         console.log(reversedSortedCoffeesRates);
         const bestCoffees = reversedSortedCoffeesRates.map((obj) => obj.coffee);
@@ -47,6 +50,8 @@ useEffect(() => {
 
   useEffect(() => {
   if (showWorst) {
+      // showBest = false;
+      // showDecaf = false;
       const sortedCoffeesRates = coffeesRates.toSorted((a, b) => a.rate - b.rate);
       console.log(sortedCoffeesRates);
       const worstCoffees = sortedCoffeesRates.map((obj) => obj.coffee);

@@ -29,15 +29,21 @@ function App() {
   }
 
   function switchShowBest() {
+    setShowDecaf(false);
+    setShowWorst(false);
     setShowBest(!showBest);
   }
 
   function switchShowWorst() {
+    setShowDecaf(false);
+    setShowBest(false);
     setShowWorst(!showWorst);
   }
 
   function switchShowDecaf() {
     console.log('decaf switched')
+    setShowWorst(false);
+    setShowBest(false);
     setShowDecaf(!showDecaf);
   }
 

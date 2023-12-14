@@ -22,9 +22,11 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
 
   function handleClick(e) {
     e.preventDefault();
+    showWorst = false;
+    showBest = false;
+    showDecaf = false;
     showAll(); 
     setIsSearchActive(false); 
-    setIsAllShowed(true)
   }
 
   return (
@@ -85,7 +87,7 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
                 <LinkContainer to="/new">
-                  <Button size="lg" variant="outline-warning">Add Coffee + </Button></LinkContainer>
+                  <Button size="lg" variant="outline-warning">Add Coffee +</Button></LinkContainer>
                 </Navbar.Collapse>
               </Container>
               </Navbar>
