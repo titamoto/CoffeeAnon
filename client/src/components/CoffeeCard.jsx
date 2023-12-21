@@ -16,7 +16,7 @@ function CoffeeCard({ coffee, formCoffeesRates }) {
         const coffeeRateObj = {coffee : coffee, rate : data.average_rate}
         formCoffeesRates(coffeeRateObj) }
       });
-  }, [coffee.id]);
+  }, [formCoffeesRates, coffee]);
 
   return (
     <Card className="m-2" style={{ width: "19.5rem" }}>

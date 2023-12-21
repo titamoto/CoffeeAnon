@@ -66,14 +66,7 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
               placeholder="Folgers"
               className="me-2"
               aria-label="Search"
-              // onSubmit={(e) => {
-              //   e.preventSubmit();
-              // }
-              // }
               onChange={(e) => {
-                // if (e.key === 'Enter') {
-                //   e.preventDefault();
-                // }
                 setSearchInput(e.target.value);
               }
               }
