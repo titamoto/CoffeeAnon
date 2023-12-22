@@ -9,7 +9,7 @@ import CoffeeProfile from "./components/CoffeeProfile";
 import CoffeeReview from "./components/CoffeeReview";
 import NewCoffeePage from "./components/NewCoffeePage";
 import CoffeeEditReview from "./components/CoffeeEditReview";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -17,7 +17,7 @@ function App() {
   const [showBest, setShowBest] = useState(false);
   const [showWorst, setShowWorst] = useState(false);
   const [showDecaf, setShowDecaf] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   function updateSearch(input) {
     setSearchTerm(input);
@@ -28,22 +28,25 @@ function App() {
     setShowDecaf(false);
     setShowWorst(false);
     setShowBest(false);
-    navigate("/");
+    // navigate("/");
   }
 
   function switchShowBest() {
+    setSearchTerm('');
     setShowDecaf(false);
     setShowWorst(false);
     setShowBest(!showBest);
   }
 
   function switchShowWorst() {
+    setSearchTerm('');
     setShowDecaf(false);
     setShowBest(false);
     setShowWorst(!showWorst);
   }
 
   function switchShowDecaf() {
+    setSearchTerm('');
     console.log('decaf switched')
     setShowWorst(false);
     setShowBest(false);
@@ -94,6 +97,7 @@ function App() {
           element={<SignOut signedUser={user} setSignedUser={setUser} />}
         />
         <Route path={"/"} element={<CoffeePage signedUser={user} 
+          showAll={resetSerch}
           searchTerm={searchTerm} 
           showBest={showBest} 
           showWorst={showWorst} 

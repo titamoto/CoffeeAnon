@@ -25,8 +25,14 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
     showWorst = false;
     showBest = false;
     showDecaf = false;
-    showAll(); 
+    showAll();
+    setIsAllShowed(true);
     setIsSearchActive(false); 
+  }
+
+  function handleBestClick() {
+    switchShowBest();
+    setIsAllShowed(!isAllShowed);
   }
 
   return (
@@ -74,7 +80,7 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
             <Button className="me-4" variant="outline-light" type="button" active={isSearchActive} onClick={handleSearch}>Search</Button>
           </Form>
           <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={handleClick}>Show All</Button>
-                <Button variant="outline-light" className="me-2" active={showBest} onClick={switchShowBest}>Best 🔥</Button>
+                <Button variant="outline-light" className="me-2" active={showBest} onClick={handleBestClick}>Best 🔥</Button>
                 <Button variant="outline-light" className="me-2" active={showWorst} onClick={switchShowWorst}>Worst 🤮</Button>
                 <Button variant="outline-light" className="me-2" active={showDecaf} onClick={switchShowDecaf}>Best Decaf 🌚</Button>
                 </Navbar.Collapse>
