@@ -25,6 +25,9 @@ function App() {
 
   function resetSerch() {
     setSearchTerm('');
+    setShowDecaf(false);
+    setShowWorst(false);
+    setShowBest(false);
     navigate("/");
   }
 
