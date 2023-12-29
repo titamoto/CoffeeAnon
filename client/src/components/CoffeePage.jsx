@@ -31,16 +31,24 @@ useEffect(() => {
 
   useEffect(() => {
     if (showBest) {
-        const reversedSortedCoffeesRates = coffeesRates.toSorted((a, b) => b.rate - a.rate);
-        // console.log(reversedSortedCoffeesRates);
-        const bestCoffees = reversedSortedCoffeesRates.map((obj) => obj.coffee);
-        const uniqueBestCoffees = [...new Set(bestCoffees)];
-        console.log(uniqueBestCoffees);
-        setCoffeesToRender(uniqueBestCoffees);
+      const reversedSortedCoffeesRates = coffeesRates.sort((a, b) => b.rate - a.rate);
+      const uniqueBestCoffees = [];
+      const uniqueIds = new Set();
+  
+      reversedSortedCoffeesRates.forEach((obj) => {
+        if (!uniqueIds.has(obj.coffee.id)) {
+          uniqueIds.add(obj.coffee.id);
+          uniqueBestCoffees.push(obj.coffee);
+        }
+      });
+  
+      console.log(uniqueBestCoffees);
+      setCoffeesToRender(uniqueBestCoffees);
     } else {
       setCoffeesToRender(coffees);
     }
-  }, [coffees, showBest, coffeesRates])
+  }, [coffees, showBest, coffeesRates]);
+  
 
   useEffect(() => {
   if (showWorst) {
