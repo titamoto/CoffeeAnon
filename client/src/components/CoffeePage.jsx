@@ -21,6 +21,12 @@ function CoffeePage({ searchTerm, showBest, showWorst, showDecaf}) {
 }, [coffees, searchTerm])
 
 useEffect(() => {
+  if (!showBest && !showDecaf && !showWorst) {
+    setCoffeesToRender(coffees);
+  }
+}, [showBest, showDecaf, showWorst, coffees])
+
+useEffect(() => {
   if (showDecaf) {
       const decafs = coffees.filter((coffee) => coffee.is_decaf === true)
       const uniqueDecafs = [];
@@ -33,8 +39,8 @@ useEffect(() => {
         }
       });
       setCoffeesToRender(uniqueDecafs);
-  } else {
-    setCoffeesToRender(coffees);
+  // } else {
+  //   setCoffeesToRender(coffees);
   }
 }, [coffees, showDecaf])
 
@@ -53,8 +59,8 @@ useEffect(() => {
   
       console.log(uniqueBestCoffees);
       setCoffeesToRender(uniqueBestCoffees);
-    } else {
-      setCoffeesToRender(coffees);
+    // } else {
+    //   setCoffeesToRender(coffees);
     }
   }, [coffees, showBest, coffeesRates]);
   
