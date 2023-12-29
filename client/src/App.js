@@ -11,6 +11,7 @@ import NewCoffeePage from "./components/NewCoffeePage";
 import CoffeeEditReview from "./components/CoffeeEditReview";
 // import { useNavigate } from "react-router-dom";
 
+
 function App() {
   const [user, setUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,38 +20,39 @@ function App() {
   const [showDecaf, setShowDecaf] = useState(false);
   // const navigate = useNavigate();
 
+
   function updateSearch(input) {
     setSearchTerm(input);
   }
 
-  function resetSerch() {
+  function showAll() {
     setSearchTerm('');
     setShowDecaf(false);
     setShowWorst(false);
     setShowBest(false);
     // navigate("/");
+
   }
 
   function switchShowBest() {
     setSearchTerm('');
     setShowDecaf(false);
     setShowWorst(false);
-    setShowBest(!showBest);
+    setShowBest(true);
   }
 
   function switchShowWorst() {
     setSearchTerm('');
     setShowDecaf(false);
     setShowBest(false);
-    setShowWorst(!showWorst);
+    setShowWorst(true);
   }
 
   function switchShowDecaf() {
     setSearchTerm('');
-    console.log('decaf switched')
     setShowWorst(false);
     setShowBest(false);
-    setShowDecaf(!showDecaf);
+    setShowDecaf(true);
   }
 
   useEffect(() => {
@@ -75,7 +77,7 @@ function App() {
         signedUser={user} 
         setSignedUser={setUser} 
         submitSearch={updateSearch} 
-        showAll={resetSerch} 
+        showAll={showAll} 
         switchShowBest={switchShowBest} 
         showBest={showBest}
         switchShowWorst={switchShowWorst} 
@@ -97,7 +99,7 @@ function App() {
           element={<SignOut signedUser={user} setSignedUser={setUser} />}
         />
         <Route path={"/"} element={<CoffeePage signedUser={user} 
-          showAll={resetSerch}
+          showAll={showAll}
           searchTerm={searchTerm} 
           showBest={showBest} 
           showWorst={showWorst} 
