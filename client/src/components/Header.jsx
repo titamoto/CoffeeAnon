@@ -21,9 +21,6 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
   }
 
   function handleShowAllClick() {
-    showWorst = false;
-    showBest = false;
-    showDecaf = false;
     showAll();
     setIsAllShowed(true);
     setIsSearchActive(false); 
@@ -32,6 +29,12 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
   function handleBestClick() {
     switchShowBest();
     setIsAllShowed(false);
+  }
+
+  function handleDecafClick() {
+    switchShowDecaf();
+    setIsAllShowed(false);
+
   }
 
   return (
@@ -81,7 +84,7 @@ function Header({ signedUser, submitSearch, showAll, switchShowBest, showBest, s
           <Button variant="outline-light" className="me-2" active={isAllShowed} onClick={handleShowAllClick}>Show All</Button>
                 <Button variant="outline-light" className="me-2" active={showBest} onClick={handleBestClick}>Best 🔥</Button>
                 <Button variant="outline-light" className="me-2" active={showWorst} onClick={switchShowWorst}>Worst 🤮</Button>
-                <Button variant="outline-light" className="me-2" active={showDecaf} onClick={switchShowDecaf}>Best Decaf 🌚</Button>
+                <Button variant="outline-light" className="me-2" active={showDecaf} onClick={handleDecafClick}>Best Decaf 🌚</Button>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
                 <LinkContainer to="/new">

@@ -22,8 +22,17 @@ function CoffeePage({ searchTerm, showBest, showWorst, showDecaf}) {
 
 useEffect(() => {
   if (showDecaf) {
-      const uniqueBestDecaf = coffees.filter((coffee) => coffee.is_decaf === true)
-      setCoffeesToRender(uniqueBestDecaf);
+      const decafs = coffees.filter((coffee) => coffee.is_decaf === true)
+      const uniqueDecafs = [];
+      const uniqueIds = new Set();
+
+      decafs.forEach((obj) => {
+        if (!uniqueIds.has(obj.id)) {
+          uniqueIds.add(obj.id);
+          uniqueDecafs.push(obj);
+        }
+      });
+      setCoffeesToRender(uniqueDecafs);
   } else {
     setCoffeesToRender(coffees);
   }
