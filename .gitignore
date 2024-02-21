@@ -165,6 +165,7 @@ cython_debug/
 */*.db
 migrations
 instance
+ratte-db-02062024.sql
 
 seed.py
 coffee_seeds
